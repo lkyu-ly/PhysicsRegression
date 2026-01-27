@@ -119,12 +119,14 @@ class Trainer(object):
         assert not params.nvidia_apex or has_apex
         if params.multi_gpu:  # and params.amp == -1:
             logger.info("Using nn.parallel.DistributedDataParallel ...")
+            # 暂时删掉 DistributedDataParallel 中不受paddlepaddle支持的参数
+            # 详见 https://www.paddlepaddle.org.cn/documentation/docs/zh/develop/guides/model_convert/convert_from_pytorch/api_difference/torch_more_args/torch.nn.parallel.DistributedDataParallel.html
             for k in self.modules.keys():
                 self.modules[k] = nn.parallel.DistributedDataParallel(
                     self.modules[k],
-                    device_ids=[params.local_rank],
-                    output_device=params.local_rank,
-                    broadcast_buffers=True,
+                    # device_ids=[params.local_rank],
+                    # output_device=params.local_rank,
+                    # broadcast_buffers=True,
                 )
 
         # set optimizer
