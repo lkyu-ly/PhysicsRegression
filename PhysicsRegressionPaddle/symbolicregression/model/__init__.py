@@ -68,5 +68,4 @@ def build_modules(env, params):
     if not params.cpu:
         for v in modules.values():
             v.cuda(device=device2int(params.device))
-            # v.cuda(device=params.device)
     return modules

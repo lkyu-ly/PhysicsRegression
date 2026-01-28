@@ -603,35 +603,7 @@ torch.optim.lr_scheduler → paddle.optimizer.lr_scheduler
 
 ---
 
-## 引用
-
-如果使用本项目, 请引用:
-
-```bibtex
-@article{Ying_Lin_Yue_Chen_Xiao_Shi_Liang_Yau_Zhou_Ma_2025,
-  title={A neural symbolic model for space physics},
-  volume={7},
-  url={http://dx.doi.org/10.1038/s42256-025-01126-3},
-  DOI={10.1038/s42256-025-01126-3},
-  number={10},
-  journal={Nature Machine Intelligence},
-  publisher={Springer Science and Business Media LLC},
-  author={Ying, Jie and Lin, Haowei and Yue, Chao and Chen, Yajie and Xiao, Chao and Shi, Quanqi and Liang, Yitao and Yau, Shing-Tung and Zhou, Yuan and Ma, Jianzhu},
-  year={2025},
-  month=oct,
-  pages={1726–1741}
-}
-```
-
----
-
-## 联系方式
-
--   **论文作者**: Jie Ying (yingj24@mails.tsinghua.edu.cn)
--   **项目许可**: Apache 2.0 License
-
----
 
 **最后更新**: 2026-01-22
 **文档版本**: 1.0
-**项目状态**: ✅ 生产就绪 | 🚧 PaddlePaddle 迁移进行中
+**项目状态**: 🚧 PaddlePaddle 迁移进行中

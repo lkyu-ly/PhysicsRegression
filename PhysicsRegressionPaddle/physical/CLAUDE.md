@@ -1,6 +1,14 @@
-# physical - 空间物理应用案例
+# physical - 空间物理应用案例 (PaddlePaddle版本)
 
-📍 **Root** > **physical**
+📍 **[Root](../CLAUDE.md)** > **physical**
+
+> **⚠️ 重要**: 这是从 PyTorch 迁移到 PaddlePaddle 的版本
+>
+> **迁移指南**: [../PADDLE_MIGRATION.md](../PADDLE_MIGRATION.md)
+>
+> **原版参考**: [../../PhysicsRegression/physical/CLAUDE.md](../../PhysicsRegression/physical/CLAUDE.md)
+>
+> **注意**: 案例代码中的模型加载已适配PaddlePaddle,模型文件格式为 `.pdparams`
 
 ---
 
@@ -60,11 +68,11 @@
 conda activate PhyReg
 
 # 2. 启动 Jupyter
-cd /home/lkyu/BAIDU/PhysicsRegression/physical
+cd /home/lkyu/BAIDU/PhysicsRegressionPaddle/physical
 jupyter notebook
 
 # 3. 确保模型文件存在
-ls ../model.pt  # 应该显示预训练模型
+ls ../model.pdparams  # PaddlePaddle模型文件 (⚠️需重新训练)
 ```
 
 ### 通用运行流程
@@ -77,7 +85,7 @@ from PhysicsRegression import PhyReg
 import numpy as np
 import pandas as pd
 
-model = PhyReg("../model.pt")
+model = PhyReg("../model.pdparams")  # PaddlePaddle模型文件
 
 # 2. 加载数据
 data = pd.read_csv("data/case_X_data.csv")  # X 是案例编号
@@ -587,6 +595,7 @@ model.fit(x, y, gp_generations=20)  # 默认 50
 
 ---
 
-**最后更新**: 2026-01-22
+**最后更新**: 2026-01-28
+**文档版本**: 2.0 (PaddlePaddle版本)
 **维护者**: PhysicsRegression Team
-**相关文档**: [根目录 CLAUDE.md](../CLAUDE.md) | [符号回归模块](../symbolicregression/CLAUDE.md)
+**相关文档**: [根目录 CLAUDE.md](../CLAUDE.md) | [符号回归模块](../symbolicregression/CLAUDE.md) | [迁移指南](../PADDLE_MIGRATION.md)

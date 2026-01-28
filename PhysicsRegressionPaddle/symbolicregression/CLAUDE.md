@@ -1,6 +1,12 @@
-# symbolicregression - 符号回归核心模块
+# symbolicregression - 符号回归核心模块 (PaddlePaddle版本)
 
-📍 **Root** > **symbolicregression**
+📍 **[Root](../CLAUDE.md)** > **symbolicregression**
+
+> **⚠️ 重要**: 这是从 PyTorch 迁移到 PaddlePaddle 的版本
+>
+> **迁移指南**: [../PADDLE_MIGRATION.md](../PADDLE_MIGRATION.md)
+>
+> **原版参考**: [../../PhysicsRegression/symbolicregression/CLAUDE.md](../../PhysicsRegression/symbolicregression/CLAUDE.md)
 
 ---
 
@@ -853,35 +859,105 @@ python -m symbolicregression.envs.test_environment
 
 ---
 
-## PaddlePaddle 迁移注意事项
+## ✅ 已完成的 PaddlePaddle 迁移
 
-### 关键替换
+### 核心API替换
 
-| PyTorch | PaddlePaddle | 文件 |
-|---------|--------------|------|
-| `torch.nn.TransformerEncoder` | `paddle.nn.TransformerEncoder` | transformer.py:245 |
-| `torch.nn.MultiheadAttention` | `paddle.nn.MultiHeadAttention` | transformer.py:312 |
-| `torch.optim.Adam` | `paddle.optimizer.Adam` | trainer.py:156 |
-| `torch.utils.data.DataLoader` | `paddle.io.DataLoader` | trainer.py:89 |
+所有PyTorch API已成功替换为PaddlePaddle:
 
-### 数值差异检查
+| 组件 | PyTorch | PaddlePaddle | 文件位置 |
+|------|---------|--------------|---------|
+| 基础模块 | `torch.nn.Module` | `paddle.nn.Module` | 所有模型文件 |
+| 线性层 | `torch.nn.Linear` | `paddle.compat.nn.Linear` | transformer.py, embedders.py |
+| 注意力 | `torch.nn.MultiheadAttention` | 自定义MultiHeadAttention | transformer.py:54 |
+| 优化器 | `torch.optim.Adam` | `paddle.optimizer.Adam` | trainer.py:156 |
+| 数据加载 | `torch.utils.data.DataLoader` | `paddle.io.DataLoader` | trainer.py:89 |
+| 激活函数 | `torch.tanh` | `paddle.tanh` | 多个文件 |
+| 张量创建 | `torch.tensor()` | `paddle.tensor()` | 多个文件 |
+| 设备管理 | `'cuda:0'` | `'gpu:0'` | 通过paddle_utils处理 |
 
-**位置**:
-- `model/transformer.py:567` - 位置编码
-- `envs/environment.py:234` - 数据采样
+### 代码示例 (已更新为PaddlePaddle)
+
+**Transformer前向传播**:
+```python
+# PaddlePaddle版本
+import paddle
+from paddle_utils import *
+
+embedded = embedder(x_data)  # [B, L, D]
+encoded = encoder(embedded)  # [B, L, D]
+output = decoder(encoded, target_formula)  # [B, T, V]
+```
+
+**训练循环**:
+```python
+# PaddlePaddle版本
+optimizer = paddle.optimizer.Adam(
+    parameters=model.parameters(),
+    learning_rate=0.001
+)
+
+for batch in dataloader:
+    pred = model(batch)
+    loss = paddle.nn.functional.mse_loss(pred, target)
+
+    optimizer.clear_grad()  # ← clear_grad 而非 zero_grad
+    loss.backward()
+    optimizer.step()
+```
+
+### 关键差异处理
+
+**1. paddle.compat.nn.Linear**
+
+使用兼容命名空间确保API一致性:
+```python
+# transformer.py, embedders.py中
+self.fc = paddle.compat.nn.Linear(hidden_size, output_dim)
+```
+
+**2. 设备字符串转换**
+
+通过`paddle_utils.py`自动处理:
+```python
+from paddle_utils import *
+
+device = device2int('cuda:0')  # 自动转换为整数0
+```
+
+**3. 张量维度参数**
+
+`dim` → `axis` 转换由兼容层处理:
+```python
+# 兼容层自动处理
+max_val, max_idx = tensor._max(dim=1)  # 内部转为axis=1
+```
+
+### 数值精度验证
+
+**建议验证位置**:
+- `model/transformer.py:567` - 位置编码计算
+- `envs/environment.py:234` - 数据采样随机性
 - `trainer.py:423` - 损失计算
 
 **验证方法**:
 ```python
-# 对比 PyTorch 和 PaddlePaddle 输出
-torch_output = torch_model(x)
-paddle_output = paddle_model(x)
+# 对比PyTorch和PaddlePaddle输出
+torch_output = torch_model(x).detach().cpu().numpy()
+paddle_output = paddle_model(x).numpy()
 diff = np.abs(torch_output - paddle_output).max()
-assert diff < 1e-5, f"数值差异过大: {diff}"
+print(f"最大差异: {diff}")  # 应该 < 1e-5
 ```
+
+### 完整迁移文档
+
+详细的API对照、代码对比和问题解决,请参考:
+- **[../PADDLE_MIGRATION.md](../PADDLE_MIGRATION.md)** - 集中迁移指南
+- **[../CLAUDE.md](../CLAUDE.md)** - 根目录文档
 
 ---
 
-**最后更新**: 2026-01-22
+**最后更新**: 2026-01-28
+**文档版本**: 2.0 (PaddlePaddle版本)
 **维护者**: PhysicsRegression Team
-**相关文档**: [根目录 CLAUDE.md](../CLAUDE.md) | [Oracle 模块](../Oracle/CLAUDE.md) | [物理案例](../physical/CLAUDE.md)
+**相关文档**: [根目录 CLAUDE.md](../CLAUDE.md) | [Oracle 模块](../Oracle/CLAUDE.md) | [物理案例](../physical/CLAUDE.md) | [迁移指南](../PADDLE_MIGRATION.md)

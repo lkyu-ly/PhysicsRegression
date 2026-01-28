@@ -73,5 +73,6 @@ def build_modules(env, params):
         for v in modules.values():
             # >>>>>> 这里的自动转换会把参数写成device_id，实际上参数名还是device
             v.cuda(device=params.device)
+            # print(f"Move {v} to GPU {params.device}.")
 
     return modules

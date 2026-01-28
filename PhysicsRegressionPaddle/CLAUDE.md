@@ -1,18 +1,64 @@
-# PhysicsRegression - 空间物理神经符号模型
+# PhysicsRegression - 空间物理神经符号模型 (PaddlePaddle版本)
 
 > **项目愿景**: 用于空间物理的神经符号回归模型，结合深度学习与符号推理实现物理公式的自动发现
-> **迁移目标**: 从 PyTorch 迁移到 PaddlePaddle 框架
+>
+> **⚠️ 重要**: 这是从 PyTorch 迁移到 **PaddlePaddle** 的版本
+>
+> **迁移工具**: PaConvert (百度自动转换工具)
+>
+> **参考版本**: [../PhysicsRegression/](../PhysicsRegression/) (PyTorch原版)
 
 ---
 
 ## 📋 目录
 
+-   [PaddlePaddle 迁移说明](#paddlepaddle-迁移说明)
 -   [项目概述](#项目概述)
 -   [架构概览](#架构概览)
 -   [模块索引](#模块索引)
 -   [技术栈](#技术栈)
 -   [开发规范](#开发规范)
 -   [快速开始](#快速开始)
+
+---
+
+## PaddlePaddle 迁移说明
+
+### 🎯 迁移状态
+
+本项目已从 PyTorch 完整迁移至 PaddlePaddle 框架:
+
+| 组件 | 状态 | 说明 |
+|------|------|------|
+| **符号回归引擎** | ✅ 完成 | Transformer模型已转换 |
+| **Oracle分治模块** | ✅ 完成 | SimpleNet已转换 |
+| **训练/评估脚本** | ✅ 完成 | 训练流程已适配 |
+| **兼容层** | ✅ 自动生成 | paddle_utils.py |
+| **预训练模型** | ⚠️ 需重新训练 | .pt → .pdparams |
+
+### 📚 关键文档
+
+-   **[PADDLE_MIGRATION.md](./PADDLE_MIGRATION.md)** - 完整迁移指南 (推荐阅读)
+    -   核心API变化对照表
+    -   代码示例对比
+    -   paddle_utils.py 说明
+    -   已知问题和解决方案
+-   **模块文档** - 已更新为PaddlePaddle版本
+    -   [symbolicregression/CLAUDE.md](./symbolicregression/CLAUDE.md)
+    -   [Oracle/CLAUDE.md](./Oracle/CLAUDE.md)
+    -   [physical/CLAUDE.md](./physical/CLAUDE.md)
+
+### ⚡ 快速对比
+
+| 框架特性 | PyTorch | PaddlePaddle |
+|---------|---------|--------------|
+| 模块基类 | `torch.nn.Module` | `paddle.nn.Module` |
+| 线性层 | `torch.nn.Linear` | `paddle.compat.nn.Linear` ⚠️ |
+| 设备字符串 | `'cuda:0'` | `'gpu:0'` |
+| 优化器清零 | `optimizer.zero_grad()` | `optimizer.clear_grad()` |
+| 模型格式 | `.pt` / `.pth` | `.pdparams` |
+
+**详细对比**: 查看 [PADDLE_MIGRATION.md](./PADDLE_MIGRATION.md)
 
 ---
 
@@ -109,10 +155,12 @@ graph LR
 ### 📂 目录结构
 
 ```
-PhysicsRegression/
+PhysicsRegressionPaddle/
 ├── CLAUDE.md                      # 本文档 - AI上下文索引
 ├── README.md                      # 项目说明
 ├── LICENSE                        # Apache 2.0 许可证
+├── PADDLE_MIGRATION.md            # 🆕 PaddlePaddle迁移指南
+├── paddle_utils.py                # 🆕 PyTorch兼容层 (PaConvert生成)
 │
 ├── PhysicsRegression.py          # 主API类 (833行)
 ├── train.py                       # 训练脚本 (180行)
@@ -185,8 +233,8 @@ PhysicsRegression/
 │   └── frameworks.png            # 框架示意图
 │
 ├── eval_result/                  # 评估结果
-├── model.pt                      # 预训练模型 (需下载)
-└── environment.yml               # Conda环境配置
+├── model.pdparams                # ⚠️ 预训练模型 (需重新训练)
+└── environment.yml               # Conda环境配置 (需更新为PaddlePaddle)
 
 ```
 
@@ -194,14 +242,15 @@ PhysicsRegression/
 
 ## 技术栈
 
-### 当前依赖 (PyTorch 生态)
+### 当前依赖 (PaddlePaddle 生态)
 
 #### 核心框架
 
--   **PyTorch 2.0.1** - 深度学习框架
-    -   `torch.nn` - 神经网络模块
-    -   `torch.optim` - 优化器
-    -   `torch.utils.data` - 数据加载
+-   **PaddlePaddle ≥ 2.5.0** - 深度学习框架
+    -   `paddle.nn` - 神经网络模块
+    -   `paddle.optimizer` - 优化器
+    -   `paddle.io` - 数据加载
+    -   `paddle.compat.nn` - PyTorch兼容层 (用于Linear等)
 -   **NumPy 1.24.3** - 数值计算
 -   **SymPy 1.13.3** - 符号数学
 
@@ -209,7 +258,6 @@ PhysicsRegression/
 
 -   **scikit-learn 1.3.2** - 评估指标 (R², MSE 等)
 -   **scipy 1.10.1** - 优化算法 (BFGS 常数优化)
--   **sympytorch 0.1.4** - SymPy 与 PyTorch 集成
 
 #### 可视化与数据处理
 
@@ -225,20 +273,22 @@ PhysicsRegression/
 
 #### GPU 支持
 
--   **CUDA 11** 相关库:
-    -   `nvidia-cuda-runtime-cu11==11.7.99`
-    -   `nvidia-cudnn-cu11==8.5.0.96`
-    -   `nvidia-cublas-cu11==11.10.3.66`
+-   **CUDA 11/12** - GPU加速支持
+-   PaddlePaddle GPU版本会自动处理CUDA依赖
 
-### 🎯 迁移目标 (PaddlePaddle)
+### ✅ 已完成的迁移
 
-需要替换的关键组件:
+从PyTorch迁移到PaddlePaddle的关键组件:
 
-1. `torch.nn.Transformer` → `paddle.nn.Transformer`
-2. `torch.optim.Adam` → `paddle.optimizer.Adam`
-3. `torch.nn.functional` → `paddle.nn.functional`
-4. 自定义 CUDA 内核 (如有) → PaddlePaddle 算子
-5. 数据加载器 → `paddle.io.DataLoader`
+1. ✅ `torch.nn.Module` → `paddle.nn.Module`
+2. ✅ `torch.nn.Linear` → `paddle.compat.nn.Linear`
+3. ✅ `torch.optim.Adam` → `paddle.optimizer.Adam`
+4. ✅ `torch.nn.functional` → `paddle.nn.functional`
+5. ✅ 数据加载器 → `paddle.io.DataLoader`
+6. ✅ 设备管理: `'cuda:0'` → `'gpu:0'`
+7. ✅ 兼容层: `paddle_utils.py` (自动生成)
+
+**详细变化**: 参见 [PADDLE_MIGRATION.md](./PADDLE_MIGRATION.md)
 
 ---
 
@@ -632,6 +682,6 @@ torch.optim.lr_scheduler → paddle.optimizer.lr_scheduler
 
 ---
 
-**最后更新**: 2026-01-22
-**文档版本**: 1.0
-**项目状态**: ✅ 生产就绪 | 🚧 PaddlePaddle 迁移进行中
+**最后更新**: 2026-01-28
+**文档版本**: 2.0 (PaddlePaddle版本)
+**项目状态**: ✅ 代码迁移完成 | ⚠️ 需重新训练模型

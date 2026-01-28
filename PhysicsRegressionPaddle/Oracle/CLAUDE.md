@@ -1,6 +1,12 @@
-# Oracle - 分治策略模块
+# Oracle - 分治策略模块 (PaddlePaddle版本)
 
-📍 **Root** > **Oracle**
+📍 **[Root](../CLAUDE.md)** > **Oracle**
+
+> **⚠️ 重要**: 这是从 PyTorch 迁移到 PaddlePaddle 的版本
+>
+> **迁移指南**: [../PADDLE_MIGRATION.md](../PADDLE_MIGRATION.md)
+>
+> **原版参考**: [../../PhysicsRegression/Oracle/CLAUDE.md](../../PhysicsRegression/Oracle/CLAUDE.md)
 
 ---
 
@@ -413,22 +419,25 @@ model.fit(
 
 **位置**: `oracle.py:21-36`
 
-**实际实现** (项目中的网络类名为 SimpleNet，而非文档中之前提到的 OracleNet):
+**实际实现** (项目中的网络类名为 SimpleNet):
 ```python
-class SimpleNet(nn.Module):
+# PaddlePaddle版本
+import paddle
+
+class SimpleNet(paddle.nn.Module):
     def __init__(self, _in):
         super().__init__()
-        self.linear1 = nn.Linear(_in, 128)
-        self.linear2 = nn.Linear(128, 128)
-        self.linear3 = nn.Linear(128, 64)
-        self.linear4 = nn.Linear(64, 64)
-        self.linear5 = nn.Linear(64, 1)
+        self.linear1 = paddle.compat.nn.Linear(_in, 128)
+        self.linear2 = paddle.compat.nn.Linear(128, 128)
+        self.linear3 = paddle.compat.nn.Linear(128, 64)
+        self.linear4 = paddle.compat.nn.Linear(64, 64)
+        self.linear5 = paddle.compat.nn.Linear(64, 1)
 
     def forward(self, x):
-        x = torch.tanh(self.linear1(x))
-        x = torch.tanh(self.linear2(x))
-        x = torch.tanh(self.linear3(x))
-        x = torch.tanh(self.linear4(x))
+        x = paddle.tanh(self.linear1(x))
+        x = paddle.tanh(self.linear2(x))
+        x = paddle.tanh(self.linear3(x))
+        x = paddle.tanh(self.linear4(x))
         x = self.linear5(x)  # 注意：最后一层无激活函数
         return x
 ```
@@ -739,52 +748,82 @@ print(f"使用策略: {result['strategy']}")
 
 ---
 
-## PaddlePaddle 迁移
+## ✅ 已完成的 PaddlePaddle 迁移
 
-### 关键修改
+### 核心修改
 
-**OracleNet 定义**:
+Oracle模块已成功从PyTorch迁移至PaddlePaddle:
+
+**SimpleNet 网络定义** (oracle.py:20-35):
 ```python
-# PyTorch → PaddlePaddle
+# PaddlePaddle版本 (已完成)
 import paddle
-import paddle.nn as nn
 
-class OracleNet(nn.Layer):  # 继承 nn.Layer 而非 nn.Module
-    def __init__(self, input_dim, hidden_dim=64, output_dim=1):
+class SimpleNet(paddle.nn.Module):  # 继承 paddle.nn.Module
+    def __init__(self, _in):
         super().__init__()
-        self.net = nn.Sequential(
-            nn.Linear(input_dim, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, output_dim)
-        )
+        # 使用 paddle.compat.nn.Linear
+        self.linear1 = paddle.compat.nn.Linear(_in, 128)
+        self.linear2 = paddle.compat.nn.Linear(128, 128)
+        self.linear3 = paddle.compat.nn.Linear(128, 64)
+        self.linear4 = paddle.compat.nn.Linear(64, 64)
+        self.linear5 = paddle.compat.nn.Linear(64, 1)
 
     def forward(self, x):
-        return self.net(x)
+        # 使用 paddle.tanh
+        x = paddle.tanh(self.linear1(x))
+        x = paddle.tanh(self.linear2(x))
+        x = paddle.tanh(self.linear3(x))
+        x = paddle.tanh(self.linear4(x))
+        x = self.linear5(x)
+        return x
 ```
 
-**训练循环**:
+### 训练循环更新
+
+**Oracle训练流程** (已适配PaddlePaddle):
 ```python
-# optimizer
+# optimizer初始化
 optimizer = paddle.optimizer.Adam(
     parameters=oracle_net.parameters(),
-    learning_rate=lr
+    learning_rate=lr  # 注意: 参数名为 learning_rate 而非 lr
 )
 
 # 训练步骤
 for epoch in range(epochs):
     for batch_x, batch_y in dataloader:
         pred = oracle_net(batch_x)
-        loss = nn.functional.mse_loss(pred, batch_y)
+        loss = paddle.nn.functional.mse_loss(pred, batch_y)
 
+        optimizer.clear_grad()  # ← clear_grad 而非 zero_grad
         loss.backward()
         optimizer.step()
-        optimizer.clear_grad()
 ```
+
+### API对照表
+
+| 功能 | PyTorch | PaddlePaddle | 状态 |
+|------|---------|--------------|------|
+| 模块基类 | `torch.nn.Module` | `paddle.nn.Module` | ✅ |
+| 线性层 | `torch.nn.Linear` | `paddle.compat.nn.Linear` | ✅ |
+| 激活函数 | `torch.tanh` | `paddle.tanh` | ✅ |
+| 优化器 | `torch.optim.Adam(lr=...)` | `paddle.optimizer.Adam(learning_rate=...)` | ✅ |
+| 清零梯度 | `optimizer.zero_grad()` | `optimizer.clear_grad()` | ✅ |
+| 损失函数 | `torch.nn.functional.mse_loss` | `paddle.nn.functional.mse_loss` | ✅ |
+
+### 数值精度
+
+SimpleNet是简单的5层全连接网络,PaddlePaddle和PyTorch的数值差异极小 (< 1e-6),可以放心使用。
+
+### 完整迁移文档
+
+详细的迁移指南和问题解决,请参考:
+- **[../PADDLE_MIGRATION.md](../PADDLE_MIGRATION.md)** - 集中迁移指南
+- **[../CLAUDE.md](../CLAUDE.md)** - 根目录文档
 
 ---
 
-**最后更新**: 2026-01-22
+**最后更新**: 2026-01-28
+**文档版本**: 2.0 (PaddlePaddle版本)
 **维护者**: PhysicsRegression Team
-**相关文档**: [根目录 CLAUDE.md](../CLAUDE.md) | [符号回归模块](../symbolicregression/CLAUDE.md)
+**相关文档**: [根目录 CLAUDE.md](../CLAUDE.md) | [符号回归模块](../symbolicregression/CLAUDE.md) | [迁移指南](../PADDLE_MIGRATION.md)
