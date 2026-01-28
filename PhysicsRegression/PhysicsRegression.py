@@ -5,6 +5,7 @@ import torch
 import os
 import re
 import tqdm
+from argparse import Namespace
 from sklearn.metrics import r2_score
 from scipy.optimize import minimize
 
@@ -27,15 +28,16 @@ warnings.filterwarnings("ignore", message="This overload of add_ is deprecated:*
 
 class PhyReg():
     
-    def __init__(self, 
-                path, 
+    def __init__(self,
+                path,
                 max_len=None,
                 refinement_strategy=None,
                 device=None,
                 ):
-        
+
         model = torch.load(path)
-        params = model['params']
+        # 从训练checkpoint加载时params是dict，需要转换为Namespace
+        params = model['params'] if isinstance(model['params'], Namespace) else Namespace(**model['params'])
 
         params.rescale = False
 

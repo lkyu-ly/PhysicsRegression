@@ -2,6 +2,7 @@ import copy
 import os
 import re
 import warnings
+from argparse import Namespace
 
 import numpy as np
 import paddle
@@ -30,7 +31,8 @@ warnings.filterwarnings("ignore", message="This overload of add_ is deprecated:*
 class PhyReg:
     def __init__(self, path, max_len=None, refinement_strategy=None, device=None):
         model = paddle.load(path=str(path))
-        params = model["params"]
+        # 从训练checkpoint加载时params是dict，需要转换为Namespace
+        params = model["params"] if isinstance(model["params"], Namespace) else Namespace(**model["params"])
         params.rescale = False
         if max_len is not None:
             assert isinstance(max_len, int) and max_len > 0

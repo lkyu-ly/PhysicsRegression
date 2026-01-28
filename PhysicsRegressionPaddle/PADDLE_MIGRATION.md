@@ -1312,3 +1312,126 @@ word_perplexity = paddle.exp(word_perplexity / rows.astype('float32'))
 | **模型保存** | `torch.save` | `paddle.save` | |
 | **模型加载** | `torch.load` | `paddle.load` | |
 | | `.load_state_dict` | `.set_state_dict` | ⚠️ 方法名不同 |
+
+---
+
+## 问题 9: 模型加载时 params 属性访问错误 ⚠️
+
+### 问题描述
+
+从训练 checkpoint 加载模型进行推理时，出现属性访问错误。
+
+### 错误信息
+
+```python
+AttributeError: 'dict' object has no attribute 'rescale'
+```
+
+### 影响文件
+
+- `PhysicsRegressionPaddle/PhysicsRegression.py` (第 33 行)
+- `PhysicsRegression/PhysicsRegression.py` (第 38 行) - **PyTorch 版本也有此问题**
+
+### 根本原因
+
+项目中有**两种不同的模型保存方式**：
+
+#### 1️⃣ 推理模型保存（PhyReg.save()）
+```python
+def save(self, path):
+    save_dict = {
+        'embedder': self.mw.embedder.state_dict(),
+        'encoder': self.mw.encoder.state_dict(),
+        'decoder': self.mw.decoder.state_dict(),
+        'params': self.params,  # ← 直接保存 Namespace 对象
+    }
+    paddle.save(obj=save_dict, path=path)
+```
+- **保存内容**: `params` 保持为 `argparse.Namespace` 对象
+- **加载后**: params 仍然是 Namespace，可以属性访问 ✅
+- **示例文件**: `model.pt`（预训练模型）
+
+#### 2️⃣ 训练 Checkpoint 保存（trainer.py）
+```python
+def save_checkpoint(self, name, include_optimizer=True):
+    data = {
+        "epoch": self.epoch,
+        "n_total_iter": self.n_total_iter,
+        "best_metrics": self.best_metrics,
+        "best_stopping_criterion": self.best_stopping_criterion,
+        "params": {k: v for k, v in self.params.__dict__.items()},  # ← 转为 dict
+    }
+    paddle.save(obj=data, path=path)
+```
+- **保存内容**: `params` 被转换为普通 Python **dict**
+- **加载后**: params 是 dict，不支持属性访问 ❌
+- **示例文件**: `checkpoint.pth`（训练 checkpoint）
+
+### 手动修复 (已完成)
+
+**PaddlePaddle 版本** (`PhysicsRegressionPaddle/PhysicsRegression.py`):
+```python
+# 修复前 ❌
+model = paddle.load(path=str(path))
+params = model["params"]
+params.rescale = False  # ← AttributeError
+
+# 修复后 ✅
+from argparse import Namespace
+
+model = paddle.load(path=str(path))
+# 兼容两种保存方式：推理模型(Namespace)和训练checkpoint(dict)
+params = model["params"] if isinstance(model["params"], Namespace) else Namespace(**model["params"])
+params.rescale = False  # ← 正常工作
+```
+
+**PyTorch 版本** (`PhysicsRegression/PhysicsRegression.py`):
+```python
+# 修复前 ❌
+model = torch.load(path)
+params = model['params']
+params.rescale = False  # ← AttributeError
+
+# 修复后 ✅
+from argparse import Namespace
+
+model = torch.load(path)
+# 兼容两种保存方式
+params = model['params'] if isinstance(model['params'], Namespace) else Namespace(**model['params'])
+params.rescale = False  # ← 正常工作
+```
+
+### 为什么是通用问题
+
+1. **不是框架差异**: PyTorch 和 PaddlePaddle 版本都有此 bug
+2. **设计不一致**: 保存时转为 dict，加载时假设是 Namespace
+3. **两种保存方式混用**: `PhyReg.save()` 保存 Namespace，`trainer.py` 保存 dict
+
+### 修复效果
+
+```python
+# 测试结果
+from PhysicsRegression import PhyReg
+
+phyreg = PhyReg(path='./checkpoint.pth')
+print(f'✅ 模型加载成功！')
+print(f'params 类型: {type(phyreg.params)}')  # <class 'argparse.Namespace'>
+print(f'params.rescale: {phyreg.params.rescale}')  # False
+```
+
+### 最佳实践
+
+1. **加载时统一处理**: 使用 `isinstance` 检查类型，自动转换
+2. **或者统一保存方式**:
+   - 方案 A: 所有地方都保存为 dict，加载时统一转换
+   - 方案 B: 所有地方都保存为 Namespace（但可能有序列化限制）
+3. **不要混用访问方式**: 统一使用属性访问（推荐）或字典访问
+
+### 相关问题
+
+- 无（独立问题）
+
+---
+
+**最后更新**: 2026-01-28  
+**修复状态**: ✅ 已完成

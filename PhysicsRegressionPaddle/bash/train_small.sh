@@ -1,23 +1,23 @@
 python ./train.py \
-        --max_epoch 1 \
+        --max_epoch 20 \
         --dump_path ./ \
         --exp_name test \
         --exp_id 0 \
         --n_steps_per_epoch 500 \
         --collate_queue_size 200 \
-        --batch_size 1 \
+        --batch_size 16 \
         --save_periodic -1 \
         --save_periodic_from 40\
-        --eval_size 5 \
+        --eval_size 20 \
         --batch_size_eval 1 \
         --num_workers 0 \
         --max_len 200 \
         --max_number_bags -1 \
         --max_input_points 200 \
-        --tokens_per_batch 200 \
+        --tokens_per_batch 5000 \
         --add_consts 1 \
         --device "cuda:0" \
-        --use_exprs -1 \
+        --use_exprs 200000 \
         --use_dimension_mask 0 \
         --expr_train_data_path "./data/exprs_train.json" \
         --expr_valid_data_path "./data/exprs_valid.json" \
