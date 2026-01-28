@@ -1,0 +1,1266 @@
+===========================================
+PyTorch to Paddle Convert Start ------>:
+===========================================
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/exprs_valid.json --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/exprs_valid.json
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/exprs_seperated_train.json --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/exprs_seperated_train.json
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/FeynmanEquations.xlsx --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/FeynmanEquations.xlsx
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/exprs_seperated_valid.json --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/exprs_seperated_valid.json
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/exprs_test.json --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/exprs_test.json
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/exprs_train.json --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/exprs_train.json
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/SN_m_tot_V2.0.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/SN_m_tot_V2.0.txt
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=1_Pd=3.0_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=1_Pd=3.0_50-quartile.txt
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=5_Pd=3.0_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=5_Pd=3.0_50-quartile.txt
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/Fe X     174.531    1 -   30 3s2 3p5 2P1.5 - 3s2 3p4 3d 2D2.5.csv --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/Fe X     174.531    1 -   30 3s2 3p5 2P1.5 - 3s2 3p4 3d 2D2.5.csv
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=5_Pd=1.5_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=5_Pd=1.5_50-quartile.txt
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=3_Pd=1.5_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=3_Pd=1.5_50-quartile.txt
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=0_Pd=1.5_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=0_Pd=1.5_50-quartile.txt
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=4_Pd=3.0_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=4_Pd=3.0_50-quartile.txt
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=3_Pd=3.0_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=3_Pd=3.0_50-quartile.txt
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=2_Pd=3.0_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=2_Pd=3.0_50-quartile.txt
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=4_Pd=1.5_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=4_Pd=1.5_50-quartile.txt
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=0_Pd=3.0_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=0_Pd=3.0_50-quartile.txt
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/solarDifferentialRotation.csv --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/solarDifferentialRotation.csv
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=2_Pd=1.5_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=2_Pd=1.5_50-quartile.txt
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/To_QH_Data_0.npy --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/To_QH_Data_0.npy
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=1_Pd=1.5_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=1_Pd=1.5_50-quartile.txt
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/Fe X     175.263    2 -   31 3s2 3p5 2P0.5 - 3s2 3p4 3d 2D1.5.csv --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/Fe X     175.263    2 -   31 3s2 3p5 2P0.5 - 3s2 3p4 3d 2D1.5.csv
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/units.csv --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/units.csv
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/exprs_test_ranked.json --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/exprs_test_ranked.json
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/figs/frameworks.png --> /home/lkyu/baidu/PhysicsRegressionPaddle/figs/frameworks.png
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/README.md --> /home/lkyu/baidu/PhysicsRegressionPaddle/README.md
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/Dataset/seperate_main.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Dataset/seperate_main.py
+[seperate_main.py:15] remove 'import os' 
+[seperate_main.py] add 'import os' in line 1
+Finish convert /home/lkyu/baidu/PhysicsRegression/Dataset/seperate_main.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Dataset/seperate_main.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/Dataset/train_test_split.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Dataset/train_test_split.py
+[train_test_split.py:15] remove 'import os' 
+[train_test_split.py] add 'import os' in line 1
+Finish convert /home/lkyu/baidu/PhysicsRegression/Dataset/train_test_split.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Dataset/train_test_split.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/Dataset/filter_main.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Dataset/filter_main.py
+[filter_main.py:16] remove 'import os' 
+[filter_main.py] add 'import os' in line 1
+Finish convert /home/lkyu/baidu/PhysicsRegression/Dataset/filter_main.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Dataset/filter_main.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/Dataset/testset_rank_split.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Dataset/testset_rank_split.py
+[testset_rank_split.py:14] remove 'import os' 
+[testset_rank_split.py] add 'import os' in line 1
+Finish convert /home/lkyu/baidu/PhysicsRegression/Dataset/testset_rank_split.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Dataset/testset_rank_split.py
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/model.pt --> /home/lkyu/baidu/PhysicsRegressionPaddle/model.pt
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/bash/train.sh --> /home/lkyu/baidu/PhysicsRegressionPaddle/bash/train.sh
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/bash/eval_feynman.sh --> /home/lkyu/baidu/PhysicsRegressionPaddle/bash/eval_feynman.sh
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/bash/eval_synthetic.sh --> /home/lkyu/baidu/PhysicsRegressionPaddle/bash/eval_synthetic.sh
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/bash/eval_bash.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/bash/eval_bash.py
+[eval_bash.py:1] remove 'import os' 
+[eval_bash.py:6] remove 'import torch' 
+[eval_bash.py] add 'import paddle' in line 1
+[eval_bash.py] add 'import os' in line 2
+[eval_bash.py:30] [Success] Convert Class Attribute: torch.Tensor.cpu to Paddle, just remain the same
+[eval_bash.py:31] [Success] Convert torch.cuda.is_available to Paddle
+[eval_bash.py:33] [Success] Convert Class Attribute: torch.Tensor.cpu to Paddle, just remain the same
+Finish convert /home/lkyu/baidu/PhysicsRegression/bash/eval_bash.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/bash/eval_bash.py
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/LICENSE --> /home/lkyu/baidu/PhysicsRegressionPaddle/LICENSE
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case4/physical4_0.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case4/physical4_0.pth
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case1/physical1_0.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case1/physical1_0.pth
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_10.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_10.pth
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_0.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_0.pth
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_9.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_9.pth
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_8.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_8.pth
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_5.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_5.pth
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_3.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_3.pth
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_6.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_6.pth
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_4.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_4.pth
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_2.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_2.pth
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_1.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_1.pth
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_7.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_7.pth
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_11.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_11.pth
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case3/physical3_0.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case3/physical3_0.pth
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case5/physical5_0.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case5/physical5_0.pth
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/case1_SSN.ipynb --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/case1_SSN.ipynb
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/case5_LunarTide.ipynb --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/case5_LunarTide.ipynb
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/case3_DifferentialRotation.ipynb --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/case3_DifferentialRotation.ipynb
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/case2_Plasma.ipynb --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/case2_Plasma.ipynb
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/case4_ContributionFunction.ipynb --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/case4_ContributionFunction.ipynb
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/CLAUDE.md --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/CLAUDE.md
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/train.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/train.py
+[train.py:5] remove 'import torch' 
+[train.py:6] remove 'import os' 
+[train.py] add 'import paddle' in line 1
+[train.py] add 'import os' in line 2
+[train.py:33] [Success] Convert Class Attribute: torch.Tensor.cpu to Paddle, just remain the same
+[train.py:34] [Success] Convert torch.cuda.is_available to Paddle
+[train.py:35] [Success] Convert Class Attribute: torch.Tensor.cpu to Paddle, just remain the same
+Finish convert /home/lkyu/baidu/PhysicsRegression/train.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/train.py
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/example.ipynb --> /home/lkyu/baidu/PhysicsRegressionPaddle/example.ipynb
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/Oracle_model/demo/demo_0.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/Oracle_model/demo/demo_0.pth
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/Oracle_model/testing/empty --> /home/lkyu/baidu/PhysicsRegressionPaddle/Oracle_model/testing/empty
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/Oracle_model/feynman/empty --> /home/lkyu/baidu/PhysicsRegressionPaddle/Oracle_model/feynman/empty
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/environment.yml --> /home/lkyu/baidu/PhysicsRegressionPaddle/environment.yml
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/Oracle/oracle.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Oracle/oracle.py
+[oracle.py:2] remove 'import torch' 
+[oracle.py:3] remove 'from torch import nn' 
+[oracle.py:4] remove 'from torch.utils.data import random_split' 
+[oracle.py:4] remove 'from torch.utils.data import DataLoader' 
+[oracle.py:4] remove 'from torch.utils.data import TensorDataset' 
+[oracle.py:5] remove 'from torch.autograd.functional import hessian' 
+[oracle.py:9] remove 'import os' 
+[oracle.py] add 'import paddle' in line 1
+[oracle.py] add 'import os' in line 2
+[oracle.py:1] [Success] Convert torch.nn.Module to Paddle
+[oracle.py:25] [Success] Convert torch.nn.Linear to Paddle
+[oracle.py:26] [Success] Convert torch.nn.Linear to Paddle
+[oracle.py:27] [Success] Convert torch.nn.Linear to Paddle
+[oracle.py:28] [Success] Convert torch.nn.Linear to Paddle
+[oracle.py:29] [Success] Convert torch.nn.Linear to Paddle
+[oracle.py:32] [Success] Convert torch.tanh to Paddle
+[oracle.py:33] [Success] Convert torch.tanh to Paddle
+[oracle.py:34] [Success] Convert torch.tanh to Paddle
+[oracle.py:35] [Success] Convert torch.tanh to Paddle
+[oracle.py:111] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[oracle.py:112] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[oracle.py:121] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[oracle.py:125] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[oracle.py:132] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[oracle.py:143] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[oracle.py:145] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[oracle.py:147] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[oracle.py:173] [Success] Convert torch.from_numpy to Paddle
+[oracle.py:173] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[oracle.py:174] [Success] Convert torch.from_numpy to Paddle
+[oracle.py:174] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[oracle.py:179] [Success] Convert torch.utils.data.TensorDataset to Paddle
+[oracle.py:183] [Success] Convert torch.utils.data.random_split to Paddle
+[oracle.py:185] [Success] Convert torch.utils.data.DataLoader to Paddle
+[oracle.py:187] [Success] Convert torch.utils.data.DataLoader to Paddle
+[oracle.py:189] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[oracle.py:189] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[oracle.py:193] [Success] Convert Class Method: torch.Tensor.sum to Paddle
+[oracle.py:193] [Success] Convert torch.sqrt to Paddle
+[oracle.py:194] [Success] Convert torch.nn.functional.mse_loss to Paddle
+[oracle.py:194] [Success] Convert torch.sqrt to Paddle
+[oracle.py:199] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[oracle.py:199] [Success] Convert torch.optim.Adam to Paddle
+[oracle.py:201] [Success] Convert Class Method: torch.nn.Module.train to Paddle
+[oracle.py:203] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[oracle.py:204] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[oracle.py:207] [Success] Convert Class Method: torch.nn.Module.zero_grad to Paddle
+[oracle.py:208] [Success] Convert Class Method: torch.Tensor.backward to Paddle
+[oracle.py:209] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+[oracle.py:212] [Success] Convert torch.isnan to Paddle
+[oracle.py:212] [Success] Convert torch.any to Paddle
+[oracle.py:212] [Success] Convert torch.isnan to Paddle
+[oracle.py:212] [Success] Convert torch.any to Paddle
+[oracle.py:216] [Success] Convert Class Method: torch.nn.Module.eval to Paddle
+[oracle.py:218] [Success] Convert torch.no_grad to Paddle
+[oracle.py:220] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[oracle.py:221] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[oracle.py:224] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[oracle.py:224] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[oracle.py:224] [Success] Convert Class Method: torch.Tensor.numpy to Paddle
+[oracle.py:234] [Success] Convert Class Method: torch.nn.Module.eval to Paddle
+[oracle.py:237] [Success] Convert torch.no_grad to Paddle
+[oracle.py:239] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[oracle.py:240] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[oracle.py:243] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[oracle.py:243] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[oracle.py:243] [Success] Convert Class Method: torch.Tensor.numpy to Paddle
+[oracle.py:245] [Success] Convert torch.no_grad to Paddle
+[oracle.py:247] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[oracle.py:248] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[oracle.py:251] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[oracle.py:251] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[oracle.py:251] [Success] Convert Class Method: torch.Tensor.numpy to Paddle
+[oracle.py:272] [Success] Convert torch.from_numpy to Paddle
+[oracle.py:272] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[oracle.py:272] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[oracle.py:272] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[oracle.py:273] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[oracle.py:273] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[oracle.py:273] [Success] Convert Class Method: torch.Tensor.numpy to Paddle
+[oracle.py:273] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[oracle.py:292] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[oracle.py:307] [Success] Convert torch.from_numpy to Paddle
+[oracle.py:307] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[oracle.py:307] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[oracle.py:307] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[oracle.py:308] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[oracle.py:308] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[oracle.py:308] [Success] Convert Class Method: torch.Tensor.clone to Paddle
+[oracle.py:311] [Success] Convert torch.zeros to Paddle
+[oracle.py:313] [Success] Convert torch.from_numpy to Paddle
+[oracle.py:313] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[oracle.py:313] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[oracle.py:313] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[oracle.py:313] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[oracle.py:316] [Success] Convert Class Method: torch.Tensor.backward to Paddle
+[oracle.py:317] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[oracle.py:317] [Success] Convert Class Method: torch.Tensor.clone to Paddle
+[oracle.py:317] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[oracle.py:317] [Success] Convert Class Method: torch.Tensor.squeeze to Paddle
+[oracle.py:319] [Success] Convert torch.cat to Paddle
+[oracle.py:322] [Success] Convert torch.zeros to Paddle
+[oracle.py:325] [Success] Convert torch.from_numpy to Paddle
+[oracle.py:325] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[oracle.py:325] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[oracle.py:325] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[oracle.py:328] [Success] Convert torch.autograd.functional.hessian to Paddle
+[oracle.py:329] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[oracle.py:329] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[oracle.py:329] [Success] Convert Class Method: torch.Tensor.clone to Paddle
+[oracle.py:329] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[oracle.py:331] [Success] Convert torch.cat to Paddle
+[oracle.py:338] [Success] Convert torch.abs to Paddle
+[oracle.py:338] [Success] Convert torch.median to Paddle
+[oracle.py:341] [Success] Convert torch.zeros to Paddle
+[oracle.py:343] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[oracle.py:344] [Success] Convert Class Attribute: torch.Tensor.T to Paddle, just remain the same
+[oracle.py:345] [Success] Convert Class Attribute: torch.Tensor.T to Paddle, just remain the same
+[oracle.py:346] [Success] Convert torch.abs to Paddle
+[oracle.py:346] [Success] Convert torch.abs to Paddle
+[oracle.py:346] [Success] Convert torch.where to Paddle
+[oracle.py:346] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[oracle.py:348] [Success] Convert torch.cat to Paddle
+[oracle.py:350] [Success] Convert torch.abs to Paddle
+[oracle.py:350] [Success] Convert torch.median to Paddle
+[oracle.py:353] [Success] Convert torch.zeros to Paddle
+[oracle.py:355] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[oracle.py:356] [Success] Convert Class Attribute: torch.Tensor.T to Paddle, just remain the same
+[oracle.py:357] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[oracle.py:358] [Success] Convert torch.cat to Paddle
+[oracle.py:360] [Success] Convert torch.abs to Paddle
+[oracle.py:360] [Success] Convert torch.median to Paddle
+[oracle.py:365] [Success] Convert Class Method: torch.Tensor.clone to Paddle
+[oracle.py:369] [Success] Convert torch.abs to Paddle
+[oracle.py:369] [Success] Convert torch.median to Paddle
+[oracle.py:372] [Success] Convert torch.zeros to Paddle
+[oracle.py:374] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[oracle.py:375] [Success] Convert torch.sin to Paddle
+[oracle.py:375] [Success] Convert Class Attribute: torch.Tensor.T to Paddle, just remain the same
+[oracle.py:375] [Success] Convert torch.cos to Paddle
+[oracle.py:376] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[oracle.py:377] [Success] Convert torch.cat to Paddle
+[oracle.py:379] [Success] Convert torch.abs to Paddle
+[oracle.py:379] [Success] Convert torch.median to Paddle
+[oracle.py:382] [Success] Convert torch.zeros to Paddle
+[oracle.py:384] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[oracle.py:385] [Success] Convert torch.abs to Paddle
+[oracle.py:385] [Success] Convert torch.log to Paddle
+[oracle.py:385] [Success] Convert torch.cos to Paddle
+[oracle.py:385] [Success] Convert torch.abs to Paddle
+[oracle.py:385] [Success] Convert torch.log to Paddle
+[oracle.py:385] [Success] Convert torch.sin to Paddle
+[oracle.py:385] [Success] Convert Class Attribute: torch.Tensor.T to Paddle, just remain the same
+[oracle.py:385] [Success] Convert torch.abs to Paddle
+[oracle.py:385] [Success] Convert torch.log to Paddle
+[oracle.py:385] [Success] Convert torch.cos to Paddle
+[oracle.py:386] [Success] Convert torch.abs to Paddle
+[oracle.py:386] [Success] Convert torch.log to Paddle
+[oracle.py:386] [Success] Convert torch.cos to Paddle
+[oracle.py:386] [Success] Convert torch.abs to Paddle
+[oracle.py:386] [Success] Convert torch.log to Paddle
+[oracle.py:386] [Success] Convert torch.sin to Paddle
+[oracle.py:386] [Success] Convert Class Attribute: torch.Tensor.T to Paddle, just remain the same
+[oracle.py:386] [Success] Convert torch.abs to Paddle
+[oracle.py:386] [Success] Convert torch.log to Paddle
+[oracle.py:386] [Success] Convert torch.cos to Paddle
+[oracle.py:387] [Success] Convert torch.abs to Paddle
+[oracle.py:387] [Success] Convert torch.abs to Paddle
+[oracle.py:387] [Success] Convert torch.where to Paddle
+[oracle.py:387] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[oracle.py:389] [Success] Convert torch.cat to Paddle
+[oracle.py:391] [Success] Convert torch.abs to Paddle
+[oracle.py:391] [Success] Convert torch.median to Paddle
+[oracle.py:394] [Success] Convert torch.zeros to Paddle
+[oracle.py:396] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[oracle.py:397] [Success] Convert torch.cos to Paddle
+[oracle.py:397] [Success] Convert Class Attribute: torch.Tensor.T to Paddle, just remain the same
+[oracle.py:397] [Success] Convert torch.sin to Paddle
+[oracle.py:398] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[oracle.py:399] [Success] Convert torch.cat to Paddle
+[oracle.py:401] [Success] Convert torch.abs to Paddle
+[oracle.py:401] [Success] Convert torch.median to Paddle
+[oracle.py:404] [Success] Convert torch.zeros to Paddle
+[oracle.py:406] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[oracle.py:407] [Success] Convert torch.abs to Paddle
+[oracle.py:407] [Success] Convert torch.log to Paddle
+[oracle.py:407] [Success] Convert torch.cos to Paddle
+[oracle.py:407] [Success] Convert torch.abs to Paddle
+[oracle.py:407] [Success] Convert torch.log to Paddle
+[oracle.py:407] [Success] Convert torch.sin to Paddle
+[oracle.py:407] [Success] Convert Class Attribute: torch.Tensor.T to Paddle, just remain the same
+[oracle.py:407] [Success] Convert torch.abs to Paddle
+[oracle.py:407] [Success] Convert torch.log to Paddle
+[oracle.py:407] [Success] Convert torch.sin to Paddle
+[oracle.py:408] [Success] Convert torch.abs to Paddle
+[oracle.py:408] [Success] Convert torch.log to Paddle
+[oracle.py:408] [Success] Convert torch.cos to Paddle
+[oracle.py:408] [Success] Convert torch.abs to Paddle
+[oracle.py:408] [Success] Convert torch.log to Paddle
+[oracle.py:408] [Success] Convert torch.sin to Paddle
+[oracle.py:408] [Success] Convert Class Attribute: torch.Tensor.T to Paddle, just remain the same
+[oracle.py:408] [Success] Convert torch.abs to Paddle
+[oracle.py:408] [Success] Convert torch.log to Paddle
+[oracle.py:408] [Success] Convert torch.sin to Paddle
+[oracle.py:409] [Success] Convert torch.abs to Paddle
+[oracle.py:409] [Success] Convert torch.abs to Paddle
+[oracle.py:409] [Success] Convert torch.where to Paddle
+[oracle.py:409] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[oracle.py:411] [Success] Convert torch.cat to Paddle
+[oracle.py:413] [Success] Convert torch.abs to Paddle
+[oracle.py:413] [Success] Convert torch.median to Paddle
+[oracle.py:416] [Success] Convert torch.zeros to Paddle
+[oracle.py:418] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[oracle.py:419] [Success] Convert Class Attribute: torch.Tensor.T to Paddle, just remain the same
+[oracle.py:420] [Success] Convert Class Attribute: torch.Tensor.T to Paddle, just remain the same
+[oracle.py:421] [Success] Convert torch.abs to Paddle
+[oracle.py:421] [Success] Convert torch.abs to Paddle
+[oracle.py:421] [Success] Convert torch.where to Paddle
+[oracle.py:421] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[oracle.py:423] [Success] Convert torch.cat to Paddle
+[oracle.py:425] [Success] Convert torch.abs to Paddle
+[oracle.py:425] [Success] Convert torch.median to Paddle
+[oracle.py:429] [Success] Convert Class Method: torch.Tensor.clone to Paddle
+[oracle.py:433] [Success] Convert torch.abs to Paddle
+[oracle.py:433] [Success] Convert torch.median to Paddle
+[oracle.py:461] [Success] Convert Class Method: torch.Tensor.add to Paddle
+[oracle.py:462] [Success] Convert Class Method: torch.Tensor.add to Paddle
+[oracle.py:488] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[oracle.py:564] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[oracle.py:577] [Success] Convert torch.from_numpy to Paddle
+[oracle.py:577] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[oracle.py:577] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[oracle.py:577] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[oracle.py:578] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[oracle.py:578] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[oracle.py:578] [Success] Convert Class Method: torch.Tensor.numpy to Paddle
+[oracle.py:578] [Success] Convert Class Attribute: torch.Tensor.dtype to Paddle, just remain the same
+[oracle.py:579] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[oracle.py:594] [Success] Convert torch.from_numpy to Paddle
+[oracle.py:594] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[oracle.py:594] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[oracle.py:594] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[oracle.py:596] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[oracle.py:596] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[oracle.py:596] [Success] Convert Class Method: torch.Tensor.numpy to Paddle
+[oracle.py:596] [Success] Convert Class Attribute: torch.Tensor.dtype to Paddle, just remain the same
+[oracle.py:601] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[oracle.py:678] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[oracle.py:770] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[oracle.py:786] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[oracle.py:787] [Success] Convert torch.load to Paddle
+[oracle.py:788] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[oracle.py:789] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[oracle.py:789] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[oracle.py:802] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[oracle.py:807] [Success] Convert Class Method: torch.nn.Module.state_dict to Paddle
+[oracle.py:808] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[oracle.py:816] [Success] Convert torch.save to Paddle
+[oracle.py:817] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[oracle.py:820] [Success] Convert torch.exp to Paddle
+[oracle.py:824] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[oracle.py:1060] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[oracle.py:1063] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[oracle.py:1165] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[oracle.py:1169] [Success] Convert Class Method: torch.Tensor.sub to Paddle
+[oracle.py:1413] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+Finish convert /home/lkyu/baidu/PhysicsRegression/Oracle/oracle.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Oracle/oracle.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/Oracle/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Oracle/__init__.py
+Finish convert /home/lkyu/baidu/PhysicsRegression/Oracle/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Oracle/__init__.py
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/Oracle/CLAUDE.md --> /home/lkyu/baidu/PhysicsRegressionPaddle/Oracle/CLAUDE.md
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/parsers.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/parsers.py
+Finish convert /home/lkyu/baidu/PhysicsRegression/parsers.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/parsers.py
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/A Neural Symbolic Model for Space Physics(正文).pdf --> /home/lkyu/baidu/PhysicsRegressionPaddle/A Neural Symbolic Model for Space Physics(正文).pdf
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/CLAUDE.md --> /home/lkyu/baidu/PhysicsRegressionPaddle/CLAUDE.md
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/metrics.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/metrics.py
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/metrics.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/metrics.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/model_wrapper.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/model_wrapper.py
+[model_wrapper.py:2] remove 'import torch' 
+[model_wrapper.py:3] remove 'import torch.nn as nn' 
+[model_wrapper.py] add 'import paddle' in line 1
+[model_wrapper.py:1] [Success] Convert torch.nn.Module to Paddle
+[model_wrapper.py:41] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[model_wrapper.py:41] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[model_wrapper.py:90] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[model_wrapper.py:91] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[model_wrapper.py:116] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[model_wrapper.py:117] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[model_wrapper.py:117] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[model_wrapper.py:118] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[model_wrapper.py:118] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[model_wrapper.py:118] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[model_wrapper.py:118] [Success] Convert Class Method: torch.Tensor.tolist to Paddle
+[model_wrapper.py:120] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[model_wrapper.py:120] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[model_wrapper.py:121] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[model_wrapper.py:121] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[model_wrapper.py:121] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[model_wrapper.py:121] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[model_wrapper.py:121] [Success] Convert Class Method: torch.Tensor.tolist to Paddle
+[model_wrapper.py:124] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[model_wrapper.py:124] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[model_wrapper.py:124] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[model_wrapper.py:124] [Success] Convert Class Method: torch.Tensor.tolist to Paddle
+[model_wrapper.py:126] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[model_wrapper.py:126] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[model_wrapper.py:126] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[model_wrapper.py:126] [Success] Convert Class Method: torch.Tensor.tolist to Paddle
+[model_wrapper.py:179] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[model_wrapper.py:179] [Success] Convert Class Method: torch.Tensor.tolist to Paddle
+[model_wrapper.py:195] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[model_wrapper.py:196] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[model_wrapper.py:195] [Success] Convert Class Method: torch.Tensor.expand to Paddle
+[model_wrapper.py:195] [Success] Convert Class Method: torch.Tensor.contiguous to Paddle
+[model_wrapper.py:198] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[model_wrapper.py:195] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[model_wrapper.py:200] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[model_wrapper.py:200] [Success] Convert Class Method: torch.Tensor.expand to Paddle
+[model_wrapper.py:200] [Success] Convert Class Method: torch.Tensor.contiguous to Paddle
+[model_wrapper.py:200] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[model_wrapper.py:221] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[model_wrapper.py:222] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[model_wrapper.py:222] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[model_wrapper.py:223] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[model_wrapper.py:223] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[model_wrapper.py:223] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[model_wrapper.py:223] [Success] Convert Class Method: torch.Tensor.tolist to Paddle
+[model_wrapper.py:225] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[model_wrapper.py:225] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[model_wrapper.py:227] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[model_wrapper.py:227] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[model_wrapper.py:227] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[model_wrapper.py:227] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[model_wrapper.py:227] [Success] Convert Class Method: torch.Tensor.tolist to Paddle
+[model_wrapper.py:231] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[model_wrapper.py:231] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[model_wrapper.py:231] [Success] Convert Class Method: torch.Tensor.tolist to Paddle
+[model_wrapper.py:233] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[model_wrapper.py:233] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[model_wrapper.py:233] [Success] Convert Class Method: torch.Tensor.tolist to Paddle
+[model_wrapper.py:43] [Success] Convert torch.no_grad to Paddle
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/model_wrapper.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/model_wrapper.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/__init__.py
+[__init__.py:2] remove 'import os' 
+[__init__.py:3] remove 'import torch' 
+[__init__.py] add 'import paddle' in line 1
+[__init__.py] add 'import os' in line 2
+[__init__.py:54] [Success] Convert torch.load to Paddle
+[__init__.py:61] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[__init__.py:68] [Success] Convert Class Method: torch.Tensor.numel to Paddle
+[__init__.py:68] [Success] Convert Class Method: torch.nn.Module.parameters to Paddle
+[__init__.py:68] [Success] Convert Class Attribute: torch.Tensor.requires_grad to Paddle, just remain the same
+[__init__.py:72] [Success] Convert Class Attribute: torch.Tensor.cpu to Paddle, just remain the same
+[__init__.py:73] [Success] Convert Class Method: torch.Tensor.values to Paddle
+[__init__.py:74] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[__init__.py:74] [Success] Convert Class Method: torch.Tensor.cuda to Paddle
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/__init__.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/sklearn_wrapper.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/sklearn_wrapper.py
+[sklearn_wrapper.py:3] remove 'import torch' 
+[sklearn_wrapper.py] add 'import paddle' in line 1
+[sklearn_wrapper.py:19] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[sklearn_wrapper.py:19] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[sklearn_wrapper.py:20] [Success] Convert Class Method: torch.Tensor.std to Paddle
+[sklearn_wrapper.py:24] [Success] Convert Class Attribute: torch.Tensor.ndim to Paddle, just remain the same
+[sklearn_wrapper.py:26] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[sklearn_wrapper.py:27] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[sklearn_wrapper.py:101] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[sklearn_wrapper.py:153] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[sklearn_wrapper.py:156] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[sklearn_wrapper.py:147] [Success] Convert torch.no_grad to Paddle
+[sklearn_wrapper.py:421] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[sklearn_wrapper.py:424] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[sklearn_wrapper.py:441] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[sklearn_wrapper.py:444] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[sklearn_wrapper.py:456] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[sklearn_wrapper.py:459] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/sklearn_wrapper.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/sklearn_wrapper.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/utils_wrapper.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/utils_wrapper.py
+[utils_wrapper.py:6] remove 'import torch' 
+[utils_wrapper.py] add 'import paddle' in line 1
+[utils_wrapper.py:1] [Success] Convert torch.float64 to Paddle
+[utils_wrapper.py:1] [Success] Convert torch.float64 to Paddle
+[utils_wrapper.py:171] [Success] Convert torch.from_numpy to Paddle
+[utils_wrapper.py:1] [Success] Convert torch.float64 to Paddle
+[utils_wrapper.py:171] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[utils_wrapper.py:171] [Success] Convert Class Method: torch.Tensor.requires_grad_ to Paddle
+[utils_wrapper.py:172] [Success] Convert torch.from_numpy to Paddle
+[utils_wrapper.py:1] [Success] Convert torch.float64 to Paddle
+[utils_wrapper.py:172] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[utils_wrapper.py:172] [Success] Convert Class Method: torch.Tensor.requires_grad_ to Paddle
+[utils_wrapper.py:1] [Success] Convert torch.Tensor to Paddle
+[utils_wrapper.py:1] [Success] Convert torch.float64 to Paddle
+[utils_wrapper.py:182] [Success] Convert torch.tensor to Paddle
+[utils_wrapper.py:186] [Success] Convert Class Method: torch.Tensor.pow to Paddle
+[utils_wrapper.py:186] [Success] Convert Class Method: torch.Tensor.mean to Paddle
+[utils_wrapper.py:186] [Success] Convert Class Method: torch.Tensor.div to Paddle
+[utils_wrapper.py:195] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[utils_wrapper.py:1] [Success] Convert torch.Tensor to Paddle
+[utils_wrapper.py:1] [Success] Convert torch.float64 to Paddle
+[utils_wrapper.py:203] [Success] Convert torch.tensor to Paddle
+[utils_wrapper.py:205] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[utils_wrapper.py:205] [Success] Convert Class Method: torch.Tensor.numpy to Paddle
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/utils_wrapper.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/utils_wrapper.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/embedders.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/embedders.py
+[embedders.py:4] remove 'import torch' 
+[embedders.py:5] remove 'import torch.nn as nn' 
+[embedders.py:7] remove 'import torch.nn.functional as F' 
+[embedders.py] add 'import paddle' in line 1
+[embedders.py:1] [Success] Convert torch.nn.Module to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:1] [Success] Convert torch.nn.functional.relu to Paddle
+[embedders.py:62] [Success] Convert torch.nn.ModuleList to Paddle
+[embedders.py:63] [Success] Convert torch.nn.Linear to Paddle
+[embedders.py:65] [Success] Convert torch.nn.Linear to Paddle
+[embedders.py:66] [Success] Convert torch.nn.Linear to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:76] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[embedders.py:77] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:87] [Success] Convert torch.cat to Paddle
+[embedders.py:89] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:125] [Success] Convert torch.LongTensor to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:132] [Success] Convert torch.LongTensor to Paddle
+[embedders.py:132] [Success] Convert Class Method: torch.Tensor.fill_ to Paddle
+[embedders.py:135] [Success] Convert torch.LongTensor to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:1] [Success] Convert torch.long to Paddle
+[embedders.py:141] [Success] Convert torch.zeros to Paddle
+[embedders.py:144] [Success] Convert Class Method: torch.Tensor.max to Paddle
+[embedders.py:1] [Success] Convert torch.Tensor to Paddle
+[embedders.py:270] [Success] Convert torch.LongTensor to Paddle
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/embedders.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/embedders.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/transformer.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/transformer.py
+[transformer.py:5] remove 'import torch' 
+[transformer.py:6] remove 'import torch.nn as nn' 
+[transformer.py:7] remove 'import torch.nn.functional as F' 
+[transformer.py] add 'import paddle' in line 1
+[transformer.py:17] [Success] Convert torch.nn.Embedding to Paddle
+[transformer.py:18] [Success] Convert torch.nn.init.normal_ to Paddle
+[transformer.py:20] [Success] Convert torch.nn.init.constant_ to Paddle
+[transformer.py:31] [Success] Convert Class Method: torch.Tensor.detach_ to Paddle
+[transformer.py:33] [Success] Convert torch.FloatTensor to Paddle
+[transformer.py:34] [Success] Convert torch.FloatTensor to Paddle
+[transformer.py:41] [Success] Convert Class Method: torch.Tensor.max to Paddle
+[transformer.py:41] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[transformer.py:42] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:1] [Success] Convert torch.long to Paddle
+[transformer.py:43] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[transformer.py:43] [Success] Convert torch.arange to Paddle
+[transformer.py:48] [Success] Convert Class Method: torch.Tensor.repeat to Paddle
+[transformer.py:53] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:54] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:1] [Success] Convert torch.nn.Module to Paddle
+[transformer.py:73] [Success] Convert torch.nn.Linear to Paddle
+[transformer.py:74] [Success] Convert torch.nn.Linear to Paddle
+[transformer.py:75] [Success] Convert torch.nn.Linear to Paddle
+[transformer.py:76] [Success] Convert torch.nn.Linear to Paddle
+[transformer.py:79] [Success] Convert torch.tensor to Paddle
+[transformer.py:78] [Success] Convert torch.nn.Parameter to Paddle
+[transformer.py:90] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:94] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:104] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[transformer.py:104] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[transformer.py:109] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[transformer.py:109] [Success] Convert Class Method: torch.Tensor.contiguous to Paddle
+[transformer.py:109] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[transformer.py:125] [Success] Convert torch.cat to Paddle
+[transformer.py:126] [Success] Convert torch.cat to Paddle
+[transformer.py:131] [Success] Convert torch.nn.functional.normalize to Paddle
+[transformer.py:132] [Success] Convert torch.nn.functional.normalize to Paddle
+[transformer.py:137] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[transformer.py:137] [Success] Convert torch.matmul to Paddle
+[transformer.py:140] [Success] Convert Class Method: torch.Tensor.dim to Paddle
+[transformer.py:142] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[transformer.py:142] [Success] Convert Class Method: torch.Tensor.expand_as to Paddle
+[transformer.py:144] [Success] Convert Class Method: torch.Tensor.masked_fill_ to Paddle
+[transformer.py:146] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[transformer.py:146] [Success] Convert torch.nn.functional.softmax to Paddle
+[transformer.py:146] [Success] Convert Class Method: torch.Tensor.type_as to Paddle
+[transformer.py:149] [Success] Convert torch.nn.functional.dropout to Paddle
+[transformer.py:152] [Success] Convert torch.matmul to Paddle
+[transformer.py:156] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[transformer.py:156] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[transformer.py:1] [Success] Convert torch.nn.Module to Paddle
+[transformer.py:166] [Success] Convert torch.nn.ModuleList to Paddle
+[transformer.py:167] [Success] Convert torch.nn.Linear to Paddle
+[transformer.py:169] [Success] Convert torch.nn.Linear to Paddle
+[transformer.py:170] [Success] Convert torch.nn.Linear to Paddle
+[transformer.py:174] [Success] Convert torch.nn.functional.relu to Paddle
+[transformer.py:177] [Success] Convert torch.nn.functional.relu to Paddle
+[transformer.py:179] [Success] Convert torch.nn.functional.dropout to Paddle
+[transformer.py:1] [Success] Convert torch.nn.Module to Paddle
+[transformer.py:1] [Success] Convert torch.float16 to Paddle
+[transformer.py:1] [Success] Convert torch.float32 to Paddle
+[transformer.py:233] [Success] Convert torch.tensor to Paddle
+[transformer.py:237] [Success] Convert torch.tensor to Paddle
+[transformer.py:274] [Success] Convert torch.tensor to Paddle
+[transformer.py:326] [Success] Convert torch.nn.LayerNorm to Paddle
+[transformer.py:329] [Success] Convert torch.nn.ModuleList to Paddle
+[transformer.py:330] [Success] Convert torch.nn.ModuleList to Paddle
+[transformer.py:331] [Success] Convert torch.nn.ModuleList to Paddle
+[transformer.py:332] [Success] Convert torch.nn.ModuleList to Paddle
+[transformer.py:334] [Success] Convert torch.nn.ModuleList to Paddle
+[transformer.py:335] [Success] Convert torch.nn.ModuleList to Paddle
+[transformer.py:347] [Success] Convert torch.nn.LayerNorm to Paddle
+[transformer.py:349] [Success] Convert torch.nn.LayerNorm to Paddle
+[transformer.py:368] [Success] Convert torch.nn.LayerNorm to Paddle
+[transformer.py:375] [Success] Convert torch.nn.Linear to Paddle
+[transformer.py:383] [Success] Convert torch.nn.Linear to Paddle
+[transformer.py:384] [Success] Convert torch.nn.Linear to Paddle
+[transformer.py:421] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:422] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:423] [Success] Convert Class Method: torch.Tensor.max to Paddle
+[transformer.py:423] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[transformer.py:424] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[transformer.py:428] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:432] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[transformer.py:438] [Success] Convert Class Method: torch.Tensor.max to Paddle
+[transformer.py:1] [Success] Convert torch.long to Paddle
+[transformer.py:438] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[transformer.py:438] [Success] Convert torch.arange to Paddle
+[transformer.py:444] [Success] Convert Class Method: torch.Tensor.long to Paddle
+[transformer.py:445] [Success] Convert torch.arange to Paddle
+[transformer.py:445] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[transformer.py:447] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:448] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[transformer.py:474] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[transformer.py:474] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[transformer.py:474] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[transformer.py:479] [Success] Convert Class Method: torch.Tensor.expand_as to Paddle
+[transformer.py:481] [Success] Convert torch.nn.functional.dropout to Paddle
+[transformer.py:482] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[transformer.py:482] [Success] Convert Class Attribute: torch.Tensor.dtype to Paddle, just remain the same
+[transformer.py:482] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[transformer.py:484] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[transformer.py:484] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[transformer.py:492] [Success] Convert torch.nn.functional.dropout to Paddle
+[transformer.py:502] [Success] Convert torch.nn.functional.dropout to Paddle
+[transformer.py:510] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[transformer.py:510] [Success] Convert Class Attribute: torch.Tensor.dtype to Paddle, just remain the same
+[transformer.py:510] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[transformer.py:512] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[transformer.py:512] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[transformer.py:516] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:519] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[transformer.py:531] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[transformer.py:531] [Success] Convert Class Method: torch.Tensor.expand_as to Paddle
+[transformer.py:531] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[transformer.py:532] [Success] Convert Class Method: torch.Tensor.sum to Paddle
+[transformer.py:532] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[transformer.py:533] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[transformer.py:534] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[transformer.py:534] [Success] Convert torch.nn.functional.cross_entropy to Paddle
+[transformer.py:535] [Success] Convert torch.topk to Paddle
+[transformer.py:535] [Success] Convert Class Method: torch.Tensor.squeeze to Paddle
+[transformer.py:537] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[transformer.py:537] [Success] Convert Class Method: torch.Tensor.expand_as to Paddle
+[transformer.py:537] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[transformer.py:538] [Success] Convert Class Method: torch.Tensor.sum to Paddle
+[transformer.py:538] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[transformer.py:539] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[transformer.py:540] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[transformer.py:541] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[transformer.py:541] [Success] Convert torch.nn.functional.cross_entropy to Paddle
+[transformer.py:542] [Success] Convert torch.topk to Paddle
+[transformer.py:542] [Success] Convert Class Method: torch.Tensor.squeeze to Paddle
+[transformer.py:568] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:572] [Success] Convert Class Method: torch.Tensor.fill_ to Paddle
+[transformer.py:573] [Success] Convert Class Method: torch.Tensor.fill_ to Paddle
+[transformer.py:576] [Success] Convert Class Method: torch.Tensor.long to Paddle
+[transformer.py:578] [Success] Convert torch.arange to Paddle
+[transformer.py:578] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[transformer.py:578] [Success] Convert Class Method: torch.Tensor.expand to Paddle
+[transformer.py:583] [Success] Convert Class Method: torch.Tensor.clone to Paddle
+[transformer.py:583] [Success] Convert Class Method: torch.Tensor.fill_ to Paddle
+[transformer.py:584] [Success] Convert Class Method: torch.Tensor.clone to Paddle
+[transformer.py:584] [Success] Convert Class Method: torch.Tensor.fill_ to Paddle
+[transformer.py:587] [Success] Convert torch.zeros to Paddle
+[transformer.py:587] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[transformer.py:587] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[transformer.py:604] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:605] [Success] Convert Class Attribute: torch.Tensor.data to Paddle, just remain the same
+[transformer.py:605] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[transformer.py:612] [Success] Convert torch.topk to Paddle
+[transformer.py:612] [Success] Convert Class Method: torch.Tensor.squeeze to Paddle
+[transformer.py:615] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[transformer.py:615] [Success] Convert torch.nn.functional.softmax to Paddle
+[transformer.py:614] [Success] Convert torch.multinomial to Paddle
+[transformer.py:614] [Success] Convert Class Method: torch.Tensor.squeeze to Paddle
+[transformer.py:617] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:625] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[transformer.py:625] [Success] Convert torch.nn.functional.softmax to Paddle
+[transformer.py:627] [Success] Convert torch.arange to Paddle
+[transformer.py:629] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:632] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[transformer.py:632] [Success] Convert torch.log to Paddle
+[transformer.py:631] [Success] Convert Class Method: torch.Tensor.add_ to Paddle
+[transformer.py:635] [Success] Convert Class Method: torch.Tensor.add_ to Paddle
+[transformer.py:636] [Success] Convert Class Method: torch.Tensor.ne to Paddle
+[transformer.py:636] [Success] Convert Class Method: torch.Tensor.long to Paddle
+[transformer.py:636] [Success] Convert Class Method: torch.Tensor.mul_ to Paddle
+[transformer.py:640] [Success] Convert Class Method: torch.Tensor.max to Paddle
+[transformer.py:646] [Success] Convert Class Method: torch.Tensor.byte to Paddle
+[transformer.py:646] [Success] Convert Class Method: torch.Tensor.masked_fill_ to Paddle
+[transformer.py:649] [Success] Convert Class Method: torch.Tensor.sum to Paddle
+[transformer.py:650] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[transformer.py:650] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[transformer.py:650] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[transformer.py:652] [Success] Convert torch.nonzero to Paddle
+[transformer.py:653] [Success] Convert torch.exp to Paddle
+[transformer.py:660] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:664] [Success] Convert Class Method: torch.Tensor.fill_ to Paddle
+[transformer.py:665] [Success] Convert Class Method: torch.Tensor.fill_ to Paddle
+[transformer.py:668] [Success] Convert Class Method: torch.Tensor.fill_ to Paddle
+[transformer.py:669] [Success] Convert Class Method: torch.Tensor.fill_ to Paddle
+[transformer.py:672] [Success] Convert Class Method: torch.Tensor.long to Paddle
+[transformer.py:674] [Success] Convert torch.arange to Paddle
+[transformer.py:674] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[transformer.py:674] [Success] Convert Class Method: torch.Tensor.expand to Paddle
+[transformer.py:679] [Success] Convert Class Method: torch.Tensor.clone to Paddle
+[transformer.py:679] [Success] Convert Class Method: torch.Tensor.fill_ to Paddle
+[transformer.py:680] [Success] Convert Class Method: torch.Tensor.clone to Paddle
+[transformer.py:680] [Success] Convert Class Method: torch.Tensor.fill_ to Paddle
+[transformer.py:683] [Success] Convert torch.zeros to Paddle
+[transformer.py:683] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[transformer.py:683] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[transformer.py:684] [Success] Convert torch.zeros to Paddle
+[transformer.py:684] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[transformer.py:684] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[transformer.py:702] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:703] [Success] Convert Class Attribute: torch.Tensor.data to Paddle, just remain the same
+[transformer.py:703] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[transformer.py:708] [Success] Convert torch.ones to Paddle
+[transformer.py:709] [Success] Convert Class Method: torch.Tensor.clone to Paddle
+[transformer.py:709] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[transformer.py:714] [Success] Convert torch.all to Paddle
+[transformer.py:725] [Success] Convert torch.all to Paddle
+[transformer.py:729] [Success] Convert torch.arange to Paddle
+[transformer.py:729] [Success] Convert torch.meshgrid to Paddle
+[transformer.py:734] [Success] Convert Class Method: torch.Tensor.clone to Paddle
+[transformer.py:1] [Success] Convert torch.inf to Paddle
+[transformer.py:741] [Success] Convert torch.topk to Paddle
+[transformer.py:741] [Success] Convert Class Method: torch.Tensor.squeeze to Paddle
+[transformer.py:744] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[transformer.py:744] [Success] Convert torch.nn.functional.softmax to Paddle
+[transformer.py:743] [Success] Convert torch.multinomial to Paddle
+[transformer.py:743] [Success] Convert Class Method: torch.Tensor.squeeze to Paddle
+[transformer.py:746] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:752] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[transformer.py:753] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[transformer.py:757] [Success] Convert Class Method: torch.Tensor.clone to Paddle
+[transformer.py:758] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[transformer.py:758] [Success] Convert Class Method: torch.Tensor.expand_as to Paddle
+[transformer.py:1] [Success] Convert torch.inf to Paddle
+[transformer.py:764] [Success] Convert torch.topk to Paddle
+[transformer.py:764] [Success] Convert Class Method: torch.Tensor.squeeze to Paddle
+[transformer.py:767] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[transformer.py:767] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[transformer.py:767] [Success] Convert torch.nn.functional.softmax to Paddle
+[transformer.py:766] [Success] Convert torch.multinomial to Paddle
+[transformer.py:766] [Success] Convert Class Method: torch.Tensor.squeeze to Paddle
+[transformer.py:766] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[transformer.py:769] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:773] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[transformer.py:773] [Success] Convert torch.nn.functional.softmax to Paddle
+[transformer.py:775] [Success] Convert torch.arange to Paddle
+[transformer.py:777] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[transformer.py:777] [Success] Convert torch.nn.functional.softmax to Paddle
+[transformer.py:780] [Success] Convert torch.arange to Paddle
+[transformer.py:780] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[transformer.py:780] [Success] Convert Class Method: torch.Tensor.repeat to Paddle
+[transformer.py:780] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[transformer.py:781] [Success] Convert torch.arange to Paddle
+[transformer.py:781] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[transformer.py:781] [Success] Convert Class Method: torch.Tensor.repeat to Paddle
+[transformer.py:781] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[transformer.py:782] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[transformer.py:778] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[transformer.py:785] [Success] Convert torch.prod to Paddle
+[transformer.py:786] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:786] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:789] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[transformer.py:789] [Success] Convert torch.log to Paddle
+[transformer.py:788] [Success] Convert Class Method: torch.Tensor.add_ to Paddle
+[transformer.py:792] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[transformer.py:792] [Success] Convert torch.log to Paddle
+[transformer.py:791] [Success] Convert Class Method: torch.Tensor.add_ to Paddle
+[transformer.py:795] [Success] Convert Class Method: torch.Tensor.add_ to Paddle
+[transformer.py:796] [Success] Convert Class Method: torch.Tensor.ne to Paddle
+[transformer.py:796] [Success] Convert Class Method: torch.Tensor.long to Paddle
+[transformer.py:796] [Success] Convert Class Method: torch.Tensor.mul_ to Paddle
+[transformer.py:800] [Success] Convert Class Method: torch.Tensor.max to Paddle
+[transformer.py:805] [Success] Convert Class Method: torch.Tensor.byte to Paddle
+[transformer.py:805] [Success] Convert Class Method: torch.Tensor.masked_fill_ to Paddle
+[transformer.py:807] [Success] Convert Class Method: torch.Tensor.sum to Paddle
+[transformer.py:808] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[transformer.py:808] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[transformer.py:808] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[transformer.py:810] [Success] Convert torch.nonzero to Paddle
+[transformer.py:811] [Success] Convert torch.exp to Paddle
+[transformer.py:812] [Success] Convert torch.exp to Paddle
+[transformer.py:836] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:836] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:844] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[transformer.py:845] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[transformer.py:844] [Success] Convert Class Method: torch.Tensor.expand to Paddle
+[transformer.py:844] [Success] Convert Class Method: torch.Tensor.contiguous to Paddle
+[transformer.py:847] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[transformer.py:844] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[transformer.py:849] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[transformer.py:849] [Success] Convert Class Method: torch.Tensor.expand to Paddle
+[transformer.py:849] [Success] Convert Class Method: torch.Tensor.contiguous to Paddle
+[transformer.py:849] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[transformer.py:853] [Success] Convert Class Method: torch.Tensor.fill_ to Paddle
+[transformer.py:854] [Success] Convert Class Method: torch.Tensor.fill_ to Paddle
+[transformer.py:863] [Success] Convert Class Method: torch.Tensor.long to Paddle
+[transformer.py:865] [Success] Convert torch.arange to Paddle
+[transformer.py:865] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[transformer.py:865] [Success] Convert Class Method: torch.Tensor.expand_as to Paddle
+[transformer.py:869] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[transformer.py:869] [Success] Convert Class Method: torch.Tensor.fill_ to Paddle
+[transformer.py:871] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[transformer.py:888] [Success] Convert Class Method: torch.Tensor.fill_ to Paddle
+[transformer.py:896] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:898] [Success] Convert Class Attribute: torch.Tensor.data to Paddle, just remain the same
+[transformer.py:898] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[transformer.py:900] [Success] Convert Class Attribute: torch.Tensor.data to Paddle, just remain the same
+[transformer.py:904] [Success] Convert Class Method: torch.Tensor.float to Paddle
+[transformer.py:904] [Success] Convert torch.nn.functional.log_softmax to Paddle
+[transformer.py:905] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:908] [Success] Convert Class Method: torch.Tensor.expand_as to Paddle
+[transformer.py:911] [Success] Convert Class Method: torch.Tensor.view to Paddle
+[transformer.py:913] [Success] Convert torch.topk to Paddle
+[transformer.py:916] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:916] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:927] [Success] Convert Class Method: torch.Tensor.max to Paddle
+[transformer.py:927] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[transformer.py:942] [Success] Convert torch.div to Paddle
+[transformer.py:948] [Success] Convert Class Method: torch.Tensor.clone to Paddle
+[transformer.py:948] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
+[transformer.py:951] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[transformer.py:947] [Success] Convert Class Method: torch.Tensor.add to Paddle
+[transformer.py:1021] [Success] Convert Class Method: torch.Tensor.max to Paddle
+[transformer.py:1021] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[transformer.py:1021] [Success] Convert Class Method: torch.Tensor.fill_ to Paddle
+[transformer.py:1027] [Success] Convert Class Method: torch.Tensor.sum to Paddle
+[transformer.py:1] [Success] Convert torch.FloatTensor to Paddle
+[transformer.py:1] [Success] Convert torch.FloatTensor to Paddle
+[transformer.py:1] [Success] Convert torch.LongTensor to Paddle
+[transformer.py:1] [Success] Convert torch.FloatTensor to Paddle
+[transformer.py:1] [Success] Convert torch.FloatTensor to Paddle
+[transformer.py:1] [Success] Convert torch.LongTensor to Paddle
+[transformer.py:1] [Success] Convert torch.FloatTensor to Paddle
+[transformer.py:1161] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[transformer.py:1164] [Success] Convert torch.topk to Paddle
+[transformer.py:1165] [Success] Convert Class Method: torch.Tensor.masked_fill to Paddle
+[transformer.py:1] [Success] Convert torch.FloatTensor to Paddle
+[transformer.py:1] [Success] Convert torch.LongTensor to Paddle
+[transformer.py:1] [Success] Convert torch.FloatTensor to Paddle
+[transformer.py:1199] [Success] Convert torch.sort to Paddle
+[transformer.py:1200] [Success] Convert Class Method: torch.Tensor.softmax to Paddle
+[transformer.py:1200] [Success] Convert Class Method: torch.Tensor.cumsum to Paddle
+[transformer.py:1208] [Success] Convert Class Method: torch.Tensor.clone to Paddle
+[transformer.py:1212] [Success] Convert Class Method: torch.Tensor.scatter to Paddle
+[transformer.py:1215] [Success] Convert Class Method: torch.Tensor.masked_fill to Paddle
+[transformer.py:1] [Success] Convert torch.FloatTensor to Paddle
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/transformer.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/transformer.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/utils.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/utils.py
+[utils.py:1] remove 'import os' 
+[utils.py] add 'import os' in line 1
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/utils.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/utils.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/__init__.py
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/__init__.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/trainer.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/trainer.py
+[trainer.py:2] remove 'import os' 
+[trainer.py:10] remove 'import torch' 
+[trainer.py:11] remove 'from torch import nn' 
+[trainer.py:12] remove 'from torch.nn.utils import clip_grad_norm_' 
+[trainer.py:16] remove 'import torch.nn.functional as F' 
+[trainer.py] add 'import paddle' in line 1
+[trainer.py] add 'import os' in line 2
+[trainer.py:44] [Success] Convert Class Method: torch.Tensor.values to Paddle
+[trainer.py:46] [Success] Convert Class Method: torch.nn.Module.named_parameters to Paddle
+[trainer.py:46] [Success] Convert Class Attribute: torch.Tensor.requires_grad to Paddle, just remain the same
+[trainer.py:71] [Success] Convert torch.load to Paddle
+[trainer.py:77] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[trainer.py:80] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[trainer.py:125] [Success] Convert torch.nn.parallel.DistributedDataParallel to Paddle
+[trainer.py:261] [Success] Convert Class Method: torch.Tensor.values to Paddle
+[trainer.py:263] [Success] Convert Class Method: torch.nn.Module.named_parameters to Paddle
+[trainer.py:263] [Success] Convert Class Attribute: torch.Tensor.requires_grad to Paddle, just remain the same
+[trainer.py:301] [Success] Convert torch.cuda.amp.GradScaler to Paddle
+[trainer.py:308] [Success] Convert Class Attribute: torch.Tensor.data to Paddle, just remain the same
+[trainer.py:319] [Success] Convert Class Method: torch.nn.Module.zero_grad to Paddle
+[trainer.py:320] [Success] Convert Class Method: torch.Tensor.backward to Paddle
+[trainer.py:322] [Success] Convert torch.nn.utils.clip_grad_norm_ to Paddle
+[trainer.py:323] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+[trainer.py:329] [Success] Convert Class Method: torch.Tensor.backward to Paddle
+[trainer.py:331] [Success] Convert torch.nn.utils.clip_grad_norm_ to Paddle
+[trainer.py:334] [Success] Convert Class Method: torch.optim.Optimizer.step to Paddle
+[trainer.py:335] [Success] Convert Class Method: torch.nn.Module.zero_grad to Paddle
+[trainer.py:340] [Success] Convert Class Method: torch.Tensor.backward to Paddle
+[trainer.py:345] [Success] Convert Class Method: torch.Tensor.backward to Paddle
+[trainer.py:350] [Success] Convert torch.nn.utils.clip_grad_norm_ to Paddle
+[trainer.py:353] [Success] Convert Class Method: torch.nn.Module.zero_grad to Paddle
+[trainer.py:395] [Success] Convert torch.cuda.max_memory_allocated to Paddle
+[trainer.py:406] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[trainer.py:413] [Success] Convert torch.cat to Paddle
+[trainer.py:413] [Success] Convert Class Method: torch.Tensor.tolist to Paddle
+[trainer.py:414] [Success] Convert torch.bincount to Paddle
+[trainer.py:415] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[trainer.py:418] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[trainer.py:418] [Success] Convert torch.nn.functional.pad to Paddle
+[trainer.py:418] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[trainer.py:416] [Success] Convert torch.cat to Paddle
+[trainer.py:416] [Success] Convert Class Method: torch.Tensor.sum to Paddle
+[trainer.py:423] [Success] Convert Class Method: torch.Tensor.nonzero to Paddle
+[trainer.py:426] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[trainer.py:428] [Success] Convert Class Method: torch.Tensor.sum to Paddle
+[trainer.py:428] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[trainer.py:470] [Success] Convert Class Method: torch.nn.Module.state_dict to Paddle
+[trainer.py:474] [Success] Convert Class Method: torch.nn.Module.state_dict to Paddle
+[trainer.py:476] [Success] Convert Class Method: torch.nn.Module.state_dict to Paddle
+[trainer.py:478] [Success] Convert torch.save to Paddle
+[trainer.py:504] [Success] Convert torch.load to Paddle
+[trainer.py:513] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[trainer.py:516] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[trainer.py:529] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[trainer.py:546] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[trainer.py:566] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[trainer.py:569] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[trainer.py:680] [Success] Convert Class Method: torch.Tensor.tolist to Paddle
+[trainer.py:699] [Success] Convert Class Method: torch.Tensor.tolist to Paddle
+[trainer.py:700] [Success] Convert Class Method: torch.Tensor.tolist to Paddle
+[trainer.py:701] [Success] Convert Class Method: torch.Tensor.tolist to Paddle
+[trainer.py:702] [Success] Convert Class Method: torch.Tensor.tolist to Paddle
+[trainer.py:736] [Success] Convert Class Method: torch.nn.Module.train to Paddle
+[trainer.py:737] [Success] Convert Class Method: torch.nn.Module.train to Paddle
+[trainer.py:738] [Success] Convert Class Method: torch.nn.Module.train to Paddle
+[trainer.py:789] [Success] Convert Class Method: torch.Tensor.max to Paddle
+[trainer.py:1] [Success] Convert torch.long to Paddle
+[trainer.py:789] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[trainer.py:789] [Success] Convert torch.arange to Paddle
+[trainer.py:794] [Success] Convert Class Method: torch.Tensor.masked_select to Paddle
+[trainer.py:795] [Success] Convert Class Method: torch.Tensor.sum to Paddle
+[trainer.py:795] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[trainer.py:798] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[trainer.py:798] [Success] Convert Class Method: torch.Tensor.masked_select to Paddle
+[trainer.py:814] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[trainer.py:827] [Success] Convert torch.cuda.amp.autocast to Paddle
+[trainer.py:834] [Success] Convert Class Method: torch.Tensor.transpose to Paddle
+[trainer.py:847] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[trainer.py:848] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[trainer.py:858] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[trainer.py:859] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[trainer.py:860] [Success] Convert Class Method: torch.Tensor.sum to Paddle
+[trainer.py:860] [Success] Convert Class Method: torch.Tensor.item to Paddle
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/trainer.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/trainer.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/slurm.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/slurm.py
+[slurm.py:2] remove 'import os' 
+[slurm.py:4] remove 'import torch' 
+[slurm.py] add 'import paddle' in line 1
+[slurm.py] add 'import os' in line 2
+[slurm.py:156] [Success] Convert Class Attribute: torch.Tensor.cpu to Paddle, just remain the same
+[slurm.py:157] [Success] Convert torch.cuda.set_device to Paddle
+[slurm.py:170] [Success] Convert torch.distributed.init_process_group to Paddle
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/slurm.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/slurm.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/logger.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/logger.py
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/logger.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/logger.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/MCTS/mcts.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/MCTS/mcts.py
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/MCTS/mcts.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/MCTS/mcts.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/utils.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/utils.py
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/utils.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/utils.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/ga.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/ga.py
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/ga.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/ga.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/__init__.py
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/__init__.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/population.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/population.py
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/population.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/population.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/operators.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/operators.py
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/operators.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/operators.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/encoders.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/encoders.py
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/encoders.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/encoders.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/utils.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/utils.py
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/utils.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/utils.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/environment.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/environment.py
+[environment.py:3] remove 'import os' 
+[environment.py:21] remove 'import torch' 
+[environment.py:22] remove 'import torch.nn.functional as F' 
+[environment.py:23] remove 'from torch.utils.data.dataset import Dataset' 
+[environment.py:24] remove 'from torch.utils.data import DataLoader' 
+[environment.py] add 'import paddle' in line 1
+[environment.py] add 'import os' in line 2
+[environment.py:126] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[environment.py:1] [Success] Convert torch.long to Paddle
+[environment.py:126] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[environment.py:126] [Success] Convert torch.arange to Paddle
+[environment.py:126] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
+[environment.py:128] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[environment.py:126] [Success] Convert Class Method: torch.Tensor.repeat to Paddle
+[environment.py:133] [Success] Convert torch.where to Paddle
+[environment.py:132] [Success] Convert torch.where to Paddle
+[environment.py:132] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[environment.py:135] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[environment.py:130] [Success] Convert torch.tensor to Paddle
+[environment.py:149] [Success] Convert torch.LongTensor to Paddle
+[environment.py:150] [Success] Convert Class Method: torch.Tensor.max to Paddle
+[environment.py:150] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[environment.py:150] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[environment.py:150] [Success] Convert torch.LongTensor to Paddle
+[environment.py:150] [Success] Convert Class Method: torch.Tensor.fill_ to Paddle
+[environment.py:155] [Success] Convert Class Method: torch.Tensor.copy_ to Paddle
+[environment.py:159] [Success] Convert Class Method: torch.Tensor.max to Paddle
+[environment.py:159] [Success] Convert Class Method: torch.Tensor.item to Paddle
+[environment.py:159] [Success] Convert Class Method: torch.Tensor.size to Paddle
+[environment.py:159] [Success] Convert torch.LongTensor to Paddle
+[environment.py:159] [Success] Convert Class Method: torch.Tensor.fill_ to Paddle
+[environment.py:164] [Success] Convert Class Method: torch.Tensor.copy_ to Paddle
+[environment.py:173] [Success] Convert torch.LongTensor to Paddle
+[environment.py:182] [Success] Convert torch.LongTensor to Paddle
+[environment.py:189] [Success] Convert torch.LongTensor to Paddle
+[environment.py:397] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[environment.py:399] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[environment.py:401] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[environment.py:594] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[environment.py:672] [Success] Convert torch.utils.data.DataLoader to Paddle
+[environment.py:716] [Success] Convert torch.utils.data.DataLoader to Paddle
+[environment.py:1] [Success] Convert torch.utils.data.Dataset to Paddle
+[environment.py:1105] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[environment.py:1201] [Success] Convert torch.LongTensor to Paddle
+[environment.py:1250] [Success] Convert torch.utils.data.get_worker_info to Paddle
+[environment.py:1352] [Success] Convert Class Method: torch.Tensor.item to Paddle
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/environment.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/environment.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/simplifiers.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/simplifiers.py
+[simplifiers.py:10] remove 'import torch' 
+[simplifiers.py] add 'import paddle' in line 1
+[simplifiers.py:1] [Success] Convert torch.float32 to Paddle
+[simplifiers.py:1] [Success] Convert torch.float32 to Paddle
+[simplifiers.py:121] [Success] Convert Class Method: torch.Tensor.to to Paddle
+[simplifiers.py:125] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[simplifiers.py:128] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[simplifiers.py:137] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[simplifiers.py:141] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[simplifiers.py:180] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[simplifiers.py:184] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[simplifiers.py:185] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[simplifiers.py:191] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[simplifiers.py:192] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[simplifiers.py:197] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[simplifiers.py:210] [Success] Convert Class Method: torch.Tensor.round to Paddle
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/simplifiers.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/simplifiers.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/__init__.py
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/__init__.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/operators.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/operators.py
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/operators.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/operators.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/node.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/node.py
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/node.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/node.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/generators.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/generators.py
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/generators.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/generators.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/optim.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/optim.py
+[optim.py:5] remove 'import torch' 
+[optim.py:6] remove 'from torch import optim' 
+[optim.py:7] remove 'from torch.optim import AdamW' 
+[optim.py] add 'import paddle' in line 1
+[optim.py:1] [Success] Convert torch.optim.Optimizer to Paddle
+[optim.py:33] [Success] Convert Class Attribute: torch.Tensor.data to Paddle, just remain the same
+[optim.py:33] [Success] Convert torch.zeros_like to Paddle
+[optim.py:34] [Success] Convert Class Attribute: torch.Tensor.data to Paddle, just remain the same
+[optim.py:34] [Success] Convert torch.zeros_like to Paddle
+[optim.py:49] [Success] Convert Class Attribute: torch.Tensor.grad to Paddle, just remain the same
+[optim.py:52] [Success] Convert Class Attribute: torch.Tensor.is_sparse to Paddle
+[optim.py:68] [Success] Convert Class Method: torch.Tensor.mul_ to Paddle
+[optim.py:68] [Success] Convert Class Method: torch.Tensor.add_ to Paddle
+[optim.py:69] [Success] Convert Class Method: torch.Tensor.mul_ to Paddle
+[optim.py:70] [Success] Convert Class Method: torch.Tensor.sqrt to Paddle
+[optim.py:70] [Success] Convert Class Method: torch.Tensor.add_ to Paddle
+[optim.py:78] [Success] Convert Class Attribute: torch.Tensor.data to Paddle, just remain the same
+[optim.py:78] [Success] Convert Class Attribute: torch.Tensor.data to Paddle, just remain the same
+[optim.py:80] [Success] Convert Class Attribute: torch.Tensor.data to Paddle, just remain the same
+[optim.py:1] [Success] Convert torch.optim.Adadelta to Paddle
+[optim.py:1] [Success] Convert torch.optim.Adagrad to Paddle
+[optim.py:1] [Success] Convert torch.optim.Adamax to Paddle
+[optim.py:1] [Success] Convert torch.optim.ASGD to Paddle
+[optim.py:1] [Success] Convert torch.optim.RMSprop to Paddle
+[optim.py:1] [Success] Convert torch.optim.Rprop to Paddle
+[optim.py:1] [Success] Convert torch.optim.SGD to Paddle
+Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/optim.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/optim.py
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/symbolicregression/CLAUDE.md --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/CLAUDE.md
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/PhysicsRegression.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/PhysicsRegression.py
+[PhysicsRegression.py:4] remove 'import torch' 
+[PhysicsRegression.py:5] remove 'import os' 
+[PhysicsRegression.py] add 'import paddle' in line 1
+[PhysicsRegression.py] add 'import os' in line 2
+[PhysicsRegression.py:37] [Success] Convert torch.load to Paddle
+[PhysicsRegression.py:51] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[PhysicsRegression.py:66] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[PhysicsRegression.py:67] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[PhysicsRegression.py:68] [Success] Convert Class Method: torch.nn.Module.load_state_dict to Paddle
+[PhysicsRegression.py:70] [Success] Convert Class Method: torch.nn.Module.eval to Paddle
+[PhysicsRegression.py:71] [Success] Convert Class Method: torch.nn.Module.eval to Paddle
+[PhysicsRegression.py:72] [Success] Convert Class Method: torch.nn.Module.eval to Paddle
+[PhysicsRegression.py:98] [Success] Convert Class Method: torch.nn.Module.state_dict to Paddle
+[PhysicsRegression.py:99] [Success] Convert Class Method: torch.nn.Module.state_dict to Paddle
+[PhysicsRegression.py:100] [Success] Convert Class Method: torch.nn.Module.state_dict to Paddle
+[PhysicsRegression.py:103] [Success] Convert torch.save to Paddle
+[PhysicsRegression.py:131] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[PhysicsRegression.py:132] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[PhysicsRegression.py:148] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:152] [Success] Convert Class Attribute: torch.Tensor.T to Paddle, just remain the same
+[PhysicsRegression.py:153] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[PhysicsRegression.py:153] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[PhysicsRegression.py:265] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
+[PhysicsRegression.py:279] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:279] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:284] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:284] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:284] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:284] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:298] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:303] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:428] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:430] [Success] Convert Class Attribute: torch.Tensor.T to Paddle, just remain the same
+[PhysicsRegression.py:450] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:552] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:597] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:597] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:644] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:651] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:653] [Success] Convert Class Attribute: torch.Tensor.T to Paddle, just remain the same
+[PhysicsRegression.py:689] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:733] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:733] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:775] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:782] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
+[PhysicsRegression.py:784] [Success] Convert Class Attribute: torch.Tensor.T to Paddle, just remain the same
+Finish convert /home/lkyu/baidu/PhysicsRegression/PhysicsRegression.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/PhysicsRegression.py
+
+Start convert file: /home/lkyu/baidu/PhysicsRegression/evaluate.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/evaluate.py
+[evaluate.py:4] remove 'import os' 
+[evaluate.py] add 'import os' in line 1
+Finish convert /home/lkyu/baidu/PhysicsRegression/evaluate.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/evaluate.py
+
+No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/eval_result/base_testing_oraclemcts_trial0.csv --> /home/lkyu/baidu/PhysicsRegressionPaddle/eval_result/base_testing_oraclemcts_trial0.csv
+
+
+===========================================
+Convert Summary
+===========================================
+There are 933 Pytorch APIs in this Project:
+ 933  Pytorch APIs have been converted to Paddle successfully!
+ 0  Pytorch APIs are not supported to convert to Paddle currently!
+ Convert Rate is: 100.00%
+
+Thank you to use Paddle Code Convert Tool. You can make any suggestions 
+to us by submitting issues to [https://github.com/PaddlePaddle/PaConvert].
+
