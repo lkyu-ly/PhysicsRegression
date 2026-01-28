@@ -784,6 +784,484 @@ sys.path.append("/home/lkyu/baidu/PhysicsRegressionPaddle")
 
 **解决方案**: 使用相对路径或环境变量
 
+### 问题 5: 优化器基类初始化签名不兼容 ⚠️
+
+**描述**: PaConvert **无法自动处理** PyTorch 和 PaddlePaddle 优化器基类的构造函数签名差异
+
+**影响文件**: `symbolicregression/optim.py`
+
+**问题根源**:
+
+| 框架 | 优化器基类签名 |
+|------|--------------|
+| **PyTorch** | `__init__(self, params, defaults)` |
+| **PaddlePaddle** | `__init__(self, learning_rate, parameters, weight_decay, ...)` |
+
+**错误代码示例**:
+```python
+# ❌ 错误: PaConvert自动转换后的代码
+class Adam(paddle.optimizer.Optimizer):
+    def __init__(self, params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0):
+        defaults = dict(lr=lr, betas=betas, eps=eps, weight_decay=weight_decay)
+        super().__init__(params, defaults)  # ← 错误: params 被传给了 learning_rate
+```
+
+**错误信息**:
+```
+TypeError: `parameters` argument should not get dict type, if parameter groups is needed,
+please set `parameters` as list of dict
+```
+
+**手动修复** (已完成):
+```python
+# ✅ 正确: 使用命名参数调用父类
+class Adam(paddle.optimizer.Optimizer):
+    def __init__(self, params, lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0):
+        # 参数验证...
+
+        super().__init__(
+            learning_rate=lr,      # 明确指定学习率
+            parameters=params,     # 明确指定参数列表
+            weight_decay=weight_decay if weight_decay != 0 else None
+        )
+
+        # 状态初始化...
+```
+
+**修复位置**:
+- `Adam` (第25行)
+- `AdamWithWarmup` (第94-101行)
+- `AdamInverseSqrtWithWarmup` (第149-156行)
+- `AdamCosineWithWarmup` (第211-218行)
+
+**为什么 PaConvert 无法自动处理**:
+1. 参数位置完全不同 (第1个参数: `params` vs `learning_rate`)
+2. 参数名称不同 (`params` vs `parameters`)
+3. PaddlePaddle 不使用 `defaults` 字典模式
+4. 需要根据语义重新映射，超出工具能力
+
+**最佳实践**:
+- 迁移后务必测试优化器初始化
+- 保持 PyTorch 版本不变（标准实现）
+- 在 PaddlePaddle 版本中手动修复
+
+---
+
+### 问题 6: tensor.cuda(device=) 参数不兼容 ⚠️
+
+**描述**: PaddlePaddle 的 `tensor.cuda()` 不接受 `device` 参数，这是与PyTorch的关键差异
+
+**影响文件**:
+- `symbolicregression/utils.py` (to_cuda 函数，第140-152行)
+
+**错误信息**:
+```
+TypeError: monkey_patch_tensor.<locals>.cuda() got an unexpected keyword argument 'device'
+```
+
+**根本原因**:
+
+| API类型 | PyTorch | PaddlePaddle |
+|---------|---------|--------------|
+| **Tensor.cuda()** | `tensor.cuda(device=0)` ✅ 接受device参数 | `tensor.cuda()` ❌ 不接受任何参数 |
+| **Module.cuda()** | `module.cuda(device=0)` ✅ 接受device参数 | `module.cuda(device=device_id)` ✅ 接受device参数 |
+
+**关键发现**:
+- Module和Tensor的cuda()方法行为不同
+- PaddlePaddle的Tensor.cuda()完全不接受参数
+- 官方文档说明不准确（文档说有device_id参数，实际不存在）
+
+**手动修复** (已完成):
+
+```python
+# ❌ 修复前 (PyTorch风格)
+def to_cuda(*args, use_cpu=False, device=None):
+    if not CUDA or use_cpu:
+        return args
+    if device is None:
+        device = 0
+    return [(None if x is None else x.cuda(device=device)) for x in args]
+    #                                       ^^^^^^^^^^^^^ 错误！
+
+# ✅ 修复后 (方案B: 全局设备 + 无参数.cuda())
+def to_cuda(*args, use_cpu=False, device=None):
+    """
+    Move tensors to CUDA (PaddlePaddle version).
+
+    Note: PaddlePaddle's Tensor.cuda() does not accept any parameters.
+    We set global device first, then call parameter-less .cuda()
+    """
+    if not CUDA or use_cpu:
+        return args
+
+    # 设置全局默认设备 (如果指定了device)
+    if device is not None:
+        import paddle
+        from paddle_utils import device2int
+
+        if isinstance(device, str):
+            device = device2int(device)
+
+        # 设置全局默认GPU设备
+        paddle.device.set_device(f'gpu:{device}')
+
+    # 调用无参数的 .cuda() 方法
+    return [
+        (None if x is None else x.cuda())
+        for x in args
+    ]
+```
+
+**修复策略选择**:
+- 方案A: 使用`paddle.to_device() + CUDAPlace()`
+- **方案B**: 使用`paddle.device.set_device() + 无参数.cuda()` ← 已采用
+- 方案C: 检查张量设备 + 条件移动
+
+选择方案B的原因：
+1. 与源代码最相似
+2. 实现简单，易于维护
+3. 与Module.cuda()的使用方式一致
+4. 适用于单GPU场景（项目主要场景）
+
+**为什么 PaConvert 无法自动处理**:
+1. 需要区分Module.cuda()和Tensor.cuda()的不同行为
+2. 需要插入全局设备设置逻辑
+3. 需要理解device参数的语义转换
+4. 超出简单API映射范围
+
+**调用位置** (无需修改):
+- `symbolicregression/model/embedders.py:101-106`
+- `symbolicregression/trainer.py:666, 669`
+
+这些调用位置无需修改，因为to_cuda的接口保持不变。
+
+**最佳实践**:
+- 对于Module: 可以使用`.cuda(device=device_id)`
+- 对于Tensor: 必须先`set_device()`再调用无参数`.cuda()`
+- 建议统一使用`paddle.to_device(tensor, place)`显式指定设备
+
+---
+
+### 问题 7: tensor.new() 方法不存在 ⚠️
+
+**描述**: PaddlePaddle 的 Tensor 没有 `.new()` 方法，这是PyTorch独有的便捷创建张量的方法
+
+**影响文件**:
+- `symbolicregression/model/transformer.py` (15处调用)
+
+**错误信息**:
+```
+AttributeError: 'Tensor' object has no attribute 'new'. Did you mean: 'ne'?
+```
+
+**根本原因**:
+
+| 功能 | PyTorch | PaddlePaddle |
+|------|---------|--------------|
+| **创建同设备张量** | `tensor.new(size)` | 不存在此方法 |
+| **创建同类型张量** | `tensor.new([1,2,3])` | 不存在此方法 |
+| **便捷方法** | `tensor.new(5).long()` | 需要显式使用paddle API |
+
+**手动修复** (已完成):
+
+修复了transformer.py中所有15处`.new()`调用：
+
+```python
+# ❌ 修复前 (PyTorch风格)
+positions = x.new(slen).long()
+positions = paddle.arange(slen, out=positions).unsqueeze(0)
+
+# ✅ 修复后 (PaddlePaddle风格)
+positions = paddle.arange(slen, dtype='int64').unsqueeze(0)
+```
+
+**修复模式总结**:
+
+| PyTorch模式 | PaddlePaddle替代 | 说明 |
+|-------------|-----------------|------|
+| `x.new(size).fill_(val)` | `paddle.full([size], val, dtype=x.dtype)` | 创建填充张量 |
+| `x.new(size).long()` | `paddle.arange(size, dtype='int64')` | 创建整数序列 |
+| `x.new([list])` | `paddle.to_tensor([list], dtype=x.dtype)` | 从列表创建 |
+| `x.new(size).float().fill_(0)` | `paddle.zeros([size], dtype='float32')` | 创建零张量 |
+
+**详细修复位置** (共15处):
+
+1. **第399行** - `fwd()`方法中的位置张量:
+```python
+# 修复前:
+positions = x.new(slen).long()
+positions = paddle.arange(slen, out=positions).unsqueeze(0)
+
+# 修复后:
+positions = paddle.arange(slen, dtype='int64').unsqueeze(0)
+```
+
+2. **第516-520行** - `generate()`方法中的生成张量:
+```python
+# 修复前:
+generated = src_len.new(max_len, bs)
+generated.fill_(self.pad_index)
+positions = src_len.new(max_len).long()
+
+# 修复后:
+generated = paddle.full([max_len, bs], self.pad_index, dtype=src_len.dtype)
+generated[0].fill_(self.eos_index)
+positions = paddle.arange(max_len, dtype='int64').unsqueeze(1).expand([max_len, bs])
+```
+
+3. **第578-584行** - `generate_double_seq()`方法:
+```python
+# 修复前:
+generated1 = src_len.new(max_len, bs)
+generated2 = src_len.new(max_len, bs, 5)
+
+# 修复后:
+generated1 = paddle.full([max_len, bs], self.pad_index, dtype=src_len.dtype)
+generated2 = paddle.full([max_len, bs, 5], self.pad_index, dtype=src_len.dtype)
+```
+
+4. **第758-769行** - `generate_beam()`方法的束搜索初始化:
+```python
+# 修复前:
+generated = src_len.new(max_len, bs * beam_size)
+beam_scores = src_enc.new(bs, beam_size).float().fill_(0)
+
+# 修复后:
+generated = paddle.full([max_len, bs * beam_size], self.pad_index, dtype=src_len.dtype)
+beam_scores = paddle.full([bs, beam_size], 0.0, dtype='float32')
+beam_scores[:, 1:] = -1000000000.0
+```
+
+5. **第778行** - 束搜索循环中的长度张量:
+```python
+# 修复前:
+lengths=src_len.new(bs * beam_size).fill_(cur_len)
+
+# 修复后:
+lengths=paddle.full([bs * beam_size], cur_len, dtype=src_len.dtype)
+```
+
+6. **第830-833行** - 从列表创建束搜索跟踪张量:
+```python
+# 修复前:
+beam_scores = beam_scores.new([x[0] for x in next_batch_beam])
+beam_words = generated.new([x[1] for x in next_batch_beam])
+beam_idx = src_len.new([x[2] for x in next_batch_beam])
+
+# 修复后:
+beam_scores = paddle.to_tensor([x[0] for x in next_batch_beam], dtype='float32')
+beam_words = paddle.to_tensor([x[1] for x in next_batch_beam], dtype=generated.dtype)
+beam_idx = paddle.to_tensor([x[2] for x in next_batch_beam], dtype=src_len.dtype)
+```
+
+7. **第845-853行** - 最终解码结果:
+```python
+# 修复前:
+tgt_len = src_len.new(bs)
+decoded = src_len.new(tgt_len._max().item(), bs).fill_(self.pad_index)
+
+# 修复后:
+tgt_len = paddle.zeros([bs], dtype=src_len.dtype)
+# ... 填充tgt_len ...
+decoded = paddle.full([int(tgt_len._max().item()), bs], self.pad_index, dtype=src_len.dtype)
+```
+
+**为什么 PaConvert 无法自动处理**:
+1. `.new()`是PyTorch的便捷方法，没有直接对应的PaddlePaddle API
+2. 需要根据使用场景选择不同的替代方法（full/zeros/arange/to_tensor）
+3. 需要保持dtype一致性，要从原张量推断类型
+4. 涉及复杂的方法链（如`.new().long().fill_()`）需要语义理解
+5. 超出简单API映射的能力范围
+
+**最佳实践**:
+- 使用`paddle.full()`创建填充张量
+- 使用`paddle.zeros()`/`paddle.ones()`创建零/一张量
+- 使用`paddle.arange()`创建序列
+- 使用`paddle.to_tensor()`从Python列表创建
+- 始终显式指定`dtype`确保类型一致
+
+**验证结果**: ✅ 训练成功运行120+步，所有.new()调用已正确替换
+
+---
+
+### 问题 8: model.parameters() 返回类型差异 ⚠️
+
+**描述**: PaddlePaddle 的 `model.parameters()` 返回 list 而非 generator，以及相关的类型提升问题
+
+**影响文件**:
+- `symbolicregression/model/model_wrapper.py` (第40行)
+- `symbolicregression/model/__init__.py` (第66行)
+- `Oracle/oracle.py` (第179行)
+- `symbolicregression/model/transformer.py` (多处类型提升)
+
+**错误信息**:
+```
+TypeError: 'list' object is not an iterator
+```
+
+**根本原因**:
+
+| API类型 | PyTorch | PaddlePaddle |
+|---------|---------|--------------|
+| **model.parameters()** | 返回 **generator** | 返回 **list** |
+| **named_parameters()** | 返回 **generator** | 返回 **list** |
+| **next(model.parameters())** | ✅ 可行 | ❌ TypeError |
+| **iter(model.parameters())** | ✅ 返回generator本身 | ✅ 创建list_iterator |
+
+#### 子问题 8.1: parameters() 迭代器问题
+
+**错误位置**: `model_wrapper.py:40`
+
+**手动修复** (已完成):
+```python
+# ❌ 修复前
+class ModelWrapper:
+    def __init__(self, ...):
+        self.device = next(self.embedder.parameters()).device  # ← 错误！
+
+# ✅ 修复后
+class ModelWrapper:
+    def __init__(self, ...):
+        # PaddlePaddle: parameters() 返回list，需要用iter()包装
+        self.device = next(iter(self.embedder.parameters())).device
+```
+
+**为什么这样修复**:
+- `iter(list)` 创建 list_iterator，开销极小
+- 在 PyTorch 中，`iter(generator)` 返回 generator 本身，无额外开销
+- 代码兼容两个框架
+
+#### 子问题 8.2: 参数统计方法差异
+
+**错误位置**: `model/__init__.py:66`
+
+**手动修复** (已完成):
+```python
+# ❌ 修复前
+f"Number of parameters ({k}): {sum([p.size for p in v.parameters() if p.requires_grad])}"
+
+# ✅ 修复后
+f"Number of parameters ({k}): {sum([p.numel() for p in v.parameters() if p.requires_grad])}"
+```
+
+**说明**: `.numel()` (number of elements) 在两个框架中都存在且语义一致
+
+#### 子问题 8.3: 优化器参数传递
+
+**错误位置**: `Oracle/oracle.py:179`
+
+**手动修复** (已完成):
+```python
+# ❌ 修复前
+optimizer = paddle.optimizer.Adam(
+    parameters=model.parameters(), ...
+)
+
+# ✅ 修复后
+optimizer = paddle.optimizer.Adam(
+    parameters=list(model.parameters()), ...
+)
+```
+
+#### 子问题 8.4: 类型提升问题 - float × int
+
+**根本原因**: PaddlePaddle 不允许 float32 和 int64 之间的隐式类型提升
+
+**错误信息**:
+```
+TypeError: (InvalidType) Type promotion only support calculations between floating-point numbers
+and between complex and real numbers. But got different data type x: float32, y: int64.
+```
+
+**影响位置**:
+- `transformer.py:561, 705, 708` - `paddle.log(perplexity) * unfinished_sents`
+
+**手动修复** (已完成):
+```python
+# ❌ 修复前
+word_perplexity.add_(
+    paddle.log(next_words_perplexity.detach()) * unfinished_sents  # int64
+)
+
+# ✅ 修复后
+word_perplexity.add_(
+    # PaddlePaddle: 显式类型转换 float32 * int64 -> float32
+    paddle.log(next_words_perplexity.detach()) * unfinished_sents.astype('float32')
+)
+```
+
+#### 子问题 8.5: .ne() 方法参数类型
+
+**根本原因**: PaddlePaddle 的 `.ne()` 方法要求参数必须是 Tensor
+
+**错误信息**:
+```
+ValueError: not_equal(): argument 'y' (position 1) must be Tensor, but got int
+```
+
+**影响位置**:
+- `transformer.py:565, 714` - `next_words.ne(self.eos_index)`
+
+**手动修复** (已完成):
+```python
+# ❌ 修复前
+unfinished_sents.mul_(next_words.ne(self.eos_index).long())
+
+# ✅ 修复后
+# PaddlePaddle: .ne() 需要tensor参数，改用 != 运算符
+unfinished_sents.mul_((next_words != self.eos_index).astype('int64'))
+```
+
+**为什么使用 `!=`**:
+- `!=` 运算符在 PaddlePaddle 中可以处理标量
+- 更简洁，避免创建不必要的 tensor
+
+#### 子问题 8.6: 除法类型提升
+
+**影响位置**:
+- `transformer.py:575, 726, 727` - `word_perplexity / rows`
+
+**手动修复** (已完成):
+```python
+# ❌ 修复前
+rows, cols = paddle.nonzero(generated[1:] == self.eos_index, as_tuple=True)
+word_perplexity = paddle.exp(word_perplexity / rows)  # rows 是 int64
+
+# ✅ 修复后
+rows, cols = paddle.nonzero(generated[1:] == self.eos_index, as_tuple=True)
+# PaddlePaddle: 显式转换 int64 -> float32
+word_perplexity = paddle.exp(word_perplexity / rows.astype('float32'))
+```
+
+**修复总结**:
+
+| 文件 | 修复点 | 类型 | 数量 |
+|------|--------|------|------|
+| `model_wrapper.py` | parameters() 迭代 | 迭代器 | 1 |
+| `model/__init__.py` | 参数统计方法 | API差异 | 1 |
+| `Oracle/oracle.py` | 优化器参数 | 显式list | 1 |
+| `transformer.py` | float × int 乘法 | 类型转换 | 3 |
+| `transformer.py` | .ne() 方法调用 | API差异 | 2 |
+| `transformer.py` | float / int 除法 | 类型转换 | 3 |
+| **总计** | | | **11处** |
+
+**为什么 PaConvert 无法自动处理**:
+1. 需要识别 `next(model.parameters())` 模式并自动插入 `iter()`
+2. 需要理解返回值类型差异（generator vs list）
+3. 需要检测所有潜在的类型提升位置
+4. 需要理解方法调用语义（`.ne()` 参数要求）
+5. 超出简单API映射的能力范围
+
+**最佳实践**:
+- 使用 `next(iter(model.parameters()))` 兼容两个框架
+- 参数统计使用 `.numel()` 标准方法
+- 优化器初始化显式使用 `list(model.parameters())`
+- **关键**: PaddlePaddle 中所有 float 和 int 的混合运算都需要显式类型转换
+- 使用 `!=` 运算符代替 `.ne()` 方法更简洁
+- 除法运算前确保两边类型一致
+
+**验证结果**: ✅ 完整训练-验证循环成功运行（500步训练 + 5样本验证）
+
 ---
 
 ## 参考资源

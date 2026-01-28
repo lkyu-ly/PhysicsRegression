@@ -21,14 +21,29 @@ class Adam(paddle.optimizer.Optimizer):
             raise ValueError("Invalid beta parameter at index 0: {}".format(betas[0]))
         if not 0.0 <= betas[1] < 1.0:
             raise ValueError("Invalid beta parameter at index 1: {}".format(betas[1]))
-        defaults = dict(lr=lr, betas=betas, eps=eps, weight_decay=weight_decay)
-        super().__init__(params, defaults)
-        for group in self.param_groups:
-            for p in group["params"]:
-                state = self.state[p]
-                state["step"] = 0
-                state["exp_avg"] = paddle.zeros_like(p.data)
-                state["exp_avg_sq"] = paddle.zeros_like(p.data)
+
+        # 保存原始参数列表和超参数 (PaddlePaddle不使用param_groups字典结构)
+        self._params_list = list(params)
+        self.betas = betas
+        self.eps = eps
+
+        # 使用命名参数调用 PaddlePaddle 父类
+        super().__init__(
+            learning_rate=lr,
+            parameters=self._params_list,
+            weight_decay=weight_decay if weight_decay != 0 else None
+        )
+
+        # PaddlePaddle不会自动初始化state,需要手动创建
+        self.state = {}
+
+        # 使用保存的参数列表初始化状态
+        for p in self._params_list:
+            self.state[p] = {
+                "step": 0,
+                "exp_avg": paddle.zeros_like(p),
+                "exp_avg_sq": paddle.zeros_like(p)
+            }
 
     def __setstate__(self, state):
         super().__setstate__(state)
@@ -40,28 +55,47 @@ class Adam(paddle.optimizer.Optimizer):
         loss = None
         if closure is not None:
             loss = closure()
-        for group in self.param_groups:
-            for p in group["params"]:
+
+        # 获取当前学习率
+        lr = self.get_lr()
+
+        # PaddlePaddle要求优化器更新在no_grad上下文中执行
+        with paddle.no_grad():
+            # 直接遍历参数列表
+            for p in self._params_list:
                 if p.grad is None:
                     continue
-                grad = p.grad.data
+                grad = p.grad
                 if grad.is_sparse():
                     raise RuntimeError(
                         "Adam does not support sparse gradients, please consider SparseAdam instead"
                     )
+
                 state = self.state[p]
-                exp_avg, exp_avg_sq = state["exp_avg"], state["exp_avg_sq"]
-                beta1, beta2 = group["betas"]
+                exp_avg = state["exp_avg"]
+                exp_avg_sq = state["exp_avg_sq"]
+                beta1, beta2 = self.betas  # 使用实例变量
+
                 state["step"] += 1
-                exp_avg.mul_(beta1).add_(1 - beta1, grad)
-                exp_avg_sq.mul_(beta2).addcmul_(1 - beta2, grad, grad)
-                denom = exp_avg_sq.sqrt().add_(group["eps"])
+
+                # 指数移动平均更新 (PaddlePaddle API)
+                exp_avg.scale_(beta1).add_(grad, alpha=1 - beta1)
+                exp_avg_sq.scale_(beta2).add_(grad.multiply(grad), alpha=1 - beta2)
+
+                denom = exp_avg_sq.sqrt() + self.eps  # PaddlePaddle不支持add_(scalar)
+
+                # 偏差修正
                 bias_correction1 = 1 - beta1 ** state["step"]
                 bias_correction2 = 1 - beta2 ** state["step"]
-                step_size = group["lr"] * math.sqrt(bias_correction2) / bias_correction1
-                if group["weight_decay"] != 0:
-                    p.data.add_(-group["weight_decay"] * group["lr"], p.data)
-                p.data.addcdiv_(-step_size, exp_avg, denom)
+                step_size = lr * math.sqrt(bias_correction2) / bias_correction1
+
+                # 权重衰减
+                if hasattr(self, '_weight_decay') and self._weight_decay is not None and self._weight_decay != 0:
+                    p.add_(p, alpha=-self._weight_decay * lr)
+
+                # 参数更新
+                p.add_(exp_avg.divide(denom), alpha=-step_size)
+
         return loss
 
 
@@ -87,15 +121,19 @@ class AdamWithWarmup(Adam):
         warmup_updates=10000,
         warmup_init_lr=1e-07,
     ):
+        # 调用父类 Adam 的 __init__，使用命名参数
         super().__init__(
-            params, lr=warmup_init_lr, betas=betas, eps=eps, weight_decay=weight_decay
+            params=params,
+            lr=warmup_init_lr,  # 使用初始学习率
+            betas=betas,
+            eps=eps,
+            weight_decay=weight_decay
         )
         self.warmup_updates = warmup_updates
         self.warmup_init_lr = warmup_init_lr
         self.warmup_end_lr = lr
         self.lr_step = (lr - warmup_init_lr) / warmup_updates
-        for param_group in self.param_groups:
-            param_group["num_updates"] = 0
+        self.num_updates = 0  # 使用单一更新计数器
 
     def get_lr_for_step(self, num_updates):
         if num_updates < self.warmup_updates:
@@ -105,9 +143,9 @@ class AdamWithWarmup(Adam):
 
     def step(self, closure=None):
         super().step(closure)
-        for param_group in self.param_groups:
-            param_group["num_updates"] += 1
-            param_group["lr"] = self.get_lr_for_step(param_group["num_updates"])
+        self.num_updates += 1
+        # 更新学习率
+        self._learning_rate = self.get_lr_for_step(self.num_updates)
 
 
 class AdamInverseSqrtWithWarmup(Adam):
@@ -137,8 +175,13 @@ class AdamInverseSqrtWithWarmup(Adam):
         warmup_init_lr=1e-07,
         exp_factor=0.5,
     ):
+        # 调用父类 Adam 的 __init__，使用命名参数
         super().__init__(
-            params, lr=warmup_init_lr, betas=betas, eps=eps, weight_decay=weight_decay
+            params=params,
+            lr=warmup_init_lr,
+            betas=betas,
+            eps=eps,
+            weight_decay=weight_decay
         )
         self.warmup_updates = warmup_updates
         self.warmup_init_lr = warmup_init_lr
@@ -146,8 +189,7 @@ class AdamInverseSqrtWithWarmup(Adam):
         self.lr_step = (warmup_end_lr - warmup_init_lr) / warmup_updates
         self.exp_factor = exp_factor
         self.decay_factor = warmup_end_lr * warmup_updates**self.exp_factor
-        for param_group in self.param_groups:
-            param_group["num_updates"] = 0
+        self.num_updates = 0  # 使用单一更新计数器
 
     def get_lr_for_step(self, num_updates):
         if num_updates < self.warmup_updates:
@@ -157,9 +199,9 @@ class AdamInverseSqrtWithWarmup(Adam):
 
     def step(self, closure=None):
         super().step(closure)
-        for param_group in self.param_groups:
-            param_group["num_updates"] += 1
-            param_group["lr"] = self.get_lr_for_step(param_group["num_updates"])
+        self.num_updates += 1
+        # 更新学习率
+        self._learning_rate = self.get_lr_for_step(self.num_updates)
 
 
 class AdamCosineWithWarmup(Adam):
@@ -194,8 +236,13 @@ class AdamCosineWithWarmup(Adam):
         lr_shrink=0.75,
         smooth=False,
     ):
+        # 调用父类 Adam 的 __init__，使用命名参数
         super().__init__(
-            params, lr=warmup_init_lr, betas=betas, eps=eps, weight_decay=weight_decay
+            params=params,
+            lr=warmup_init_lr,
+            betas=betas,
+            eps=eps,
+            weight_decay=weight_decay
         )
         self.warmup_updates = warmup_updates
         self.warmup_init_lr = warmup_init_lr
@@ -208,8 +255,7 @@ class AdamCosineWithWarmup(Adam):
         self.period_mult = period_mult
         self.lr_shrink = lr_shrink
         assert not self.smooth or self.period_mult == 1
-        for param_group in self.param_groups:
-            param_group["num_updates"] = 0
+        self.num_updates = 0  # 使用单一更新计数器
 
     def get_lr_for_step(self, num_updates):
         if num_updates < self.warmup_updates:
@@ -250,9 +296,9 @@ class AdamCosineWithWarmup(Adam):
 
     def step(self, closure=None):
         super().step(closure)
-        for param_group in self.param_groups:
-            param_group["num_updates"] += 1
-            param_group["lr"] = self.get_lr_for_step(param_group["num_updates"])
+        self.num_updates += 1
+        # 更新学习率
+        self._learning_rate = self.get_lr_for_step(self.num_updates)
 
 
 def get_optimizer(parameters, lr, s):

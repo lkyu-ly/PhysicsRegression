@@ -63,7 +63,8 @@ def build_modules(env, params):
         logger.debug(f"{v}: {v}")
     for k, v in modules.items():
         logger.info(
-            f"Number of parameters ({k}): {sum([p.size for p in v.parameters() if p.requires_grad])}"
+            # PaddlePaddle: 使用 .numel() 获取参数数量，兼容两个框架
+            f"Number of parameters ({k}): {sum([p.numel() for p in v.parameters() if p.requires_grad])}"
         )
     if not params.cpu:
         for v in modules.values():

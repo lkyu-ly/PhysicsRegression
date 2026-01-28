@@ -311,9 +311,7 @@ class Trainer(object):
         for k in self.stats.keys():
             if type(self.stats[k]) is list:
                 del self.stats[k][:]
-        s_lr = " - LR: " + " / ".join(
-            "{:.4e}".format(group["lr"]) for group in self.optimizer.param_groups
-        )
+        s_lr = " - LR: {:.4e}".format(self.optimizer.get_lr())
         new_time = time.time()
         diff = new_time - self.last_time
         s_speed = "{:7.2f} equations/s - {:8.2f} words/s - ".format(
@@ -436,12 +434,12 @@ class Trainer(object):
                 self.optimizer.load_state_dict(data["optimizer"])
             else:
                 logger.warning("Not reloading checkpoint optimizer.")
-                for group_id, param_group in enumerate(self.optimizer.param_groups):
+                for group_id, param_group in enumerate(self.optimizer._param_groups):
                     if "num_updates" not in param_group:
                         logger.warning("No 'num_updates' for optimizer.")
                         continue
                     logger.warning("Reloading 'num_updates' and 'lr' for optimizer.")
-                    param_group["num_updates"] = data["optimizer"]["param_groups"][
+                    param_group["num_updates"] = data["optimizer"]["_param_groups"][
                         group_id
                     ]["num_updates"]
                     param_group["lr"] = self.optimizer.get_lr_for_step(

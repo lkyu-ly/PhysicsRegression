@@ -10,7 +10,7 @@ python ./train.py \
         --save_periodic_from 40\
         --eval_size 5 \
         --batch_size_eval 1 \
-        --num_workers 12 \
+        --num_workers 0 \
         --max_len 200 \
         --max_number_bags -1 \
         --max_input_points 200 \

@@ -175,8 +175,9 @@ class Oracle:
         mses = []
         pbar = tqdm.tqdm(total=N_reg_lr * epochs) if tqdm_bar else None
         for i in range(N_reg_lr):
+            # PaddlePaddle: 显式使用list()确保参数格式正确
             optimizer = paddle.optimizer.Adam(
-                parameters=model.parameters(), learning_rate=lr, weight_decay=0.0
+                parameters=list(model.parameters()), learning_rate=lr, weight_decay=0.0
             )
             for epoch in range(1, epochs + 1):
                 model.train()

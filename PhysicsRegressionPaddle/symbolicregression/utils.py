@@ -13,6 +13,7 @@ import time
 from functools import partial, wraps
 
 from .logger import create_logger
+from paddle_utils import device2int
 
 FALSY_STRINGS = {"off", "false", "0"}
 TRUTHY_STRINGS = {"on", "true", "1"}
@@ -101,6 +102,42 @@ def get_dump_path(params):
         subprocess.Popen("mkdir -p %s" % params.dump_path, shell=True).wait()
 
 
+# def to_cuda(*args, use_cpu=False, device=None):
+#     """
+#     Move tensors to CUDA (PaddlePaddle version).
+
+#     Note: PaddlePaddle's Tensor.cuda() does not accept any parameters.
+#     We set global device first, then call parameter-less .cuda()
+
+#     Args:
+#         *args: Variable number of tensors to move
+#         use_cpu: If True, skip CUDA transfer
+#         device: Target device (int or str like 'cuda:0')
+
+#     Returns:
+#         Tuple of tensors on target device (None values preserved)
+#     """
+#     if not CUDA or use_cpu:
+#         return args
+
+#     # 设置全局默认设备 (如果指定了device)
+#     if device is not None:
+#         import paddle
+#         from paddle_utils import device2int
+
+#         if isinstance(device, str):
+#             device = device2int(device)
+
+#         # 设置全局默认GPU设备
+#         paddle.device.set_device(f'gpu:{device}')
+
+#     # 调用无参数的 .cuda() 方法
+#     return [
+#         (None if x is None else x.cuda())
+#         for x in args
+#     ]
+
+
 def to_cuda(*args, use_cpu=False, device=None):
     """
     Move tensors to CUDA.
@@ -109,7 +146,11 @@ def to_cuda(*args, use_cpu=False, device=None):
         return args
     if device is None:
         device = 0
-    return [(None if x is None else x.cuda(device=device)) for x in args]
+    # return [(None if x is None else x.cuda(device=device)) for x in args]
+    
+    return [
+        (None if x is None else x.cuda(device_id=device2int(device))) for x in args
+    ]
 
 
 class MyTimeoutError(BaseException):

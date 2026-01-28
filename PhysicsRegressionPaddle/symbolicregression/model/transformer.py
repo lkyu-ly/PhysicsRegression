@@ -396,8 +396,8 @@ class TransformerModel(paddle.nn.Module):
                 < src_len[:, None]
             )
         if positions is None:
-            positions = x.new(slen).long()
-            positions = paddle.arange(slen, out=positions).unsqueeze(0)
+            # PaddlePaddle: 直接使用 paddle.arange 创建位置张量
+            positions = paddle.arange(slen, dtype='int64').unsqueeze(0)
         else:
             assert positions.size() == (slen, bs)
             positions = positions.transpose(0, 1)
@@ -513,13 +513,11 @@ class TransformerModel(paddle.nn.Module):
         if decode_physical_units is None or decode_physical_units == "single-seq":
             bs = len(src_len)
             assert src_enc.size(0) == bs
-            generated = src_len.new(max_len, bs)
-            generated.fill_(self.pad_index)
+            # PaddlePaddle: 使用 paddle.full 创建填充张量
+            generated = paddle.full([max_len, bs], self.pad_index, dtype=src_len.dtype)
             generated[0].fill_(self.eos_index)
-            positions = src_len.new(max_len).long()
-            positions = (
-                paddle.arange(max_len, out=positions).unsqueeze(1).expand(max_len, bs)
-            )
+            # PaddlePaddle: 直接创建并扩展位置张量
+            positions = paddle.arange(max_len, dtype='int64').unsqueeze(1).expand([max_len, bs])
             cur_len = 1
             gen_len = src_len.clone().fill_(1)
             unfinished_sents = src_len.clone().fill_(1)
@@ -560,10 +558,12 @@ class TransformerModel(paddle.nn.Module):
                 ]
                 assert next_words_perplexity.size() == (bs,)
                 word_perplexity.add_(
-                    paddle.log(next_words_perplexity.detach()) * unfinished_sents
+                    # PaddlePaddle: 显式类型转换 float32 * int64 -> float32
+                    paddle.log(next_words_perplexity.detach()) * unfinished_sents.astype('float32')
                 )
                 gen_len.add_(unfinished_sents)
-                unfinished_sents.mul_(next_words.ne(self.eos_index).long())
+                # PaddlePaddle: .ne() 需要tensor参数，改用 != 运算符
+                unfinished_sents.mul_((next_words != self.eos_index).astype('int64'))
                 cur_len = cur_len + 1
                 if unfinished_sents._max() == 0:
                     break
@@ -572,21 +572,19 @@ class TransformerModel(paddle.nn.Module):
             assert (generated == self.eos_index).sum() == 2 * bs
             generated = generated.unsqueeze(-1).view(generated.shape[0], bs)
             rows, cols = paddle.nonzero(generated[1:] == self.eos_index, as_tuple=True)
-            word_perplexity = paddle.exp(word_perplexity / rows)
+            # PaddlePaddle: 显式转换 int64 -> float32
+            word_perplexity = paddle.exp(word_perplexity / rows.astype('float32'))
             return generated[:cur_len], gen_len, None, word_perplexity, None
         elif decode_physical_units == "double-seq":
             bs = len(src_len)
             assert src_enc.size(0) == bs
-            generated1 = src_len.new(max_len, bs)
-            generated1.fill_(self.pad_index)
+            # PaddlePaddle: 使用 paddle.full 创建填充张量
+            generated1 = paddle.full([max_len, bs], self.pad_index, dtype=src_len.dtype)
             generated1[0].fill_(self.eos_index)
-            generated2 = src_len.new(max_len, bs, 5)
-            generated2.fill_(self.pad_index)
+            generated2 = paddle.full([max_len, bs, 5], self.pad_index, dtype=src_len.dtype)
             generated2[0].fill_(self.eos_index)
-            positions = src_len.new(max_len).long()
-            positions = (
-                paddle.arange(max_len, out=positions).unsqueeze(1).expand(max_len, bs)
-            )
+            # PaddlePaddle: 直接创建并扩展位置张量
+            positions = paddle.arange(max_len, dtype='int64').unsqueeze(1).expand([max_len, bs])
             cur_len = 1
             gen_len = src_len.clone().fill_(1)
             unfinished_sents = src_len.clone().fill_(1)
@@ -707,13 +705,16 @@ class TransformerModel(paddle.nn.Module):
                     == (bs,)
                 )
                 word_perplexity.add_(
-                    paddle.log(next_words_perplexity.detach()) * unfinished_sents
+                    # PaddlePaddle: 显式类型转换 float32 * int64 -> float32
+                    paddle.log(next_words_perplexity.detach()) * unfinished_sents.astype('float32')
                 )
                 dimension_perplexity.add_(
-                    paddle.log(next_dimensions_perplexity.detach()) * unfinished_sents
+                    # PaddlePaddle: 显式类型转换 float32 * int64 -> float32
+                    paddle.log(next_dimensions_perplexity.detach()) * unfinished_sents.astype('float32')
                 )
                 gen_len.add_(unfinished_sents)
-                unfinished_sents.mul_(next_words.ne(self.eos_index).long())
+                # PaddlePaddle: .ne() 需要tensor参数，改用 != 运算符
+                unfinished_sents.mul_((next_words != self.eos_index).astype('int64'))
                 cur_len = cur_len + 1
                 if unfinished_sents._max() == 0:
                     break
@@ -722,8 +723,9 @@ class TransformerModel(paddle.nn.Module):
             assert (generated1 == self.eos_index).sum() == 2 * bs
             generated1 = generated1.unsqueeze(-1).view(generated1.shape[0], bs)
             rows, cols = paddle.nonzero(generated1[1:] == self.eos_index, as_tuple=True)
-            word_perplexity = paddle.exp(-word_perplexity / rows)
-            dimension_perplexity = paddle.exp(-dimension_perplexity / rows / 5)
+            # PaddlePaddle: 显式转换 int64 -> float32
+            word_perplexity = paddle.exp(-word_perplexity / rows.astype('float32'))
+            dimension_perplexity = paddle.exp(-dimension_perplexity / rows.astype('float32') / 5)
             return (
                 generated1[:cur_len],
                 gen_len,
@@ -760,18 +762,17 @@ class TransformerModel(paddle.nn.Module):
             .view((bs * beam_size,) + src_enc.shape[1:])
         )
         src_len = src_len.unsqueeze(1).expand(bs, beam_size).contiguous().view(-1)
-        generated = src_len.new(max_len, bs * beam_size)
-        generated.fill_(self.pad_index)
+        # PaddlePaddle: 使用 paddle.full 创建填充张量
+        generated = paddle.full([max_len, bs * beam_size], self.pad_index, dtype=src_len.dtype)
         generated[0].fill_(self.eos_index)
         generated_hyps = [
             BeamHypotheses(beam_size, max_len, length_penalty, early_stopping)
             for _ in range(bs)
         ]
-        positions = src_len.new(max_len).long()
-        positions = (
-            paddle.arange(max_len, out=positions).unsqueeze(1).expand_as(generated)
-        )
-        beam_scores = src_enc.new(bs, beam_size).float().fill_(0)
+        # PaddlePaddle: 直接创建并扩展位置张量
+        positions = paddle.arange(max_len, dtype='int64').unsqueeze(1).expand_as(generated)
+        # PaddlePaddle: 使用 paddle.full 创建 beam_scores
+        beam_scores = paddle.full([bs, beam_size], 0.0, dtype='float32')
         beam_scores[:, 1:] = -1000000000.0
         beam_scores = beam_scores.view(-1)
         cur_len = 1
@@ -781,7 +782,7 @@ class TransformerModel(paddle.nn.Module):
             tensor = self.forward(
                 "fwd",
                 x=generated[:cur_len],
-                lengths=src_len.new(bs * beam_size).fill_(cur_len),
+                lengths=paddle.full([bs * beam_size], cur_len, dtype=src_len.dtype),
                 positions=positions[:cur_len],
                 causal=True,
                 src_enc=src_enc,
@@ -833,9 +834,10 @@ class TransformerModel(paddle.nn.Module):
                 next_batch_beam.extend(next_sent_beam)
                 assert len(next_batch_beam) == beam_size * (sent_id + 1)
             assert len(next_batch_beam) == bs * beam_size
-            beam_scores = beam_scores.new([x[0] for x in next_batch_beam])
-            beam_words = generated.new([x[1] for x in next_batch_beam])
-            beam_idx = src_len.new([x[2] for x in next_batch_beam])
+            # PaddlePaddle: 使用 paddle.to_tensor 从列表创建张量
+            beam_scores = paddle.to_tensor([x[0] for x in next_batch_beam], dtype='float32')
+            beam_words = paddle.to_tensor([x[1] for x in next_batch_beam], dtype=generated.dtype)
+            beam_idx = paddle.to_tensor([x[2] for x in next_batch_beam], dtype=src_len.dtype)
             generated = generated[:, beam_idx]
             generated[cur_len] = beam_words
             for k in self.cache.keys():
@@ -847,13 +849,15 @@ class TransformerModel(paddle.nn.Module):
             cur_len = cur_len + 1
             if all(done):
                 break
-        tgt_len = src_len.new(bs)
+        # PaddlePaddle: 创建目标长度张量
+        tgt_len = paddle.zeros([bs], dtype=src_len.dtype)
         best = []
         for i, hypotheses in enumerate(generated_hyps):
             best_hyp = max(hypotheses.hyp, key=lambda x: x[0])[1]
             tgt_len[i] = len(best_hyp) + 1
             best.append(best_hyp)
-        decoded = src_len.new(tgt_len._max().item(), bs).fill_(self.pad_index)
+        # PaddlePaddle: 使用 paddle.full 创建解码张量
+        decoded = paddle.full([int(tgt_len._max().item()), bs], self.pad_index, dtype=src_len.dtype)
         for i, hypo in enumerate(best):
             decoded[: tgt_len[i] - 1, i] = hypo
             decoded[tgt_len[i] - 1, i] = self.eos_index

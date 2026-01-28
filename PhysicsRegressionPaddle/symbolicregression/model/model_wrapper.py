@@ -37,7 +37,8 @@ class ModelWrapper(paddle.nn.Module):
         self.beam_size = beam_size
         self.beam_length_penalty = beam_length_penalty
         self.beam_temperature = beam_temperature
-        self.device = next(self.embedder.parameters()).device
+        # PaddlePaddle: parameters() 返回list，需要用iter()包装
+        self.device = next(iter(self.embedder.parameters())).device
 
     @paddle.no_grad()
     def forward(self, input, hints):
