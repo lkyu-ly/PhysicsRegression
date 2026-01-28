@@ -7,7 +7,6 @@ import numpy as np
 import paddle
 import sklearn
 import sympy as sp
-from functorch import grad
 from scipy.optimize import minimize
 
 
@@ -201,12 +200,17 @@ class BFGSRefinement:
 
         def gradient_numpy(coeffs):
             """
-            Compute the gradient of the objective at coeffs.
-            Returns a numpy array (for scipy)
+            使用 torch.autograd.grad 实现
             """
+            print("Using torch.autograd.grad for gradient computation.")
             if not isinstance(coeffs, paddle.Tensor):
                 coeffs = paddle.tensor(coeffs, dtype=paddle.float64, requires_grad=True)
-            grad_obj = grad(objective_torch)(coeffs)
+            else:
+                coeffs = coeffs.clone().detach().requires_grad_(True)
+            output = objective_torch(coeffs)
+            grad_obj = paddle.grad(
+                outputs=output, inputs=coeffs, create_graph=False, retain_graph=False
+            )[0]
             return grad_obj.detach().numpy()
 
         objective_numpy_timed = TimedFun(objective_numpy, stop_after=stop_after)

@@ -6,7 +6,6 @@ import paddle
 
 def device2int(device):
     if isinstance(device, str):
-        print("Converting device string to int:", device)
         device = device.replace('cuda', 'gpu')
         device = device.replace('gpu:', '')
     return int(device)

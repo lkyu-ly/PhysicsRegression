@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append("/home/lkyu/baidu/PhysicsRegressionPaddle")
+sys.path.append("/home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle")
 import itertools
 import math
 from logging import getLogger
@@ -568,7 +568,7 @@ class TransformerModel(paddle.nn.Module):
                 if unfinished_sents._max() == 0:
                     break
             if cur_len == max_len:
-                generated[-1].masked_fill_(unfinished_sents.byte(), self.eos_index)
+                generated[-1].masked_fill_(unfinished_sents.bool(), self.eos_index)
             assert (generated == self.eos_index).sum() == 2 * bs
             generated = generated.unsqueeze(-1).view(generated.shape[0], bs)
             rows, cols = paddle.nonzero(generated[1:] == self.eos_index, as_tuple=True)

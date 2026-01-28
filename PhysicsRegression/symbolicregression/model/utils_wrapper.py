@@ -6,8 +6,8 @@ import time
 import torch
 
 
-from functorch import grad
-# from torch.func import grad
+# from functorch import grad
+# # from torch.func import grad
 
 from functools import partial
 import traceback
@@ -194,14 +194,38 @@ class BFGSRefinement():
             """
             return objective_torch(coeffs).item()
 
+        # def gradient_numpy(coeffs):
+        #     """
+        #     Compute the gradient of the objective at coeffs.
+        #     Returns a numpy array (for scipy)
+        #     """
+        #     if not isinstance(coeffs, torch.Tensor):
+        #         coeffs = torch.tensor(coeffs, dtype=torch.float64, requires_grad=True)
+        #     grad_obj = grad(objective_torch)(coeffs)
+        #     return grad_obj.detach().numpy()
+        
         def gradient_numpy(coeffs):
             """
-            Compute the gradient of the objective at coeffs.
-            Returns a numpy array (for scipy)
+            使用 torch.autograd.grad 实现
             """
+            print("Using torch.autograd.grad for gradient computation.")
             if not isinstance(coeffs, torch.Tensor):
                 coeffs = torch.tensor(coeffs, dtype=torch.float64, requires_grad=True)
-            grad_obj = grad(objective_torch)(coeffs)
+            else:
+                # 确保 requires_grad=True
+                coeffs = coeffs.clone().detach().requires_grad_(True)
+            
+            # 前向传播
+            output = objective_torch(coeffs)
+            
+            # 计算梯度
+            grad_obj = torch.autograd.grad(
+                outputs=output,           # 目标函数输出（标量）
+                inputs=coeffs,            # 对哪个变量求导
+                create_graph=False,       # 如果不需要高阶导数，设为 False
+                retain_graph=False        # 如果不需要保留计算图，设为 False
+            )[0]  # 返回的是 tuple，取第一个元素
+            
             return grad_obj.detach().numpy()
     
         objective_numpy_timed = TimedFun(objective_numpy, stop_after=stop_after)

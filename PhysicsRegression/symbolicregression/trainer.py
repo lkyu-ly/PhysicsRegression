@@ -68,7 +68,7 @@ class LoadParameters(object):
                 assert os.path.isfile(checkpoint_path)
 
         logger.warning(f"Reloading checkpoint from {checkpoint_path} ...")
-        data = torch.load(checkpoint_path, map_location="cpu")
+        data = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
 
         # reload model parameters
         for k, v in self.modules.items():
@@ -501,7 +501,7 @@ class Trainer(object):
                 return
 
         logger.warning(f"Reloading checkpoint from {checkpoint_path} ...")
-        data = torch.load(checkpoint_path, map_location="cpu")
+        data = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
 
         if "checkpoint" in checkpoint_path:
 

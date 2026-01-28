@@ -1,89 +1,91 @@
 ===========================================
 PyTorch to Paddle Convert Start ------>:
 ===========================================
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/exprs_valid.json --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/exprs_valid.json
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/exprs_valid.json --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/exprs_valid.json
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/exprs_seperated_train.json --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/exprs_seperated_train.json
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/exprs_seperated_train.json --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/exprs_seperated_train.json
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/FeynmanEquations.xlsx --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/FeynmanEquations.xlsx
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/FeynmanEquations.xlsx --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/FeynmanEquations.xlsx
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/exprs_seperated_valid.json --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/exprs_seperated_valid.json
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/exprs_seperated_valid.json --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/exprs_seperated_valid.json
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/exprs_test.json --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/exprs_test.json
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/exprs_test.json --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/exprs_test.json
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/exprs_train.json --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/exprs_train.json
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/exprs_train.json --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/exprs_train.json
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/SN_m_tot_V2.0.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/SN_m_tot_V2.0.txt
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/physics_data/SN_m_tot_V2.0.txt --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/physics_data/SN_m_tot_V2.0.txt
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=1_Pd=3.0_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=1_Pd=3.0_50-quartile.txt
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=1_Pd=3.0_50-quartile.txt --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=1_Pd=3.0_50-quartile.txt
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=5_Pd=3.0_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=5_Pd=3.0_50-quartile.txt
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=5_Pd=3.0_50-quartile.txt --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=5_Pd=3.0_50-quartile.txt
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/Fe X     174.531    1 -   30 3s2 3p5 2P1.5 - 3s2 3p4 3d 2D2.5.csv --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/Fe X     174.531    1 -   30 3s2 3p5 2P1.5 - 3s2 3p4 3d 2D2.5.csv
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/physics_data/Fe X     174.531    1 -   30 3s2 3p5 2P1.5 - 3s2 3p4 3d 2D2.5.csv --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/physics_data/Fe X     174.531    1 -   30 3s2 3p5 2P1.5 - 3s2 3p4 3d 2D2.5.csv
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=5_Pd=1.5_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=5_Pd=1.5_50-quartile.txt
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=5_Pd=1.5_50-quartile.txt --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=5_Pd=1.5_50-quartile.txt
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=3_Pd=1.5_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=3_Pd=1.5_50-quartile.txt
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=3_Pd=1.5_50-quartile.txt --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=3_Pd=1.5_50-quartile.txt
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=0_Pd=1.5_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=0_Pd=1.5_50-quartile.txt
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=0_Pd=1.5_50-quartile.txt --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=0_Pd=1.5_50-quartile.txt
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=4_Pd=3.0_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=4_Pd=3.0_50-quartile.txt
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=4_Pd=3.0_50-quartile.txt --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=4_Pd=3.0_50-quartile.txt
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=3_Pd=3.0_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=3_Pd=3.0_50-quartile.txt
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=3_Pd=3.0_50-quartile.txt --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=3_Pd=3.0_50-quartile.txt
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=2_Pd=3.0_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=2_Pd=3.0_50-quartile.txt
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=2_Pd=3.0_50-quartile.txt --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=2_Pd=3.0_50-quartile.txt
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=4_Pd=1.5_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=4_Pd=1.5_50-quartile.txt
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=4_Pd=1.5_50-quartile.txt --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=4_Pd=1.5_50-quartile.txt
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=0_Pd=3.0_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=0_Pd=3.0_50-quartile.txt
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=0_Pd=3.0_50-quartile.txt --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=0_Pd=3.0_50-quartile.txt
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/solarDifferentialRotation.csv --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/solarDifferentialRotation.csv
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/physics_data/solarDifferentialRotation.csv --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/physics_data/solarDifferentialRotation.csv
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=2_Pd=1.5_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=2_Pd=1.5_50-quartile.txt
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=2_Pd=1.5_50-quartile.txt --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=2_Pd=1.5_50-quartile.txt
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/To_QH_Data_0.npy --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/To_QH_Data_0.npy
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/physics_data/To_QH_Data_0.npy --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/physics_data/To_QH_Data_0.npy
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=1_Pd=1.5_50-quartile.txt --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=1_Pd=1.5_50-quartile.txt
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/physics_data/TH-Gt_beta-ge-0.1_Kp=1_Pd=1.5_50-quartile.txt --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/physics_data/TH-Gt_beta-ge-0.1_Kp=1_Pd=1.5_50-quartile.txt
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/physics_data/Fe X     175.263    2 -   31 3s2 3p5 2P0.5 - 3s2 3p4 3d 2D1.5.csv --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/physics_data/Fe X     175.263    2 -   31 3s2 3p5 2P0.5 - 3s2 3p4 3d 2D1.5.csv
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/physics_data/Fe X     175.263    2 -   31 3s2 3p5 2P0.5 - 3s2 3p4 3d 2D1.5.csv --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/physics_data/Fe X     175.263    2 -   31 3s2 3p5 2P0.5 - 3s2 3p4 3d 2D1.5.csv
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/units.csv --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/units.csv
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/units.csv --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/units.csv
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/data/exprs_test_ranked.json --> /home/lkyu/baidu/PhysicsRegressionPaddle/data/exprs_test_ranked.json
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/data/exprs_test_ranked.json --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/data/exprs_test_ranked.json
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/figs/frameworks.png --> /home/lkyu/baidu/PhysicsRegressionPaddle/figs/frameworks.png
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/figs/frameworks.png --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/figs/frameworks.png
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/README.md --> /home/lkyu/baidu/PhysicsRegressionPaddle/README.md
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/README.md --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/README.md
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/Dataset/seperate_main.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Dataset/seperate_main.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/Dataset/seperate_main.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/Dataset/seperate_main.py
 [seperate_main.py:15] remove 'import os' 
 [seperate_main.py] add 'import os' in line 1
-Finish convert /home/lkyu/baidu/PhysicsRegression/Dataset/seperate_main.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Dataset/seperate_main.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/Dataset/seperate_main.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/Dataset/seperate_main.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/Dataset/train_test_split.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Dataset/train_test_split.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/Dataset/train_test_split.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/Dataset/train_test_split.py
 [train_test_split.py:15] remove 'import os' 
 [train_test_split.py] add 'import os' in line 1
-Finish convert /home/lkyu/baidu/PhysicsRegression/Dataset/train_test_split.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Dataset/train_test_split.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/Dataset/train_test_split.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/Dataset/train_test_split.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/Dataset/filter_main.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Dataset/filter_main.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/Dataset/filter_main.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/Dataset/filter_main.py
 [filter_main.py:16] remove 'import os' 
 [filter_main.py] add 'import os' in line 1
-Finish convert /home/lkyu/baidu/PhysicsRegression/Dataset/filter_main.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Dataset/filter_main.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/Dataset/filter_main.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/Dataset/filter_main.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/Dataset/testset_rank_split.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Dataset/testset_rank_split.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/Dataset/testset_rank_split.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/Dataset/testset_rank_split.py
 [testset_rank_split.py:14] remove 'import os' 
 [testset_rank_split.py] add 'import os' in line 1
-Finish convert /home/lkyu/baidu/PhysicsRegression/Dataset/testset_rank_split.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Dataset/testset_rank_split.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/Dataset/testset_rank_split.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/Dataset/testset_rank_split.py
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/model.pt --> /home/lkyu/baidu/PhysicsRegressionPaddle/model.pt
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/model.pt --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/model.pt
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/bash/train.sh --> /home/lkyu/baidu/PhysicsRegressionPaddle/bash/train.sh
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/bash/train_small.sh --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/bash/train_small.sh
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/bash/eval_feynman.sh --> /home/lkyu/baidu/PhysicsRegressionPaddle/bash/eval_feynman.sh
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/bash/train.sh --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/bash/train.sh
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/bash/eval_synthetic.sh --> /home/lkyu/baidu/PhysicsRegressionPaddle/bash/eval_synthetic.sh
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/bash/eval_feynman.sh --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/bash/eval_feynman.sh
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/bash/eval_bash.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/bash/eval_bash.py
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/bash/eval_synthetic.sh --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/bash/eval_synthetic.sh
+
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/bash/eval_bash.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/bash/eval_bash.py
 [eval_bash.py:1] remove 'import os' 
 [eval_bash.py:6] remove 'import torch' 
 [eval_bash.py] add 'import paddle' in line 1
@@ -91,55 +93,55 @@ Start convert file: /home/lkyu/baidu/PhysicsRegression/bash/eval_bash.py --> /ho
 [eval_bash.py:30] [Success] Convert Class Attribute: torch.Tensor.cpu to Paddle, just remain the same
 [eval_bash.py:31] [Success] Convert torch.cuda.is_available to Paddle
 [eval_bash.py:33] [Success] Convert Class Attribute: torch.Tensor.cpu to Paddle, just remain the same
-Finish convert /home/lkyu/baidu/PhysicsRegression/bash/eval_bash.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/bash/eval_bash.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/bash/eval_bash.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/bash/eval_bash.py
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/LICENSE --> /home/lkyu/baidu/PhysicsRegressionPaddle/LICENSE
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/LICENSE --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/LICENSE
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case4/physical4_0.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case4/physical4_0.pth
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/data/oracle_model_case4/physical4_0.pth --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/data/oracle_model_case4/physical4_0.pth
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case1/physical1_0.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case1/physical1_0.pth
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/data/oracle_model_case1/physical1_0.pth --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/data/oracle_model_case1/physical1_0.pth
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_10.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_10.pth
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/data/oracle_model_case2/physical2_10.pth --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_10.pth
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_0.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_0.pth
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/data/oracle_model_case2/physical2_0.pth --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_0.pth
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_9.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_9.pth
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/data/oracle_model_case2/physical2_9.pth --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_9.pth
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_8.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_8.pth
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/data/oracle_model_case2/physical2_8.pth --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_8.pth
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_5.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_5.pth
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/data/oracle_model_case2/physical2_5.pth --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_5.pth
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_3.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_3.pth
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/data/oracle_model_case2/physical2_3.pth --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_3.pth
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_6.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_6.pth
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/data/oracle_model_case2/physical2_6.pth --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_6.pth
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_4.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_4.pth
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/data/oracle_model_case2/physical2_4.pth --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_4.pth
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_2.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_2.pth
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/data/oracle_model_case2/physical2_2.pth --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_2.pth
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_1.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_1.pth
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/data/oracle_model_case2/physical2_1.pth --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_1.pth
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_7.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_7.pth
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/data/oracle_model_case2/physical2_7.pth --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_7.pth
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case2/physical2_11.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_11.pth
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/data/oracle_model_case2/physical2_11.pth --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/data/oracle_model_case2/physical2_11.pth
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case3/physical3_0.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case3/physical3_0.pth
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/data/oracle_model_case3/physical3_0.pth --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/data/oracle_model_case3/physical3_0.pth
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/data/oracle_model_case5/physical5_0.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/data/oracle_model_case5/physical5_0.pth
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/data/oracle_model_case5/physical5_0.pth --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/data/oracle_model_case5/physical5_0.pth
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/case1_SSN.ipynb --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/case1_SSN.ipynb
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/case1_SSN.ipynb --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/case1_SSN.ipynb
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/case5_LunarTide.ipynb --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/case5_LunarTide.ipynb
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/case5_LunarTide.ipynb --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/case5_LunarTide.ipynb
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/case3_DifferentialRotation.ipynb --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/case3_DifferentialRotation.ipynb
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/case3_DifferentialRotation.ipynb --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/case3_DifferentialRotation.ipynb
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/case2_Plasma.ipynb --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/case2_Plasma.ipynb
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/case2_Plasma.ipynb --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/case2_Plasma.ipynb
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/case4_ContributionFunction.ipynb --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/case4_ContributionFunction.ipynb
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/case4_ContributionFunction.ipynb --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/case4_ContributionFunction.ipynb
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/physical/CLAUDE.md --> /home/lkyu/baidu/PhysicsRegressionPaddle/physical/CLAUDE.md
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/physical/CLAUDE.md --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/physical/CLAUDE.md
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/train.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/train.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/train.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/train.py
 [train.py:5] remove 'import torch' 
 [train.py:6] remove 'import os' 
 [train.py] add 'import paddle' in line 1
@@ -147,19 +149,19 @@ Start convert file: /home/lkyu/baidu/PhysicsRegression/train.py --> /home/lkyu/b
 [train.py:33] [Success] Convert Class Attribute: torch.Tensor.cpu to Paddle, just remain the same
 [train.py:34] [Success] Convert torch.cuda.is_available to Paddle
 [train.py:35] [Success] Convert Class Attribute: torch.Tensor.cpu to Paddle, just remain the same
-Finish convert /home/lkyu/baidu/PhysicsRegression/train.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/train.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/train.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/train.py
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/example.ipynb --> /home/lkyu/baidu/PhysicsRegressionPaddle/example.ipynb
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/example.ipynb --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/example.ipynb
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/Oracle_model/demo/demo_0.pth --> /home/lkyu/baidu/PhysicsRegressionPaddle/Oracle_model/demo/demo_0.pth
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/Oracle_model/demo/demo_0.pth --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/Oracle_model/demo/demo_0.pth
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/Oracle_model/testing/empty --> /home/lkyu/baidu/PhysicsRegressionPaddle/Oracle_model/testing/empty
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/Oracle_model/testing/empty --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/Oracle_model/testing/empty
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/Oracle_model/feynman/empty --> /home/lkyu/baidu/PhysicsRegressionPaddle/Oracle_model/feynman/empty
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/Oracle_model/feynman/empty --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/Oracle_model/feynman/empty
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/environment.yml --> /home/lkyu/baidu/PhysicsRegressionPaddle/environment.yml
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/environment.yml --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/environment.yml
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/Oracle/oracle.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Oracle/oracle.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/Oracle/oracle.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/Oracle/oracle.py
 [oracle.py:2] remove 'import torch' 
 [oracle.py:3] remove 'from torch import nn' 
 [oracle.py:4] remove 'from torch.utils.data import random_split' 
@@ -426,24 +428,30 @@ Start convert file: /home/lkyu/baidu/PhysicsRegression/Oracle/oracle.py --> /hom
 [oracle.py:1165] [Success] Convert Class Method: torch.Tensor.item to Paddle
 [oracle.py:1169] [Success] Convert Class Method: torch.Tensor.sub to Paddle
 [oracle.py:1413] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
-Finish convert /home/lkyu/baidu/PhysicsRegression/Oracle/oracle.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Oracle/oracle.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/Oracle/oracle.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/Oracle/oracle.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/Oracle/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Oracle/__init__.py
-Finish convert /home/lkyu/baidu/PhysicsRegression/Oracle/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/Oracle/__init__.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/Oracle/__init__.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/Oracle/__init__.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/Oracle/__init__.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/Oracle/__init__.py
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/Oracle/CLAUDE.md --> /home/lkyu/baidu/PhysicsRegressionPaddle/Oracle/CLAUDE.md
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/Oracle/CLAUDE.md --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/Oracle/CLAUDE.md
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/parsers.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/parsers.py
-Finish convert /home/lkyu/baidu/PhysicsRegression/parsers.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/parsers.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/parsers.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/parsers.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/parsers.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/parsers.py
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/A Neural Symbolic Model for Space Physics(正文).pdf --> /home/lkyu/baidu/PhysicsRegressionPaddle/A Neural Symbolic Model for Space Physics(正文).pdf
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/test/0/train.log --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/test/0/train.log
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/CLAUDE.md --> /home/lkyu/baidu/PhysicsRegressionPaddle/CLAUDE.md
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/test/0/evals_all/eval_e2e_valid.csv --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/test/0/evals_all/eval_e2e_valid.csv
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/metrics.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/metrics.py
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/metrics.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/metrics.py
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/test/0/checkpoint.pth --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/test/0/checkpoint.pth
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/model_wrapper.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/model_wrapper.py
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/test/0/params.pkl --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/test/0/params.pkl
+
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/CLAUDE.md --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/CLAUDE.md
+
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/metrics.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/metrics.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/metrics.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/metrics.py
+
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/model/model_wrapper.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/model/model_wrapper.py
 [model_wrapper.py:2] remove 'import torch' 
 [model_wrapper.py:3] remove 'import torch.nn as nn' 
 [model_wrapper.py] add 'import paddle' in line 1
@@ -507,9 +515,9 @@ Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/
 [model_wrapper.py:233] [Success] Convert Class Method: torch.Tensor.cpu to Paddle
 [model_wrapper.py:233] [Success] Convert Class Method: torch.Tensor.tolist to Paddle
 [model_wrapper.py:43] [Success] Convert torch.no_grad to Paddle
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/model_wrapper.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/model_wrapper.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/model/model_wrapper.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/model/model_wrapper.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/__init__.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/model/__init__.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/model/__init__.py
 [__init__.py:2] remove 'import os' 
 [__init__.py:3] remove 'import torch' 
 [__init__.py] add 'import paddle' in line 1
@@ -521,11 +529,11 @@ Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/
 [__init__.py:68] [Success] Convert Class Attribute: torch.Tensor.requires_grad to Paddle, just remain the same
 [__init__.py:72] [Success] Convert Class Attribute: torch.Tensor.cpu to Paddle, just remain the same
 [__init__.py:73] [Success] Convert Class Method: torch.Tensor.values to Paddle
-[__init__.py:74] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
-[__init__.py:74] [Success] Convert Class Method: torch.Tensor.cuda to Paddle
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/__init__.py
+[__init__.py:75] [Success] Convert Class Attribute: torch.Tensor.device to Paddle, just remain the same
+[__init__.py:75] [Success] Convert Class Method: torch.Tensor.cuda to Paddle
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/model/__init__.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/model/__init__.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/sklearn_wrapper.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/sklearn_wrapper.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/model/sklearn_wrapper.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/model/sklearn_wrapper.py
 [sklearn_wrapper.py:3] remove 'import torch' 
 [sklearn_wrapper.py] add 'import paddle' in line 1
 [sklearn_wrapper.py:19] [Success] Convert Class Method: torch.Tensor.mean to Paddle
@@ -544,9 +552,9 @@ Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/
 [sklearn_wrapper.py:444] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
 [sklearn_wrapper.py:456] [Success] Convert Class Method: torch.Tensor.reshape to Paddle
 [sklearn_wrapper.py:459] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/sklearn_wrapper.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/sklearn_wrapper.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/model/sklearn_wrapper.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/model/sklearn_wrapper.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/utils_wrapper.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/utils_wrapper.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/model/utils_wrapper.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/model/utils_wrapper.py
 [utils_wrapper.py:6] remove 'import torch' 
 [utils_wrapper.py] add 'import paddle' in line 1
 [utils_wrapper.py:1] [Success] Convert torch.float64 to Paddle
@@ -568,12 +576,16 @@ Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/
 [utils_wrapper.py:195] [Success] Convert Class Method: torch.Tensor.item to Paddle
 [utils_wrapper.py:1] [Success] Convert torch.Tensor to Paddle
 [utils_wrapper.py:1] [Success] Convert torch.float64 to Paddle
-[utils_wrapper.py:203] [Success] Convert torch.tensor to Paddle
-[utils_wrapper.py:205] [Success] Convert Class Method: torch.Tensor.detach to Paddle
-[utils_wrapper.py:205] [Success] Convert Class Method: torch.Tensor.numpy to Paddle
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/utils_wrapper.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/utils_wrapper.py
+[utils_wrapper.py:213] [Success] Convert torch.tensor to Paddle
+[utils_wrapper.py:216] [Success] Convert Class Method: torch.Tensor.clone to Paddle
+[utils_wrapper.py:216] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[utils_wrapper.py:216] [Success] Convert Class Method: torch.Tensor.requires_grad_ to Paddle
+[utils_wrapper.py:222] [Success] Convert torch.autograd.grad to Paddle
+[utils_wrapper.py:229] [Success] Convert Class Method: torch.Tensor.detach to Paddle
+[utils_wrapper.py:229] [Success] Convert Class Method: torch.Tensor.numpy to Paddle
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/model/utils_wrapper.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/model/utils_wrapper.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/embedders.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/embedders.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/model/embedders.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/model/embedders.py
 [embedders.py:4] remove 'import torch' 
 [embedders.py:5] remove 'import torch.nn as nn' 
 [embedders.py:7] remove 'import torch.nn.functional as F' 
@@ -616,9 +628,9 @@ Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/
 [embedders.py:144] [Success] Convert Class Method: torch.Tensor.max to Paddle
 [embedders.py:1] [Success] Convert torch.Tensor to Paddle
 [embedders.py:270] [Success] Convert torch.LongTensor to Paddle
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/embedders.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/embedders.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/model/embedders.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/model/embedders.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/transformer.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/transformer.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/model/transformer.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/model/transformer.py
 [transformer.py:5] remove 'import torch' 
 [transformer.py:6] remove 'import torch.nn as nn' 
 [transformer.py:7] remove 'import torch.nn.functional as F' 
@@ -788,8 +800,8 @@ Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/
 [transformer.py:636] [Success] Convert Class Method: torch.Tensor.long to Paddle
 [transformer.py:636] [Success] Convert Class Method: torch.Tensor.mul_ to Paddle
 [transformer.py:640] [Success] Convert Class Method: torch.Tensor.max to Paddle
-[transformer.py:646] [Success] Convert Class Method: torch.Tensor.byte to Paddle
-[transformer.py:646] [Success] Convert Class Method: torch.Tensor.masked_fill_ to Paddle
+[transformer.py:647] [Success] Convert Class Method: torch.Tensor.bool to Paddle
+[transformer.py:647] [Success] Convert Class Method: torch.Tensor.masked_fill_ to Paddle
 [transformer.py:649] [Success] Convert Class Method: torch.Tensor.sum to Paddle
 [transformer.py:650] [Success] Convert Class Method: torch.Tensor.unsqueeze to Paddle
 [transformer.py:650] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
@@ -952,17 +964,17 @@ Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/
 [transformer.py:1212] [Success] Convert Class Method: torch.Tensor.scatter to Paddle
 [transformer.py:1215] [Success] Convert Class Method: torch.Tensor.masked_fill to Paddle
 [transformer.py:1] [Success] Convert torch.FloatTensor to Paddle
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/model/transformer.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/model/transformer.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/model/transformer.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/model/transformer.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/utils.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/utils.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/utils.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/utils.py
 [utils.py:1] remove 'import os' 
 [utils.py] add 'import os' in line 1
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/utils.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/utils.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/utils.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/utils.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/__init__.py
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/__init__.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/__init__.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/__init__.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/__init__.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/__init__.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/trainer.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/trainer.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/trainer.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/trainer.py
 [trainer.py:2] remove 'import os' 
 [trainer.py:10] remove 'import torch' 
 [trainer.py:11] remove 'from torch import nn' 
@@ -1046,9 +1058,9 @@ Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/traine
 [trainer.py:859] [Success] Convert Class Method: torch.Tensor.size to Paddle
 [trainer.py:860] [Success] Convert Class Method: torch.Tensor.sum to Paddle
 [trainer.py:860] [Success] Convert Class Method: torch.Tensor.item to Paddle
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/trainer.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/trainer.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/trainer.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/trainer.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/slurm.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/slurm.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/slurm.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/slurm.py
 [slurm.py:2] remove 'import os' 
 [slurm.py:4] remove 'import torch' 
 [slurm.py] add 'import paddle' in line 1
@@ -1056,36 +1068,36 @@ Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/slurm.
 [slurm.py:156] [Success] Convert Class Attribute: torch.Tensor.cpu to Paddle, just remain the same
 [slurm.py:157] [Success] Convert torch.cuda.set_device to Paddle
 [slurm.py:170] [Success] Convert torch.distributed.init_process_group to Paddle
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/slurm.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/slurm.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/slurm.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/slurm.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/logger.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/logger.py
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/logger.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/logger.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/logger.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/logger.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/logger.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/logger.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/MCTS/mcts.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/MCTS/mcts.py
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/MCTS/mcts.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/MCTS/mcts.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/MCTS/mcts.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/MCTS/mcts.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/MCTS/mcts.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/MCTS/mcts.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/utils.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/utils.py
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/utils.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/utils.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/GA/utils.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/GA/utils.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/GA/utils.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/GA/utils.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/ga.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/ga.py
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/ga.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/ga.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/GA/ga.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/GA/ga.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/GA/ga.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/GA/ga.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/__init__.py
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/__init__.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/GA/__init__.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/GA/__init__.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/GA/__init__.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/GA/__init__.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/population.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/population.py
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/population.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/population.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/GA/population.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/GA/population.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/GA/population.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/GA/population.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/operators.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/operators.py
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/GA/operators.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/GA/operators.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/GA/operators.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/GA/operators.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/GA/operators.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/GA/operators.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/encoders.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/encoders.py
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/encoders.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/encoders.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/envs/encoders.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/envs/encoders.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/envs/encoders.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/envs/encoders.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/utils.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/utils.py
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/utils.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/utils.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/envs/utils.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/envs/utils.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/envs/utils.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/envs/utils.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/environment.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/environment.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/envs/environment.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/envs/environment.py
 [environment.py:3] remove 'import os' 
 [environment.py:21] remove 'import torch' 
 [environment.py:22] remove 'import torch.nn.functional as F' 
@@ -1132,9 +1144,9 @@ Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/e
 [environment.py:1201] [Success] Convert torch.LongTensor to Paddle
 [environment.py:1250] [Success] Convert torch.utils.data.get_worker_info to Paddle
 [environment.py:1352] [Success] Convert Class Method: torch.Tensor.item to Paddle
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/environment.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/environment.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/envs/environment.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/envs/environment.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/simplifiers.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/simplifiers.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/envs/simplifiers.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/envs/simplifiers.py
 [simplifiers.py:10] remove 'import torch' 
 [simplifiers.py] add 'import paddle' in line 1
 [simplifiers.py:1] [Success] Convert torch.float32 to Paddle
@@ -1151,21 +1163,21 @@ Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/s
 [simplifiers.py:192] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
 [simplifiers.py:197] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
 [simplifiers.py:210] [Success] Convert Class Method: torch.Tensor.round to Paddle
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/simplifiers.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/simplifiers.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/envs/simplifiers.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/envs/simplifiers.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/__init__.py
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/__init__.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/__init__.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/envs/__init__.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/envs/__init__.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/envs/__init__.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/envs/__init__.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/operators.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/operators.py
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/operators.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/operators.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/envs/operators.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/envs/operators.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/envs/operators.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/envs/operators.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/node.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/node.py
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/node.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/node.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/envs/node.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/envs/node.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/envs/node.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/envs/node.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/generators.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/generators.py
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/envs/generators.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/envs/generators.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/envs/generators.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/envs/generators.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/envs/generators.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/envs/generators.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/optim.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/optim.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/optim.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/optim.py
 [optim.py:5] remove 'import torch' 
 [optim.py:6] remove 'from torch import optim' 
 [optim.py:7] remove 'from torch.optim import AdamW' 
@@ -1192,11 +1204,11 @@ Start convert file: /home/lkyu/baidu/PhysicsRegression/symbolicregression/optim.
 [optim.py:1] [Success] Convert torch.optim.RMSprop to Paddle
 [optim.py:1] [Success] Convert torch.optim.Rprop to Paddle
 [optim.py:1] [Success] Convert torch.optim.SGD to Paddle
-Finish convert /home/lkyu/baidu/PhysicsRegression/symbolicregression/optim.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/optim.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/optim.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/optim.py
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/symbolicregression/CLAUDE.md --> /home/lkyu/baidu/PhysicsRegressionPaddle/symbolicregression/CLAUDE.md
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/symbolicregression/CLAUDE.md --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/symbolicregression/CLAUDE.md
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/PhysicsRegression.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/PhysicsRegression.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/PhysicsRegression.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/PhysicsRegression.py
 [PhysicsRegression.py:4] remove 'import torch' 
 [PhysicsRegression.py:5] remove 'import os' 
 [PhysicsRegression.py] add 'import paddle' in line 1
@@ -1243,21 +1255,21 @@ Start convert file: /home/lkyu/baidu/PhysicsRegression/PhysicsRegression.py --> 
 [PhysicsRegression.py:775] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
 [PhysicsRegression.py:782] [Success] Convert Class Attribute: torch.Tensor.shape to Paddle, just remain the same
 [PhysicsRegression.py:784] [Success] Convert Class Attribute: torch.Tensor.T to Paddle, just remain the same
-Finish convert /home/lkyu/baidu/PhysicsRegression/PhysicsRegression.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/PhysicsRegression.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/PhysicsRegression.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/PhysicsRegression.py
 
-Start convert file: /home/lkyu/baidu/PhysicsRegression/evaluate.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/evaluate.py
+Start convert file: /home/lkyu/baidu/PhyE2E/PhysicsRegression/evaluate.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/evaluate.py
 [evaluate.py:4] remove 'import os' 
 [evaluate.py] add 'import os' in line 1
-Finish convert /home/lkyu/baidu/PhysicsRegression/evaluate.py --> /home/lkyu/baidu/PhysicsRegressionPaddle/evaluate.py
+Finish convert /home/lkyu/baidu/PhyE2E/PhysicsRegression/evaluate.py --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/evaluate.py
 
-No need to convert, just Copy /home/lkyu/baidu/PhysicsRegression/eval_result/base_testing_oraclemcts_trial0.csv --> /home/lkyu/baidu/PhysicsRegressionPaddle/eval_result/base_testing_oraclemcts_trial0.csv
+No need to convert, just Copy /home/lkyu/baidu/PhyE2E/PhysicsRegression/eval_result/base_testing_oraclemcts_trial0.csv --> /home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle/eval_result/base_testing_oraclemcts_trial0.csv
 
 
 ===========================================
 Convert Summary
 ===========================================
-There are 933 Pytorch APIs in this Project:
- 933  Pytorch APIs have been converted to Paddle successfully!
+There are 937 Pytorch APIs in this Project:
+ 937  Pytorch APIs have been converted to Paddle successfully!
  0  Pytorch APIs are not supported to convert to Paddle currently!
  Convert Rate is: 100.00%
 

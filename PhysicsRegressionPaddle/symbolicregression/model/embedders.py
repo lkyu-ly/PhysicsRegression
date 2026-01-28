@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append("/home/lkyu/baidu/PhysicsRegressionPaddle")
+sys.path.append("/home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle")
 from abc import ABC, abstractmethod
 from typing import List, Tuple
 
