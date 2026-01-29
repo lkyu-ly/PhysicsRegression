@@ -293,10 +293,18 @@ class Oracle:
             gs_pred = paddle.cat((gs_pred, g_pred), dim=0)
         hs_pred = paddle.zeros((0, num_variables, num_variables))
         for x in test_set:
+            # 确保输入张量可求导（PaddlePaddle: 必须设置以计算二阶导数）
             xx = paddle.from_numpy(x).float().to(device=self.params.device)
-            h_pred = paddle.incubate.autograd.Hessian(
+            xx.stop_gradient = False
+
+            # 创建 Hessian 对象
+            h_pred_obj = paddle.incubate.autograd.Hessian(
                 func=model, xs=xx, is_batched=False
             )
+            # PaddlePaddle: 使用切片操作提取实际的张量矩阵
+            h_pred = h_pred_obj[:]
+
+            # 标准张量操作（与 PyTorch 版本保持一致）
             h_pred = h_pred.detach().cpu().clone().unsqueeze(0)
             hs_pred = paddle.cat((hs_pred, h_pred), dim=0)
         res = []

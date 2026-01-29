@@ -414,12 +414,19 @@ class Equation(Encoder):
                 if not idx < len(xy_units) - 1:
                     return False
                 dim = xy_units[idx]
+                # 修复：确保dim是np.ndarray类型，避免PaddlePaddle的类型提升错误
+                if not isinstance(dim, np.ndarray):
+                    dim = np.array(dim, dtype=np.float64)
                 if any(temp.unit != dim):
                     return False
             stack += temp.children
         if isinstance(xy_units[-1], str) and xy_units[-1] == "<UNKNOWN_PHYSICAL_UNITS>":
             return True
-        if any(tree.unit != xy_units[-1]):
+        # 修复：确保xy_units[-1]是np.ndarray类型
+        last_unit = xy_units[-1]
+        if not isinstance(last_unit, np.ndarray):
+            last_unit = np.array(last_unit, dtype=np.float64)
+        if any(tree.unit != last_unit):
             return False
         return True
 

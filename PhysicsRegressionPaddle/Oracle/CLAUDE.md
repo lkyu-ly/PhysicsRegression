@@ -748,6 +748,120 @@ print(f"使用策略: {result['strategy']}")
 
 ---
 
+## PaddlePaddle Hessian 计算注意事项 ⚠️
+
+### 核心差异
+
+**关键区别**: PaddlePaddle 的 `Hessian` 类返回对象而非张量
+
+PaddlePaddle 和 PyTorch 的 Hessian API **设计范式完全不同**：
+
+| 特性 | PyTorch | PaddlePaddle |
+|------|---------|--------------|
+| API 类型 | 函数 `hessian()` | 类 `Hessian()` |
+| 返回类型 | `torch.Tensor` | `Hessian` 对象 |
+| 使用方式 | 直接使用返回值 | 需要切片 `[:]` 提取 |
+
+### 正确用法
+
+**完整流程** (`oracle.py:294-309`):
+
+```python
+# 1. 设置梯度标志（必须）
+xx = paddle.from_numpy(x).float().to(device=self.params.device)
+xx.stop_gradient = False  # ← PaddlePaddle: 必须设置以计算二阶导数
+
+# 2. 创建 Hessian 对象
+h_pred_obj = paddle.incubate.autograd.Hessian(
+    func=model, xs=xx, is_batched=False
+)
+
+# 3. 使用切片提取张量（核心步骤）
+h_pred = h_pred_obj[:]  # ← 返回 paddle.Tensor
+
+# 4. 调用张量方法（与 PyTorch 版本一致）
+h_pred = h_pred.detach().cpu().clone().unsqueeze(0)
+```
+
+### 常见错误
+
+```python
+# ❌ 错误 1: 忘记设置 stop_gradient
+xx = paddle.from_numpy(x).float()
+h_obj = paddle.incubate.autograd.Hessian(func=model, xs=xx)
+# 结果：Hessian 计算失败或返回零矩阵
+
+# ❌ 错误 2: 直接对 Hessian 对象调用张量方法
+h_obj = paddle.incubate.autograd.Hessian(...)
+h_obj.detach()  # AttributeError: 'Hessian' object has no attribute 'detach'
+
+# ✅ 正确：先提取张量
+h_matrix = h_obj[:]
+h_matrix.detach()  # 正常工作
+```
+
+### PyTorch vs PaddlePaddle 对比
+
+**PyTorch 版本**:
+```python
+from torch.autograd.functional import hessian
+
+# 直接返回张量
+h_pred = hessian(model, xx)
+h_pred = h_pred.detach().cpu().clone().unsqueeze(0)
+```
+
+**PaddlePaddle 版本**:
+```python
+# 需要两步：创建对象 + 提取张量
+xx.stop_gradient = False  # 额外步骤
+h_pred_obj = paddle.incubate.autograd.Hessian(func=model, xs=xx, is_batched=False)
+h_pred = h_pred_obj[:]  # 额外步骤
+h_pred = h_pred.detach().cpu().clone().unsqueeze(0)
+```
+
+### 设计原理
+
+**PaddlePaddle 延迟计算**:
+- `Hessian` 对象支持按需计算子矩阵
+- 例如: `h_obj[0:2, 0:2]` 只计算左上角区域
+- 使用 `h_obj[:]` 计算完整矩阵
+
+**优势**: 对于大型 Hessian 矩阵，可以只计算需要的部分，提高效率
+
+### 测试验证
+
+```python
+import paddle
+
+# 简单测试模型: f(x) = x0^2 + x1^2
+class SimpleModel(paddle.nn.Layer):
+    def forward(self, x):
+        return paddle.sum(x**2)
+
+model = SimpleModel()
+x = paddle.to_tensor([1.0, 2.0])
+x.stop_gradient = False  # ← 必须
+
+# 创建 Hessian 对象
+h_obj = paddle.incubate.autograd.Hessian(func=model, xs=x, is_batched=False)
+
+# 提取张量
+h_matrix = h_obj[:]
+
+# 验证
+print(h_matrix)  # [[2. 0.] [0. 2.]]
+print(type(h_matrix))  # <class 'paddle.Tensor'>
+h_matrix.detach()  # ✅ 正常工作
+```
+
+### 相关文档
+
+- **完整问题分析**: 参见 [../PADDLE_MIGRATION.md](../PADDLE_MIGRATION.md) 的 "Problem 11"
+- **测试脚本**: 项目根目录的 `test_hessian_fix.py`
+
+---
+
 ## ✅ 已完成的 PaddlePaddle 迁移
 
 ### 核心修改

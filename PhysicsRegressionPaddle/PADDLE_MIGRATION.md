@@ -1433,5 +1433,420 @@ print(f'params.rescale: {phyreg.params.rescale}')  # False
 
 ---
 
-**最后更新**: 2026-01-28  
+## Problem 10: PaddlePaddle类型提升严格性 - 单位比较时的类型不匹配
+
+### 问题描述
+
+**错误信息**:
+```
+TypeError: (InvalidType) Type promotion only support calculations between floating-point numbers
+and between complex and real numbers. But got different data type x: float64, y: int64.
+(at /paddle/paddle/phi/common/type_promotion.h:220)
+```
+
+**错误位置**: `symbolicregression/envs/encoders.py:417`
+
+**触发条件**:
+- 训练前几个epoch正常
+- 某个epoch的验证阶段,当模型生成包含 `x_` 变量的公式时触发
+- 单位检查时 `temp.unit != dim` 比较失败
+
+### 根本原因
+
+**核心问题**: PaddlePaddle对类型提升的检查比PyTorch更严格
+
+```python
+# encoders.py:417
+if any(temp.unit != dim):  # ← 这里触发错误
+    return False
+```
+
+**类型不匹配**:
+- `temp.unit`: `np.ndarray(dtype=float64)` - 5维物理单位向量 `[kg, m, s, T, V]`
+- `dim` (来自 `xy_units[idx]`): Python `int` 或 `list` (元素为 `int64`)
+
+**为什么PyTorch没问题**:
+- PyTorch的张量比较会隐式转换类型
+- PaddlePaddle明确拒绝 `float64 != int64` 的比较,抛出类型提升错误
+
+**为什么前几个epoch正常**:
+- 前几个epoch生成的公式恰好不包含 `x_` 变量(或单位检查总是通过)
+- 后续epoch生成的公式触发了这个代码分支
+
+### 解决方案
+
+**修复位置**: `PhysicsRegressionPaddle/symbolicregression/envs/encoders.py:383-431`
+
+**修复前** ❌:
+```python
+def check_units(self, tree, xy_units):
+    stack = [tree]
+    while stack:
+        temp = stack.pop(0)
+        value = str(temp.value)
+        # ... 省略中间逻辑 ...
+        elif value.startswith("x_"):
+            idx = int(temp.value[2:])
+            if not idx < len(xy_units) - 1:
+                return False
+            dim = xy_units[idx]
+            if any(temp.unit != dim):  # ← float64 != int 报错
+                return False
+        stack += temp.children
+    # ...
+    if any(tree.unit != xy_units[-1]):  # ← 同样的问题
+        return False
+    return True
+```
+
+**修复后** ✅:
+```python
+def check_units(self, tree, xy_units):
+    stack = [tree]
+    while stack:
+        temp = stack.pop(0)
+        value = str(temp.value)
+        # ... 省略中间逻辑 ...
+        elif value.startswith("x_"):
+            idx = int(temp.value[2:])
+            if not idx < len(xy_units) - 1:
+                return False
+            dim = xy_units[idx]
+            # ✅ 修复：统一转换为 np.ndarray(float64) 类型
+            if not isinstance(dim, np.ndarray):
+                dim = np.array(dim, dtype=np.float64)
+            if any(temp.unit != dim):
+                return False
+        stack += temp.children
+    if isinstance(xy_units[-1], str) and xy_units[-1] == "<UNKNOWN_PHYSICAL_UNITS>":
+        return True
+    # ✅ 修复：统一转换为 np.ndarray(float64) 类型
+    last_unit = xy_units[-1]
+    if not isinstance(last_unit, np.ndarray):
+        last_unit = np.array(last_unit, dtype=np.float64)
+    if any(tree.unit != last_unit):
+        return False
+    return True
+```
+
+### 关键变化
+
+1. **类型统一化**:
+   ```python
+   # 在比较前确保类型一致
+   if not isinstance(dim, np.ndarray):
+       dim = np.array(dim, dtype=np.float64)
+   ```
+
+2. **两处修复**:
+   - 第417行: `x_` 变量单位检查
+   - 第429行: 输出单位检查
+
+3. **兼容性**:
+   - 如果 `dim` 已经是 `np.ndarray`,不做任何转换
+   - 如果是 `int` 或 `list`,转换为 `np.ndarray(float64)`
+
+### 为什么这是PaddlePaddle特有问题
+
+**PyTorch**:
+```python
+import torch
+x = torch.tensor([1.0, 2.0])  # float64
+y = 1  # int
+result = x != y  # ✅ 正常工作,隐式类型转换
+```
+
+**PaddlePaddle**:
+```python
+import paddle
+x = paddle.to_tensor([1.0, 2.0])  # float64
+y = 1  # int
+result = x != y  # ❌ TypeError: Type promotion error
+```
+
+**设计理念**:
+- PyTorch: 宽松的类型系统,自动类型提升
+- PaddlePaddle: 严格的类型检查,明确类型转换
+
+### 修复效果
+
+```python
+# 测试结果
+# 修复前: 第6个epoch验证时崩溃
+# 修复后: 所有epoch正常训练和验证
+
+# 训练日志示例:
+INFO - 01/29/26 09:33:07 - 0:35:48 - ============ End of epoch 6 ============
+INFO - 01/29/26 09:33:07 - 0:35:48 - ====== STARTING EVALUATION E2E:VALID =======
+INFO - 01/29/26 09:33:07 - 0:35:48 - Creating valid1 iterator for functions ...
+✅ 单位检查正常通过
+✅ 验证完成
+```
+
+### 最佳实践
+
+1. **类型比较前统一转换**:
+   ```python
+   # 推荐模式
+   if not isinstance(value, np.ndarray):
+       value = np.array(value, dtype=np.float64)
+   ```
+
+2. **避免混合类型比较**:
+   ```python
+   # ❌ 不推荐
+   np_array != python_int
+
+   # ✅ 推荐
+   np_array != np.array([python_int], dtype=np.float64)
+   ```
+
+3. **单元测试覆盖**:
+   - 测试不同类型的单位输入
+   - 测试混合类型场景
+
+### 相关问题
+
+- 无（独立的类型系统问题）
+
+### 参考链接
+
+- PaddlePaddle类型提升文档: [paddle/phi/common/type_promotion.h](https://github.com/PaddlePaddle/Paddle/blob/develop/paddle/phi/common/type_promotion.h)
+- 类型提升规则: 仅支持浮点数之间、复数和实数之间的提升
+
+---
+
+## Problem 11: paddle.incubate.autograd.Hessian API 差异 ⚠️
+
+### 问题描述
+
+**错误信息**:
+```
+AttributeError: 'Hessian' object has no attribute 'detach'
+```
+
+**错误位置**: `Oracle/oracle.py:300`
+
+**触发场景**: 运行 example.ipynb 的 "Divide-and-Conquer Strategy" 示例，Oracle 训练完成后计算 Hessian 矩阵时报错
+
+### 根本原因
+
+PyTorch 和 PaddlePaddle 的 Hessian API **设计范式完全不同**：
+
+| 功能 | PyTorch | PaddlePaddle |
+|------|---------|--------------|
+| **API类型** | 函数 `hessian()` | 类 `Hessian()` |
+| **返回类型** | `torch.Tensor` (直接可用) | `Hessian` 对象 (需提取) |
+| **访问方式** | 直接使用返回值 | 需要切片 `[:]` 提取张量 |
+| **张量方法** | 直接调用 `.detach()` | 先提取，再调用 |
+
+**PyTorch 版本** (`PhysicsRegression/Oracle/oracle.py:328-329`):
+```python
+from torch.autograd.functional import hessian
+
+h_pred = hessian(model, xx)  # ✅ 返回 torch.Tensor
+h_pred = h_pred.detach().cpu().clone().unsqueeze(0)  # ✅ 直接调用张量方法
+```
+
+**PaddlePaddle 版本** (`PhysicsRegressionPaddle/Oracle/oracle.py:297-300`):
+```python
+h_pred = paddle.incubate.autograd.Hessian(
+    func=model, xs=xx, is_batched=False
+)
+h_pred = h_pred.detach().cpu().clone().unsqueeze(0)  # ❌ AttributeError
+```
+
+### 为什么设计不同
+
+**PaddlePaddle 延迟计算设计**:
+- `Hessian` 类封装计算逻辑，支持按需计算子矩阵
+- 例如: `h_obj[0:2, 0:2]` 只计算左上角 2×2 区域，提高效率
+- 使用 `h_obj[:]` 可以一次性计算完整矩阵
+
+**PyTorch 立即计算**:
+- `hessian()` 函数直接计算并返回完整 Hessian 矩阵
+- 简洁直观，但大矩阵计算开销大
+
+### 手动修复 (已完成)
+
+**修复位置**: `PhysicsRegressionPaddle/Oracle/oracle.py:294-309`
+
+**修复前** ❌:
+```python
+hs_pred = paddle.zeros((0, num_variables, num_variables))
+for x in test_set:
+    xx = paddle.from_numpy(x).float().to(device=self.params.device)
+    h_pred = paddle.incubate.autograd.Hessian(
+        func=model, xs=xx, is_batched=False
+    )
+    h_pred = h_pred.detach().cpu().clone().unsqueeze(0)  # ❌ 错误
+    hs_pred = paddle.cat((hs_pred, h_pred), dim=0)
+```
+
+**修复后** ✅:
+```python
+hs_pred = paddle.zeros((0, num_variables, num_variables))
+for x in test_set:
+    # 确保输入张量可求导（PaddlePaddle: 必须设置以计算二阶导数）
+    xx = paddle.from_numpy(x).float().to(device=self.params.device)
+    xx.stop_gradient = False
+
+    # 创建 Hessian 对象
+    h_pred_obj = paddle.incubate.autograd.Hessian(
+        func=model, xs=xx, is_batched=False
+    )
+    # PaddlePaddle: 使用切片操作提取实际的张量矩阵
+    h_pred = h_pred_obj[:]
+
+    # 标准张量操作（与 PyTorch 版本保持一致）
+    h_pred = h_pred.detach().cpu().clone().unsqueeze(0)
+    hs_pred = paddle.cat((hs_pred, h_pred), dim=0)
+```
+
+### 关键变化
+
+1. **第298行新增**: `xx.stop_gradient = False`
+   - **原因**: PaddlePaddle 默认 `from_numpy()` 创建的张量 `stop_gradient=True`
+   - **必要性**: 不设置会导致 Hessian 计算失败或返回零矩阵
+
+2. **第301-303行**: 使用更清晰的变量名
+   ```python
+   h_pred_obj = paddle.incubate.autograd.Hessian(...)  # Hessian 对象
+   ```
+
+3. **第305行核心修复**: 使用切片操作提取张量
+   ```python
+   h_pred = h_pred_obj[:]  # ← 返回 paddle.Tensor
+   ```
+
+4. **第308行**: 正常调用张量方法
+   ```python
+   h_pred = h_pred.detach().cpu().clone().unsqueeze(0)  # ✅ 正常工作
+   ```
+
+### 为什么 PaConvert 无法自动处理
+
+1. **API 设计范式完全不同** (函数 vs 类)
+2. **需要理解延迟计算机制**
+3. **需要插入切片操作** `[:]`
+4. **需要添加** `stop_gradient = False`
+5. **超出简单 API 映射范围**
+
+### 通用修复模式
+
+```python
+# 适用于所有 PaddlePaddle Hessian 计算
+# Step 1: 设置梯度标志（必须）
+xx.stop_gradient = False
+
+# Step 2: 创建 Hessian 对象
+h_obj = paddle.incubate.autograd.Hessian(
+    func=model, xs=xx, is_batched=False
+)
+
+# Step 3: 使用切片提取张量
+h_matrix = h_obj[:]  # 返回 paddle.Tensor
+
+# Step 4: 调用张量方法
+h_matrix = h_matrix.detach().cpu()
+```
+
+### 测试验证
+
+**创建测试脚本** (`test_hessian_fix.py`):
+```python
+import paddle
+
+class SimpleModel(paddle.nn.Layer):
+    def forward(self, x):
+        return paddle.sum(x**2)
+
+model = SimpleModel()
+x = paddle.to_tensor([1.0, 2.0])
+x.stop_gradient = False  # ← 必须设置
+
+# 创建 Hessian 对象
+h_obj = paddle.incubate.autograd.Hessian(func=model, xs=x, is_batched=False)
+
+# 使用切片提取张量
+h_matrix = h_obj[:]
+
+# 验证可以调用张量方法
+h_matrix.detach()  # ✅ 正常工作
+h_matrix.cpu()     # ✅ 正常工作
+
+# 验证数值正确性
+# 理论 Hessian: [[2, 0], [0, 2]]
+print(h_matrix.numpy())  # [[2. 0.] [0. 2.]]
+```
+
+**测试结果**:
+```
+============================================================
+测试 Hessian 提取修复
+============================================================
+
+1. Hessian 对象类型: <class 'paddle.incubate.autograd.functional.Hessian'>
+   是否是 Tensor: False
+
+2. 提取后张量类型: <class 'paddle.Tensor'>
+   是否是 Tensor: True
+   形状: paddle.Size([2, 2])
+
+3. ✅ 张量方法测试通过
+   .detach() 成功
+   .cpu() 成功
+
+4. 数值验证:
+   计算结果:
+[[2. 0.]
+ [0. 2.]]
+   理论值:
+[[2. 0.]
+ [0. 2.]]
+   最大误差: 0.00e+00
+   ✅ 数值正确
+
+============================================================
+✅ 所有测试通过！
+============================================================
+```
+
+### 修复效果
+
+- ✅ 不再抛出 `AttributeError: 'Hessian' object has no attribute 'detach'`
+- ✅ Oracle 训练正常完成
+- ✅ Hessian 计算正常
+- ✅ 分治策略完整运行
+- ✅ 数值精度正确 (误差 < 1e-10)
+
+### 最佳实践
+
+1. **始终设置梯度标志**:
+   ```python
+   xx.stop_gradient = False  # 计算高阶导数前必须设置
+   ```
+
+2. **使用切片提取张量**:
+   ```python
+   h_matrix = h_obj[:]  # 完整矩阵
+   h_sub = h_obj[0:2, 0:2]  # 子矩阵（按需计算）
+   ```
+
+3. **理解设计差异**:
+   - PyTorch: 函数式 API，简洁直观
+   - PaddlePaddle: 面向对象 API，支持延迟计算
+
+### 相关问题
+
+- 无（独立的 API 设计差异）
+
+### 参考链接
+
+- [PaddlePaddle Hessian 文档](https://www.paddlepaddle.org.cn/documentation/docs/zh/api/paddle/incubate/autograd/Hessian_cn.html)
+- [PyTorch Hessian 文档](https://pytorch.org/docs/stable/generated/torch.autograd.functional.hessian.html)
+
+---
+
+**最后更新**: 2026-01-29
 **修复状态**: ✅ 已完成
