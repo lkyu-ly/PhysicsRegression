@@ -8,8 +8,8 @@ python ./train.py \
         --batch_size 16 \
         --save_periodic -1 \
         --save_periodic_from 40\
-        --eval_size 20 \
-        --batch_size_eval 1 \
+        --eval_size 16 \
+        --batch_size_eval 16 \
         --num_workers 0 \
         --max_len 200 \
         --max_number_bags -1 \
