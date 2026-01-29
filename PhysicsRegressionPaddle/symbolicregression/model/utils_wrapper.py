@@ -165,11 +165,11 @@ class BFGSRefinement:
         generator = env.generator
         safely_refine = True
         if safely_refine:
-            func = env.simplifier.safely_tree_to_torch_module(
+            func = env.simplifier.safely_tree_to_paddle_module(
                 tree, dtype=paddle.float64
             )
         else:
-            func = env.simplifier.tree_to_torch_module(tree, dtype=paddle.float64)
+            func = env.simplifier.tree_to_paddle_module(tree, dtype=paddle.float64)
         self.X, self.y = X, y
         if downsample > 0:
             self.X = self.X[:downsample]
@@ -178,7 +178,7 @@ class BFGSRefinement:
         self.y = paddle.from_numpy(self.y).to(paddle.float64).requires_grad_(False)
         self.func = partial(func, self.X)
 
-        def objective_torch(coeffs):
+        def objective_paddle(coeffs):
             """
             Compute the non-linear least-squares objective value
                 objective(coeffs) = (1/2) sum((y - func(coeffs)) ** 2)
@@ -196,18 +196,17 @@ class BFGSRefinement:
             """
             Return the objective value as a float (for scipy).
             """
-            return objective_torch(coeffs).item()
+            return objective_paddle(coeffs).item()
 
         def gradient_numpy(coeffs):
             """
-            使用 torch.autograd.grad 实现
+            使用 paddle.grad 实现
             """
-            print("Using torch.autograd.grad for gradient computation.")
             if not isinstance(coeffs, paddle.Tensor):
                 coeffs = paddle.tensor(coeffs, dtype=paddle.float64, requires_grad=True)
             else:
                 coeffs = coeffs.clone().detach().requires_grad_(True)
-            output = objective_torch(coeffs)
+            output = objective_paddle(coeffs)
             grad_obj = paddle.grad(
                 outputs=output, inputs=coeffs, create_graph=False, retain_graph=False
             )[0]

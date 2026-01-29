@@ -784,7 +784,7 @@ class Oracle():
 
             if os.path.exists(filename):
                 _model = SimpleNet(x.shape[1])
-                model_state = torch.load(filename)
+                model_state = torch.load(filename,weights_only=False)
                 _model.load_state_dict(model_state["state_dict"])
                 _model = _model.to(device=self.params.device)
                 maxi_y = model_state["maxi_y"]

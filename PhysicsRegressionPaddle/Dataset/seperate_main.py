@@ -18,12 +18,6 @@ import symbolicregression as symbolicregression
 from parsers import get_parser
 from symbolicregression.envs import build_env
 
-warnings.filterwarnings(
-    "ignore", message="masked_fill_ received a mask with dtype torch.uint8"
-)
-warnings.filterwarnings("ignore", message="We've integrated functorch into PyTorch.*")
-warnings.filterwarnings("ignore", message="This overload of add_ is deprecated:*")
-
 
 def seperation_protect(expr, variables):
     protect = []

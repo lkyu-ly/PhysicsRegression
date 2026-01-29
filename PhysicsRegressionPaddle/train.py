@@ -97,15 +97,6 @@ def main(params):
 
 
 if __name__ == "__main__":
-    import warnings
-
-    warnings.filterwarnings(
-        "ignore", message="masked_fill_ received a mask with dtype torch.uint8"
-    )
-    warnings.filterwarnings(
-        "ignore", message="We've integrated functorch into PyTorch.*"
-    )
-    warnings.filterwarnings("ignore", message="This overload of add_ is deprecated:*")
     parser = get_parser()
     params = parser.parse_args()
     if params.eval_only and params.eval_from_exp != "":

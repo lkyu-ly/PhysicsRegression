@@ -18,12 +18,6 @@ from symbolicregression.slurm import init_distributed_mode, init_signal_handler
 from symbolicregression.trainer import Trainer
 from symbolicregression.utils import initialize_exp
 
-warnings.filterwarnings(
-    "ignore", message="masked_fill_ received a mask with dtype torch.uint8"
-)
-warnings.filterwarnings("ignore", message="We've integrated functorch into PyTorch.*")
-warnings.filterwarnings("ignore", message="This overload of add_ is deprecated:*")
-
 
 def init_eval(params):
     init_distributed_mode(params)

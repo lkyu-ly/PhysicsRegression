@@ -35,7 +35,7 @@ class PhyReg():
                 device=None,
                 ):
 
-        model = torch.load(path)
+        model = torch.load(path,weights_only=False)
         # 从训练checkpoint加载时params是dict，需要转换为Namespace
         params = model['params'] if isinstance(model['params'], Namespace) else Namespace(**model['params'])
 

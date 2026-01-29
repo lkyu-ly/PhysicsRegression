@@ -133,7 +133,7 @@ class FunctionEnvironment(object):
 
     def batch_equations(self, equations, units=None, decode_physical_units=None):
         """
-        Take as input a list of n sequences (torch.LongTensor vectors) and return
+        Take as input a list of n sequences (paddle.LongTensor vectors) and return
         a tensor of size (slen, n) where slen is the length of the longest
         sentence, and a vector lengths containing the length of each sentence.
         """

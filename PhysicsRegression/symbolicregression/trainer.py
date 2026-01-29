@@ -19,12 +19,8 @@ import matplotlib.pyplot as plt
 import copy
 import pickle
 
-# if torch.cuda.is_available():
-has_apex = True
-try:
-    import apex
-except:
-    has_apex = False
+# no torch
+has_apex = False
 
 logger = getLogger()
 

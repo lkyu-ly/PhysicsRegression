@@ -21,12 +21,6 @@ from symbolicregression.model.model_wrapper import ModelWrapper
 from symbolicregression.model.sklearn_wrapper import \
     SymbolicTransformerRegressor
 
-warnings.filterwarnings(
-    "ignore", message="masked_fill_ received a mask with dtype torch.uint8"
-)
-warnings.filterwarnings("ignore", message="We've integrated functorch into PyTorch.*")
-warnings.filterwarnings("ignore", message="This overload of add_ is deprecated:*")
-
 
 class PhyReg:
     def __init__(self, path, max_len=None, refinement_strategy=None, device=None):
@@ -569,10 +563,6 @@ class PhyReg:
 
                     warnings.filterwarnings(
                         "ignore",
-                        message="`torch` was loaded before the Julia instance started.*",
-                    )
-                    warnings.filterwarnings(
-                        "ignore",
                         message="Your system's Python library is static (e.g., conda)*",
                     )
                     if verbose:
@@ -706,10 +696,6 @@ class PhyReg:
             if use_pysr_init:
                 from pysr import PySRRegressor
 
-                warnings.filterwarnings(
-                    "ignore",
-                    message="`torch` was loaded before the Julia instance started.*",
-                )
                 warnings.filterwarnings(
                     "ignore",
                     message="Your system's Python library is static (e.g., conda)*",

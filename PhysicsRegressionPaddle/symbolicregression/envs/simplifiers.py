@@ -5,9 +5,12 @@ import numexpr as ne
 import numpy as np
 import paddle
 import sympy as sp
-import sympytorch
 from sympy.core.rules import Transform
 from sympy.parsing.sympy_parser import parse_expr
+
+# import sympytorch
+# using converted sympypaddle instead of sympytorch
+from ..dependencies import sympypaddle
 
 from ..utils import MyTimeoutError, timeout
 from .generators import Node, all_operators, math_constants
@@ -100,18 +103,22 @@ class Simplifier:
         )
         return expr
 
-    def tree_to_torch_module(self, tree, dtype=paddle.float32):
+    def tree_to_paddle_module(self, tree, dtype=paddle.float32):
         expr = self.tree_to_sympy_expr(tree)
-        mod = self.expr_to_torch_module(expr, dtype)
+        mod = self.expr_to_paddle_module(expr, dtype)
         return mod
 
-    def safely_tree_to_torch_module(self, tree, dtype=paddle.float32):
+    def safely_tree_to_paddle_module(self, tree, dtype=paddle.float32):
         expr = self.tree_to_sympy_expr(tree, safely_wrap=True)
-        mod = self.expr_to_torch_module(expr, dtype)
+        mod = self.expr_to_paddle_module(expr, dtype)
         return mod
 
-    def expr_to_torch_module(self, expr, dtype):
-        mod = sympytorch.SymPyModule(expressions=[expr])
+    def expr_to_paddle_module(self, expr, dtype):
+        print(
+            "You are using sympypaddle converted from sympytorch to convert expr to paddle module!!!"
+        )
+        # mod = sympytorch.SymPyModule(expressions=[expr])
+        mod = sympypaddle.SymPyModule(expressions=[expr])
         mod.to(dtype)
 
         def wrapper_fn(_mod, x, constants=None):

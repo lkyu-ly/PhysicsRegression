@@ -7,6 +7,7 @@ import paddle
 
 class Adam(paddle.optimizer.Optimizer):
     """
+    Converted to paddle from PyTorch's Adam optimizer.
     Same as https://github.com/pytorch/pytorch/blob/master/torch/optim/adam.py,
     without amsgrad, with step in a tensor, and states initialization in __init__.
     It was important to add `.item()` in `state['step'].item()`.
@@ -105,7 +106,7 @@ class AdamWithWarmup(Adam):
     from some initial learning rate (`warmup-init-lr`) until the configured
     learning rate (`lr`).
     During warmup:
-        lrs = torch.linspace(warmup_init_lr, lr, warmup_updates)
+        lrs = paddle.linspace(warmup_init_lr, lr, warmup_updates)
         lr = lrs[update_num]
     After warmup:
         lr = lr
@@ -156,7 +157,7 @@ class AdamInverseSqrtWithWarmup(Adam):
     learning rate (`lr`). Thereafter we decay proportional to the number of
     updates, with a decay factor set to align with the configured learning rate.
     During warmup:
-        lrs = torch.linspace(warmup_init_lr, lr, warmup_updates)
+        lrs = paddle.linspace(warmup_init_lr, lr, warmup_updates)
         lr = lrs[update_num]
     After warmup:
         lr = decay_factor / sqrt(update_num)
@@ -212,7 +213,7 @@ class AdamCosineWithWarmup(Adam):
     from some initial learning rate (``--warmup-init-lr``) until the configured
     learning rate (``--lr``).
     During warmup::
-      lrs = torch.linspace(args.warmup_init_lr, args.lr, args.warmup_updates)
+      lrs = paddle.linspace(args.warmup_init_lr, args.lr, args.warmup_updates)
       lr = lrs[update_num]
     After warmup::
       lr = lr_min + 0.5*(lr_max - lr_min)*(1 + cos(t_curr / t_i))

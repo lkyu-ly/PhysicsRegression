@@ -1,9 +1,10 @@
 python ./train.py \
-        --max_epoch 20 \
+        --max_epoch 32 \
         --dump_path ./ \
         --exp_name test \
         --exp_id 0 \
         --n_steps_per_epoch 500 \
+        --optimizer adam_inverse_sqrt,warmup_updates=1000 \
         --collate_queue_size 200 \
         --batch_size 16 \
         --save_periodic -1 \
@@ -17,7 +18,7 @@ python ./train.py \
         --tokens_per_batch 5000 \
         --add_consts 1 \
         --device "cuda:0" \
-        --use_exprs 200000 \
+        --use_exprs 20000 \
         --use_dimension_mask 0 \
         --expr_train_data_path "./data/exprs_train.json" \
         --expr_valid_data_path "./data/exprs_valid.json" \

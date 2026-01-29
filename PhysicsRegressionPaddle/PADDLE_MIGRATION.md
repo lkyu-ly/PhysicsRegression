@@ -1848,5 +1848,192 @@ print(h_matrix.numpy())  # [[2. 0.] [0. 2.]]
 
 ---
 
-**最后更新**: 2026-01-29
+## Problem 12: Python 相对导入包边界限制 ⚠️
+
+### 问题描述
+
+**错误信息**:
+```
+ImportError: attempted relative import beyond top-level package
+```
+
+**错误位置**: `symbolicregression/envs/simplifiers.py:12`
+
+**触发场景**: 运行任何使用 `simplifiers.py` 的代码时，导入 `sympypaddle` 模块失败
+
+### 根本原因
+
+**核心问题**: Python 相对导入不能超出顶级包的边界
+
+**原始目录结构**:
+```
+PhysicsRegressionPaddle/
+├── dependencies/           # ← 在顶级包外部
+│   └── sympypaddle/
+└── symbolicregression/     # ← 顶级包
+    └── envs/
+        └── simplifiers.py  # ← 尝试导入 ...dependencies
+```
+
+**错误代码**:
+```python
+# symbolicregression/envs/simplifiers.py:12
+from ...dependencies import sympypaddle  # ❌ 超出包边界
+```
+
+**为什么失败**:
+- `symbolicregression` 是顶级包
+- `...dependencies` 尝试向上3级，超出了 `symbolicregression` 包的边界
+- Python 禁止相对导入超出顶级包
+
+### 解决方案
+
+**策略**: 重新组织目录结构，将依赖移入包内
+
+**修复前目录结构** ❌:
+```
+PhysicsRegressionPaddle/
+├── dependencies/           # ← 问题：在包外部
+│   └── sympypaddle/
+└── symbolicregression/
+    └── envs/
+        └── simplifiers.py
+```
+
+**修复后目录结构** ✅:
+```
+PhysicsRegressionPaddle/
+└── symbolicregression/
+    ├── dependencies/       # ← 解决：移入包内
+    │   └── sympypaddle/
+    └── envs/
+        └── simplifiers.py
+```
+
+**代码修复**:
+```python
+# 修复前 ❌
+from ...dependencies import sympypaddle  # 超出包边界
+
+# 修复后 ✅
+from ..dependencies import sympypaddle   # 在包边界内
+```
+
+### 手动修复步骤 (已完成)
+
+**1. 目录重组** (用户手动完成):
+```bash
+# 移动 dependencies 目录
+mv PhysicsRegressionPaddle/dependencies/ PhysicsRegressionPaddle/symbolicregression/
+```
+
+**2. 导入路径修复**:
+
+**修复位置**: `PhysicsRegressionPaddle/symbolicregression/envs/simplifiers.py:12`
+
+```python
+# 修复前 ❌
+from ...dependencies import sympypaddle
+
+# 修复后 ✅
+from ..dependencies import sympypaddle
+```
+
+**3. 验证修复**:
+```python
+# 测试导入
+from symbolicregression.envs.simplifiers import Simplifier
+# ✅ 导入成功，无错误
+```
+
+### 为什么 PaConvert 无法自动处理
+
+1. **需要理解包结构语义**: 工具需要识别哪些目录是Python包
+2. **需要重组文件系统**: 超出代码转换范围，涉及目录移动
+3. **需要分析依赖关系**: 理解 `sympypaddle` 的实际使用范围
+4. **需要用户决策**: 目录结构重组需要用户确认
+5. **超出API映射能力**: 这是架构问题，不是简单的API替换
+
+### 设计考虑
+
+**为什么移动到 symbolicregression 内部是正确的**:
+
+1. **使用范围**: `sympypaddle` 仅在 `symbolicregression` 模块中使用
+2. **依赖封装**: 将依赖放在使用它的包内，符合模块化原则
+3. **导入简化**: `..dependencies` 比 `...dependencies` 更简洁
+4. **包边界清晰**: 避免跨包边界的复杂导入
+
+**替代方案对比**:
+
+| 方案 | 优点 | 缺点 | 选择 |
+|------|------|------|------|
+| **A: 移动到包内** | 符合Python规范，导入简洁 | 需要移动文件 | ✅ 已采用 |
+| B: 使用绝对导入 | 不需要移动文件 | 硬编码路径，不够灵活 | ❌ |
+| C: 修改 sys.path | 不需要移动文件 | 运行时修改，不够优雅 | ❌ |
+
+### 最佳实践
+
+**1. Python 包结构设计**:
+```python
+# ✅ 推荐：依赖放在使用包内
+mypackage/
+├── __init__.py
+├── dependencies/
+│   └── external_lib/
+└── core/
+    └── module.py  # from ..dependencies import external_lib
+
+# ❌ 避免：依赖在包外部
+project/
+├── dependencies/
+└── mypackage/
+    └── core/
+        └── module.py  # from ...dependencies import external_lib (错误)
+```
+
+**2. 相对导入规则**:
+- 只能在包内使用相对导入
+- 不能超出顶级包边界
+- 优先使用相对导入而非绝对导入（在包内）
+
+**3. 依赖管理**:
+- 将依赖放在使用它们的包内
+- 避免跨包的复杂依赖关系
+- 使用 `__init__.py` 控制包的公共接口
+
+### 修复效果
+
+**测试结果**:
+```python
+# 修复前
+from symbolicregression.envs.simplifiers import Simplifier
+# ImportError: attempted relative import beyond top-level package
+
+# 修复后
+from symbolicregression.envs.simplifiers import Simplifier
+# ✅ 导入成功
+
+# 功能验证
+simplifier = Simplifier(generator)
+# ✅ 正常工作，sympypaddle 模块正确加载
+```
+
+**影响范围**:
+- ✅ 仅影响 `simplifiers.py` 中的一行导入
+- ✅ 不影响其他模块
+- ✅ 不改变 `sympypaddle` 的功能
+- ✅ 向后兼容，不影响现有API
+
+### 相关问题
+
+- 无（独立的包结构问题）
+
+### 参考链接
+
+- [Python 相对导入文档](https://docs.python.org/3/reference/import.html#submodules)
+- [PEP 328 - Imports: Multi-Line and Absolute/Relative](https://peps.python.org/pep-0328/)
+
+---
+
+**最后更新**: 2026-01-30
 **修复状态**: ✅ 已完成
