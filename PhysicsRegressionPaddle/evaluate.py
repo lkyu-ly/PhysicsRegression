@@ -92,6 +92,7 @@ class Evaluator(object):
         datatype="train",
         verbose_res=False,
         refinement_types=["id", "neg", "inv", "linear", "safe", "safe-neg"],
+        epoch_id=None
     ):
         assert datatype in ["train", "valid", "test", "valid-sub"]
         """
@@ -147,7 +148,7 @@ class Evaluator(object):
                 )
                 if not os.path.exists(save_file):
                     os.makedirs(save_file)
-                save_file = os.path.join(save_file, f"eval_e2e_{datatype}.csv")
+                save_file = os.path.join(save_file, f"eval_e2e_{datatype}_{epoch_id}.csv")
         pbar = tqdm(total=eval_size_per_gpu)
         batch_results = defaultdict(list)
         sampling_time = time.time()

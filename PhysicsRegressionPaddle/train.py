@@ -86,6 +86,7 @@ def main(params):
                 datatype="valid",
                 verbose=False,
                 refinement_types=["id"],
+                epoch_id=trainer.epoch
             )
             logger.info("__log__:%s" % json.dumps(scores))
         if scores is not None:

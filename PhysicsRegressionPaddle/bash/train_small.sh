@@ -18,7 +18,7 @@ python ./train.py \
         --tokens_per_batch 5000 \
         --add_consts 1 \
         --device "cuda:0" \
-        --use_exprs 20000 \
+        --use_exprs 100000 \
         --use_dimension_mask 0 \
         --expr_train_data_path "./data/exprs_train.json" \
         --expr_valid_data_path "./data/exprs_valid.json" \

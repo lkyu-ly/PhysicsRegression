@@ -311,7 +311,21 @@ class Trainer(object):
         for k in self.stats.keys():
             if type(self.stats[k]) is list:
                 del self.stats[k][:]
-        s_lr = " - LR: {:.4e}".format(self.optimizer.get_lr())
+        # 增强学习率日志记录
+        current_lr = self.optimizer.get_lr()
+        s_lr = " - LR: {:.4e}".format(current_lr)
+
+        # 添加调度器状态信息（如果可用）
+        if hasattr(self.optimizer, 'num_updates'):
+            s_lr += " (updates: {})".format(self.optimizer.num_updates)
+
+            # 显示是否在warmup阶段
+            if hasattr(self.optimizer, 'warmup_updates'):
+                if self.optimizer.num_updates < self.optimizer.warmup_updates:
+                    warmup_progress = self.optimizer.num_updates / self.optimizer.warmup_updates * 100
+                    s_lr += " [WARMUP: {:.1f}%]".format(warmup_progress)
+                else:
+                    s_lr += " [POST-WARMUP]"
         new_time = time.time()
         diff = new_time - self.last_time
         s_speed = "{:7.2f} equations/s - {:8.2f} words/s - ".format(
@@ -392,6 +406,17 @@ class Trainer(object):
         if include_optimizer:
             logger.warning("Saving optimizer ...")
             data["optimizer"] = self.optimizer.state_dict()
+
+            # 新增：保存学习率调度器状态
+            if hasattr(self.optimizer, 'num_updates'):
+                data["optimizer_num_updates"] = self.optimizer.num_updates
+                logger.warning(f"Saving optimizer num_updates: {self.optimizer.num_updates}")
+
+            # 保存当前学习率（用于验证）
+            if hasattr(self.optimizer, '_learning_rate'):
+                data["optimizer_current_lr"] = self.optimizer._learning_rate
+                logger.warning(f"Saving current learning rate: {self.optimizer._learning_rate}")
+
             if self.scaler is not None:
                 data["scaler"] = self.scaler.state_dict()
         paddle.save(obj=data, path=path)
@@ -432,6 +457,23 @@ class Trainer(object):
             if self.params.amp == -1 or not self.params.nvidia_apex:
                 logger.warning("Reloading checkpoint optimizer ...")
                 self.optimizer.load_state_dict(data["optimizer"])
+
+                # 新增：恢复学习率调度器状态
+                if hasattr(self.optimizer, 'num_updates') and "optimizer_num_updates" in data:
+                    self.optimizer.num_updates = data["optimizer_num_updates"]
+                    logger.warning(f"Restored optimizer num_updates: {self.optimizer.num_updates}")
+
+                    # 重新计算并设置学习率
+                    if hasattr(self.optimizer, 'get_lr_for_step'):
+                        restored_lr = self.optimizer.get_lr_for_step(self.optimizer.num_updates)
+                        self.optimizer._learning_rate = restored_lr
+                        logger.warning(f"Restored learning rate: {restored_lr}")
+                else:
+                    if "optimizer_num_updates" not in data:
+                        logger.warning("Old checkpoint format detected. Learning rate scheduling will restart.")
+                        logger.warning("Consider retraining from a newer checkpoint for optimal performance.")
+                    else:
+                        logger.warning("No num_updates found in optimizer or optimizer doesn't support it")
             else:
                 logger.warning("Not reloading checkpoint optimizer.")
                 for group_id, param_group in enumerate(self.optimizer._param_groups):
