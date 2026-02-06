@@ -60,6 +60,11 @@ def main(params):
     for _ in range(params.max_epoch):
         logger.info("============ Starting epoch %i ... ============" % trainer.epoch)
         trainer.inner_epoch = 0
+
+        # 启动profiler
+        if trainer.profiler_enabled:
+            trainer.profiler.start()
+
         pbar = tqdm(total=trainer.n_steps_per_epoch)
         while trainer.inner_epoch < trainer.n_steps_per_epoch:
             for task_id in np.random.permutation(len(params.tasks)):
@@ -69,8 +74,18 @@ def main(params):
                 else:
                     trainer.enc_dec_step(task)
                 trainer.iter()
+
+                # Profiler step（关键）
+                if trainer.profiler_enabled:
+                    trainer.profiler.step()
+
             pbar.update(1)
         pbar.close()
+
+        # 停止profiler
+        if trainer.profiler_enabled:
+            trainer.profiler.stop()
+
         logger.info(f"training loss: {trainer.total_loss / trainer.n_steps_per_epoch}")
         logger.info("============ End of epoch %i ============" % trainer.epoch)
         if params.debug_train_statistics:

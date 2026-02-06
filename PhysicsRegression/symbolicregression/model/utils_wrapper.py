@@ -208,7 +208,7 @@ class BFGSRefinement():
             """
             使用 torch.autograd.grad 实现
             """
-            print("Using torch.autograd.grad for gradient computation.")
+            # print("Using torch.autograd.grad for gradient computation.")
             if not isinstance(coeffs, torch.Tensor):
                 coeffs = torch.tensor(coeffs, dtype=torch.float64, requires_grad=True)
             else:

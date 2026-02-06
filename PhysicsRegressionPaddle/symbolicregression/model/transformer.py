@@ -382,7 +382,7 @@ class TransformerModel(paddle.nn.Module):
         slen, bs = x.size()[:2]
         assert lengths.size(0) == bs
         if __debug__:  # 只在调试模式下检查，避免频繁GPU-CPU同步
-        assert paddle.max(lengths).item() <= slen
+            assert paddle.max(lengths).item() <= slen
         x = x.transpose(0, 1)
         assert (src_enc is None) == (src_len is None)
         if src_enc is not None:
