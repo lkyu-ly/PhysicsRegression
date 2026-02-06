@@ -608,11 +608,10 @@ class FunctionEnvironment(object):
             dataset=dataset,
             timeout=0 if params.num_workers == 0 else 3600,
             batch_size=params.batch_size,
-            num_workers=params.num_workers
-            if data_path is None or params.num_workers == 0
-            else 1,
+            num_workers=params.num_workers,  # 移除强制限制，允许多worker并行加载
             shuffle=False,
             collate_fn=collate_fn,
+            use_shared_memory=True,  # 添加共享内存优化
         )
 
     def create_test_iterator(

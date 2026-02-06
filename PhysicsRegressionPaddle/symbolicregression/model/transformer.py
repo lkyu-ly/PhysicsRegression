@@ -38,7 +38,8 @@ def get_masks(slen, lengths, causal):
     """
     Generate hidden states mask, and optionally an attention mask.
     """
-    assert lengths._max().item() <= slen
+    if __debug__:  # 只在调试模式下检查，避免频繁GPU-CPU同步
+        assert paddle.max(lengths).item() <= slen
     bs = lengths.size(0)
     alen = paddle.arange(slen, dtype=paddle.long, device=lengths.device)
     mask = alen < lengths[:, None]
@@ -380,7 +381,8 @@ class TransformerModel(paddle.nn.Module):
         """
         slen, bs = x.size()[:2]
         assert lengths.size(0) == bs
-        assert lengths._max().item() <= slen
+        if __debug__:  # 只在调试模式下检查，避免频繁GPU-CPU同步
+        assert paddle.max(lengths).item() <= slen
         x = x.transpose(0, 1)
         assert (src_enc is None) == (src_len is None)
         if src_enc is not None:
@@ -392,7 +394,7 @@ class TransformerModel(paddle.nn.Module):
         mask, attn_mask = get_masks(slen, lengths, causal)
         if self.is_decoder and src_enc is not None:
             src_mask = (
-                paddle.arange(src_len._max(), dtype=paddle.long, device=lengths.device)
+                paddle.arange(paddle.max(src_len), dtype=paddle.long, device=lengths.device)
                 < src_len[:, None]
             )
         if positions is None:
@@ -468,7 +470,8 @@ class TransformerModel(paddle.nn.Module):
             `get_scores` is a boolean specifying whether we need to return scores
         """
         x = tensor[pred_mask.unsqueeze(-1).expand_as(tensor)].view(-1, self.dim)
-        assert (y == self.pad_index).sum().item() == 0
+        if __debug__:  # 只在调试模式下检查
+            assert (y == self.pad_index).sum().item() == 0
         scores = self.proj(x).view(-1, self.n_words)
         loss = paddle.nn.functional.cross_entropy(
             input=scores.float(), label=y, reduction="mean"
@@ -476,7 +479,8 @@ class TransformerModel(paddle.nn.Module):
         next_word = paddle.topk(scores, 1)[1].squeeze(1)
         if y_units is not None:
             x_dim = tensor[pred_mask.unsqueeze(-1).expand_as(tensor)].view(-1, self.dim)
-            assert (y_units == self.pad_index).sum().item() == 0
+            if __debug__:  # 只在调试模式下检查
+                assert (y_units == self.pad_index).sum().item() == 0
             latent_units = self.units_dec(x_dim).view(-1, self.dim)
             scores_units = self.proj(latent_units).view(-1, self.n_words)
             loss_units = paddle.nn.functional.cross_entropy(
@@ -565,7 +569,7 @@ class TransformerModel(paddle.nn.Module):
                 # PaddlePaddle: .ne() 需要tensor参数，改用 != 运算符
                 unfinished_sents.mul_((next_words != self.eos_index).astype('int64'))
                 cur_len = cur_len + 1
-                if unfinished_sents._max() == 0:
+                if paddle.max(unfinished_sents) == 0:
                     break
             if cur_len == max_len:
                 generated[-1].masked_fill_(unfinished_sents.bool(), self.eos_index)
@@ -716,7 +720,7 @@ class TransformerModel(paddle.nn.Module):
                 # PaddlePaddle: .ne() 需要tensor参数，改用 != 运算符
                 unfinished_sents.mul_((next_words != self.eos_index).astype('int64'))
                 cur_len = cur_len + 1
-                if unfinished_sents._max() == 0:
+                if paddle.max(unfinished_sents) == 0:
                     break
             if cur_len == max_len:
                 generated1[-1].masked_fill_(unfinished_sents.byte(), self.eos_index)
@@ -806,7 +810,7 @@ class TransformerModel(paddle.nn.Module):
             next_batch_beam = []
             for sent_id in range(bs):
                 done[sent_id] = done[sent_id] or generated_hyps[sent_id].is_done(
-                    next_scores[sent_id]._max().item()
+                    paddle.max(next_scores[sent_id]).item()
                 )
                 if done[sent_id]:
                     next_batch_beam.extend([(0, self.pad_index, 0)] * beam_size)
@@ -857,7 +861,7 @@ class TransformerModel(paddle.nn.Module):
             tgt_len[i] = len(best_hyp) + 1
             best.append(best_hyp)
         # PaddlePaddle: 使用 paddle.full 创建解码张量
-        decoded = paddle.full([int(tgt_len._max().item()), bs], self.pad_index, dtype=src_len.dtype)
+        decoded = paddle.full([int(paddle.max(tgt_len).item()), bs], self.pad_index, dtype=src_len.dtype)
         for i, hypo in enumerate(best):
             decoded[: tgt_len[i] - 1, i] = hypo
             decoded[tgt_len[i] - 1, i] = self.eos_index

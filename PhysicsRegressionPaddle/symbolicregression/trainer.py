@@ -699,10 +699,11 @@ class Trainer(object):
                 units=self.env.word_to_idx(samples["dim_encoded"], unit_input=True),
                 decode_physical_units=self.params.decode_physical_units,
             )
-        alen = paddle.arange(len2._max(), dtype=paddle.long, device=len2.device)
+        alen = paddle.arange(paddle.max(len2), dtype=paddle.long, device=len2.device)
         pred_mask = alen[:, None] < len2[None] - 1
         y = x2[1:].masked_select(pred_mask[:-1])
-        assert len(y) == (len2 - 1).sum().item()
+        if __debug__:  # 只在调试模式下检查，避免频繁GPU-CPU同步
+            assert len(y) == (len2 - 1).sum().item()
         if self.params.decode_physical_units == "double-seq":
             y_units = units[1:].masked_select(pred_mask[:-1].unsqueeze(-1))
             units, y_units = to_cuda(units, y_units, device=env.params.device)
@@ -748,10 +749,20 @@ class Trainer(object):
                     get_scores=False,
                     y_units=y_units,
                 )
-        self.stats[task].append(loss.item())
-        self.total_loss += loss.item()
+        # 减少同步频率：每10个batch才同步一次统计信息
+        if self.n_iter % 10 == 0:
+            self.stats[task].append(loss.item())
+            self.total_loss += loss.item()
+        else:
+            # 不同步，只累积loss张量
+            if not hasattr(self, '_loss_accumulator'):
+                self._loss_accumulator = []
+            self._loss_accumulator.append(loss.detach())
+
         self.optimize(loss)
         self.inner_epoch += 1
         self.n_equations += len1.size(0)
         self.stats["processed_e"] += len1.size(0)
-        self.stats["processed_w"] += (len1 + len2 - 2).sum().item()
+        # processed_w也减少同步频率
+        if self.n_iter % 10 == 0:
+            self.stats["processed_w"] += (len1 + len2 - 2).sum().item()
