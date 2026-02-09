@@ -147,6 +147,7 @@ def test_embedder_performance(n_iterations=10):
     print(f"  ✓ batch方法优化 (paddle.full)")
     print(f"  ✓ 预计算token ID")
     print(f"  ✓ hint_encode简化")
+    print(f"  ✓ 批量编码优化 (encode_batch向量化)")
     print(f"  ✗ 浮点数编码缓存 (已移除 - 命中率低导致性能恶化)")
 
     print("\n" + "=" * 80)

@@ -131,20 +131,51 @@ class LinearPointEmbedder(Embedder):
         return sequences_embeddings, sequences_len
 
     def num_encode(self, sequences: List[Sequence]) -> List[paddle.Tensor]:
-        """优化的数值编码方法 - 使用预计算的token ID (无缓存)"""
+        """优化的数值编码方法 - 使用批量编码 (向量化)"""
         res = []
         for seq in sequences:
-            seq_toks = []
-            for x, y in seq:
-                # 直接编码,不使用缓存
-                x_toks = self.env.float_encoder.encode(x)
-                y_toks = self.env.float_encoder.encode(y)
+            if len(seq) == 0:
+                res.append(paddle.to_tensor([], dtype="int64"))
+                continue
 
-                input_dim = int(len(x_toks) / (2 + self.params.mantissa_len))
-                output_dim = int(len(y_toks) / (2 + self.params.mantissa_len))
+            # 收集所有x和y值
+            x_values = []
+            y_values = []
+            for x, y in seq:
+                x_values.append(x)
+                y_values.append(y)
+
+            # 转换为NumPy数组进行批量编码
+            x_batch = np.array(x_values)  # shape: (n_points, n_vars)
+            y_batch = np.array(y_values)  # shape: (n_points, 1) 或 (n_points,)
+
+            # 确保y_batch是2D
+            if len(y_batch.shape) == 1:
+                y_batch = y_batch.reshape(-1, 1)
+
+            # 批量编码
+            x_encoded_batch = self.env.float_encoder.encode_batch(x_batch)
+            y_encoded_batch = self.env.float_encoder.encode_batch(y_batch)
+
+            # 构建序列
+            seq_toks = []
+            n_points = len(seq)
+            n_vars = x_batch.shape[1]
+
+            for i in range(n_points):
+                # 获取当前点的编码
+                x_toks = []
+                for j in range(n_vars):
+                    idx = i * n_vars + j
+                    x_toks.extend(x_encoded_batch[idx])
+
+                y_toks = y_encoded_batch[i]
+
+                input_dim = n_vars
+                output_dim = 1
 
                 # 添加填充
-                x_toks = [
+                x_toks_padded = [
                     *x_toks,
                     *[
                         "<INPUT_PAD>"
@@ -154,7 +185,7 @@ class LinearPointEmbedder(Embedder):
                         )
                     ],
                 ]
-                y_toks = [
+                y_toks_padded = [
                     *y_toks,
                     *[
                         "<OUTPUT_PAD>"
@@ -167,11 +198,12 @@ class LinearPointEmbedder(Embedder):
 
                 # 使用预计算的ID减少字典查询
                 toks_ids = [self.common_token_ids["<DATA_POINT>"]]
-                toks_ids.extend([self.env.float_word2id[tok] for tok in x_toks])
-                toks_ids.extend([self.env.float_word2id[tok] for tok in y_toks])
+                toks_ids.extend([self.env.float_word2id[tok] for tok in x_toks_padded])
+                toks_ids.extend([self.env.float_word2id[tok] for tok in y_toks_padded])
                 toks_ids.append(self.common_token_ids["</DATA_POINT>"])
 
                 seq_toks.append(toks_ids)
+
             res.append(paddle.to_tensor(seq_toks, dtype="int64"))
         return res
 

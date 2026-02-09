@@ -79,6 +79,55 @@ class FloatSequences(Encoder):
                 seqs += [self.encode(values[n])]
         return seqs
 
+    def encode_batch(self, values_batch):
+        """
+        批量编码NumPy数组 - 向量化优化版本
+
+        Args:
+            values_batch: shape (N,) 或 (N, D) 的NumPy数组
+
+        Returns:
+            编码后的token列表,每个元素对应一个数值
+        """
+        precision = self.float_precision
+
+        # 确保是2D数组
+        if len(values_batch.shape) == 1:
+            values_batch = values_batch.reshape(-1, 1)
+
+        N, D = values_batch.shape
+        result = []
+
+        # 向量化符号提取
+        signs = np.where(values_batch >= 0, "+", "-")
+
+        # 展平数组以便批量处理
+        flat_values = values_batch.flatten()
+        flat_signs = signs.flatten()
+
+        # 批量格式化 - 使用列表推导式而不是循环
+        formatted_strs = [f"%.{precision}e" % val for val in flat_values]
+
+        # 批量解析
+        for idx, (val, sign, fmt_str) in enumerate(zip(flat_values, flat_signs, formatted_strs)):
+            assert val not in [-np.inf, np.inf]
+
+            m, e = fmt_str.split("e")
+            i_part, f_part = m.lstrip("-").split(".")
+            mantissa = i_part + f_part
+            tokens = chunks(mantissa, self.base)
+            expon = int(e) - precision
+
+            if expon < -self.max_exponent:
+                tokens = ["0" * self.base] * self.mantissa_len
+                expon = 0
+
+            result.append(
+                [sign, *[("N" + token) for token in tokens], "E" + str(expon)]
+            )
+
+        return result
+
     def decode(self, lst):
         """
         Parse a list that starts with a float.
