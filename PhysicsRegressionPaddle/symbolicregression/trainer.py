@@ -385,6 +385,9 @@ class Trainer(object):
         logger.info(str_errors[:-2])
         self.errors_statistics = defaultdict(int)
         self.infos_statistics = defaultdict(list)
+        # 清理未使用的loss累积器（如果存在）
+        if hasattr(self, '_loss_accumulator'):
+            del self._loss_accumulator
 
     def save_checkpoint(self, name, include_optimizer=True):
         """
@@ -750,20 +753,11 @@ class Trainer(object):
                     get_scores=False,
                     y_units=y_units,
                 )
-        # 减少同步频率：每10个batch才同步一次统计信息
-        if self.n_iter % 10 == 0:
-            self.stats[task].append(loss.item())
-            self.total_loss += loss.item()
-        else:
-            # 不同步，只累积loss张量
-            if not hasattr(self, '_loss_accumulator'):
-                self._loss_accumulator = []
-            self._loss_accumulator.append(loss.detach())
-
+        # 每个batch都统计loss和processed_w，确保统计准确性
+        self.stats[task].append(loss.item())
+        self.total_loss += loss.item()
         self.optimize(loss)
         self.inner_epoch += 1
         self.n_equations += len1.size(0)
         self.stats["processed_e"] += len1.size(0)
-        # processed_w也减少同步频率
-        if self.n_iter % 10 == 0:
-            self.stats["processed_w"] += (len1 + len2 - 2).sum().item()
+        self.stats["processed_w"] += (len1 + len2 - 2).sum().item()

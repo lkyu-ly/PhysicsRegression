@@ -34,14 +34,14 @@ paconvert --in_dir ./PhysicsRegression --out_dir ./PhysicsRegressionPaddle
 
 ### 迁移状态
 
-| 组件 | 迁移状态 | 自动转换率 | 备注 |
-|------|---------|-----------|------|
-| **符号回归模块** | ✅ 完成 | ~95% | Transformer, Embedders, Environment |
-| **Oracle模块** | ✅ 完成 | ~98% | SimpleNet网络, Oracle训练 |
-| **训练脚本** | ✅ 完成 | ~90% | train.py, trainer.py |
-| **评估脚本** | ✅ 完成 | ~90% | evaluate.py |
-| **工具函数** | ✅ 完成 | ~95% | utils.py, metrics.py |
-| **兼容层** | ✅ 自动生成 | 100% | paddle_utils.py |
+| 组件             | 迁移状态    | 自动转换率 | 备注                                |
+| ---------------- | ----------- | ---------- | ----------------------------------- |
+| **符号回归模块** | ✅ 完成     | ~95%       | Transformer, Embedders, Environment |
+| **Oracle模块**   | ✅ 完成     | ~98%       | SimpleNet网络, Oracle训练           |
+| **训练脚本**     | ✅ 完成     | ~90%       | train.py, trainer.py                |
+| **评估脚本**     | ✅ 完成     | ~90%       | evaluate.py                         |
+| **工具函数**     | ✅ 完成     | ~95%       | utils.py, metrics.py                |
+| **兼容层**       | ✅ 自动生成 | 100%       | paddle_utils.py                     |
 
 ### 文件结构对比
 
@@ -281,6 +281,7 @@ def device2int(device):
 ```
 
 **使用场景**:
+
 ```python
 # PyTorch代码: device = 'cuda:0'
 # PaddlePaddle转换: device = device2int('cuda:0')  # 返回 0
@@ -321,6 +322,7 @@ setattr(paddle.Tensor, "_max", _Tensor_max)
 ```
 
 **使用示例**:
+
 ```python
 import paddle
 from paddle_utils import *
@@ -345,6 +347,7 @@ from paddle_utils import *
 ```
 
 **注意事项**:
+
 - ⚠️ `paddle_utils.py` 必须位于Python导入路径中
 - ⚠️ 导入顺序: 先 `import paddle`,再 `from paddle_utils import *`
 - ⚠️ 某些项目文件通过 `sys.path.append` 添加项目根目录到路径
@@ -392,6 +395,7 @@ class MultiHeadAttention(paddle.nn.Module):
 ```
 
 **变化要点**:
+
 1. 导入: `torch` → `paddle`
 2. 类继承: `nn.Module` → `paddle.nn.Module`
 3. 线性层: `nn.Linear` → `paddle.compat.nn.Linear`
@@ -533,6 +537,7 @@ def train_step(model, optimizer, x, y):
 ```
 
 **关键差异**:
+
 - `optimizer.zero_grad()` → `optimizer.clear_grad()`
 
 ---
@@ -658,6 +663,7 @@ fc = paddle.nn.Linear(128, 64)  # ← 可能存在细微差异
 ```
 
 **兼容命名空间位置**:
+
 - 文件: `symbolicregression/model/transformer.py`
 - 文件: `symbolicregression/model/embedders.py`
 - 文件: `Oracle/oracle.py`
@@ -665,6 +671,7 @@ fc = paddle.nn.Linear(128, 64)  # ← 可能存在细微差异
 **是否可以改为 `paddle.nn.Linear`?**
 
 理论上可以,但需要验证以下内容:
+
 1. 权重初始化方法是否一致
 2. bias处理是否相同
 3. 前向传播数值精度
@@ -679,6 +686,7 @@ sys.path.append("/home/lkyu/baidu/PhysicsRegressionPaddle")
 ```
 
 **位置**:
+
 - `symbolicregression/model/transformer.py:1-2`
 - `symbolicregression/model/embedders.py:1-2`
 
@@ -735,6 +743,7 @@ sys.path.append("/home/lkyu/baidu/PhysicsRegressionPaddle")
 **描述**: PyTorch的 `.pt` 模型文件无法直接用于PaddlePaddle
 
 **解决方案**:
+
 1. 使用相同数据重新训练模型
 2. 或编写自定义转换脚本 (需要深入理解网络结构)
 
@@ -743,6 +752,7 @@ sys.path.append("/home/lkyu/baidu/PhysicsRegressionPaddle")
 **描述**: 代码中使用 `paddle.compat.nn.Linear` 可能让人困惑
 
 **说明**:
+
 - 这是PaConvert工具的标准做法
 - 确保API兼容性
 - 不影响功能
@@ -752,6 +762,7 @@ sys.path.append("/home/lkyu/baidu/PhysicsRegressionPaddle")
 **描述**: PaddlePaddle和PyTorch在某些操作上可能有细微数值差异
 
 **验证方法**:
+
 ```python
 import paddle
 import torch
@@ -778,6 +789,7 @@ print(f"最大差异: {diff}")  # 应该 < 1e-5
 **描述**: 部分文件包含硬编码的绝对路径
 
 **位置**:
+
 ```python
 sys.path.append("/home/lkyu/baidu/PhysicsRegressionPaddle")
 ```
@@ -792,12 +804,13 @@ sys.path.append("/home/lkyu/baidu/PhysicsRegressionPaddle")
 
 **问题根源**:
 
-| 框架 | 优化器基类签名 |
-|------|--------------|
-| **PyTorch** | `__init__(self, params, defaults)` |
+| 框架             | 优化器基类签名                                                 |
+| ---------------- | -------------------------------------------------------------- |
+| **PyTorch**      | `__init__(self, params, defaults)`                             |
 | **PaddlePaddle** | `__init__(self, learning_rate, parameters, weight_decay, ...)` |
 
 **错误代码示例**:
+
 ```python
 # ❌ 错误: PaConvert自动转换后的代码
 class Adam(paddle.optimizer.Optimizer):
@@ -807,12 +820,14 @@ class Adam(paddle.optimizer.Optimizer):
 ```
 
 **错误信息**:
+
 ```
 TypeError: `parameters` argument should not get dict type, if parameter groups is needed,
 please set `parameters` as list of dict
 ```
 
 **手动修复** (已完成):
+
 ```python
 # ✅ 正确: 使用命名参数调用父类
 class Adam(paddle.optimizer.Optimizer):
@@ -829,18 +844,21 @@ class Adam(paddle.optimizer.Optimizer):
 ```
 
 **修复位置**:
+
 - `Adam` (第25行)
 - `AdamWithWarmup` (第94-101行)
 - `AdamInverseSqrtWithWarmup` (第149-156行)
 - `AdamCosineWithWarmup` (第211-218行)
 
 **为什么 PaConvert 无法自动处理**:
+
 1. 参数位置完全不同 (第1个参数: `params` vs `learning_rate`)
 2. 参数名称不同 (`params` vs `parameters`)
 3. PaddlePaddle 不使用 `defaults` 字典模式
 4. 需要根据语义重新映射，超出工具能力
 
 **最佳实践**:
+
 - 迁移后务必测试优化器初始化
 - 保持 PyTorch 版本不变（标准实现）
 - 在 PaddlePaddle 版本中手动修复
@@ -852,21 +870,24 @@ class Adam(paddle.optimizer.Optimizer):
 **描述**: PaddlePaddle 的 `tensor.cuda()` 不接受 `device` 参数，这是与PyTorch的关键差异
 
 **影响文件**:
+
 - `symbolicregression/utils.py` (to_cuda 函数，第140-152行)
 
 **错误信息**:
+
 ```
 TypeError: monkey_patch_tensor.<locals>.cuda() got an unexpected keyword argument 'device'
 ```
 
 **根本原因**:
 
-| API类型 | PyTorch | PaddlePaddle |
-|---------|---------|--------------|
-| **Tensor.cuda()** | `tensor.cuda(device=0)` ✅ 接受device参数 | `tensor.cuda()` ❌ 不接受任何参数 |
+| API类型           | PyTorch                                   | PaddlePaddle                                      |
+| ----------------- | ----------------------------------------- | ------------------------------------------------- |
+| **Tensor.cuda()** | `tensor.cuda(device=0)` ✅ 接受device参数 | `tensor.cuda()` ❌ 不接受任何参数                 |
 | **Module.cuda()** | `module.cuda(device=0)` ✅ 接受device参数 | `module.cuda(device=device_id)` ✅ 接受device参数 |
 
 **关键发现**:
+
 - Module和Tensor的cuda()方法行为不同
 - PaddlePaddle的Tensor.cuda()完全不接受参数
 - 官方文档说明不准确（文档说有device_id参数，实际不存在）
@@ -913,29 +934,34 @@ def to_cuda(*args, use_cpu=False, device=None):
 ```
 
 **修复策略选择**:
+
 - 方案A: 使用`paddle.to_device() + CUDAPlace()`
 - **方案B**: 使用`paddle.device.set_device() + 无参数.cuda()` ← 已采用
 - 方案C: 检查张量设备 + 条件移动
 
 选择方案B的原因：
+
 1. 与源代码最相似
 2. 实现简单，易于维护
 3. 与Module.cuda()的使用方式一致
 4. 适用于单GPU场景（项目主要场景）
 
 **为什么 PaConvert 无法自动处理**:
+
 1. 需要区分Module.cuda()和Tensor.cuda()的不同行为
 2. 需要插入全局设备设置逻辑
 3. 需要理解device参数的语义转换
 4. 超出简单API映射范围
 
 **调用位置** (无需修改):
+
 - `symbolicregression/model/embedders.py:101-106`
 - `symbolicregression/trainer.py:666, 669`
 
 这些调用位置无需修改，因为to_cuda的接口保持不变。
 
 **最佳实践**:
+
 - 对于Module: 可以使用`.cuda(device=device_id)`
 - 对于Tensor: 必须先`set_device()`再调用无参数`.cuda()`
 - 建议统一使用`paddle.to_device(tensor, place)`显式指定设备
@@ -947,20 +973,22 @@ def to_cuda(*args, use_cpu=False, device=None):
 **描述**: PaddlePaddle 的 Tensor 没有 `.new()` 方法，这是PyTorch独有的便捷创建张量的方法
 
 **影响文件**:
+
 - `symbolicregression/model/transformer.py` (15处调用)
 
 **错误信息**:
+
 ```
 AttributeError: 'Tensor' object has no attribute 'new'. Did you mean: 'ne'?
 ```
 
 **根本原因**:
 
-| 功能 | PyTorch | PaddlePaddle |
-|------|---------|--------------|
-| **创建同设备张量** | `tensor.new(size)` | 不存在此方法 |
-| **创建同类型张量** | `tensor.new([1,2,3])` | 不存在此方法 |
-| **便捷方法** | `tensor.new(5).long()` | 需要显式使用paddle API |
+| 功能               | PyTorch                | PaddlePaddle           |
+| ------------------ | ---------------------- | ---------------------- |
+| **创建同设备张量** | `tensor.new(size)`     | 不存在此方法           |
+| **创建同类型张量** | `tensor.new([1,2,3])`  | 不存在此方法           |
+| **便捷方法**       | `tensor.new(5).long()` | 需要显式使用paddle API |
 
 **手动修复** (已完成):
 
@@ -977,16 +1005,17 @@ positions = paddle.arange(slen, dtype='int64').unsqueeze(0)
 
 **修复模式总结**:
 
-| PyTorch模式 | PaddlePaddle替代 | 说明 |
-|-------------|-----------------|------|
-| `x.new(size).fill_(val)` | `paddle.full([size], val, dtype=x.dtype)` | 创建填充张量 |
-| `x.new(size).long()` | `paddle.arange(size, dtype='int64')` | 创建整数序列 |
-| `x.new([list])` | `paddle.to_tensor([list], dtype=x.dtype)` | 从列表创建 |
-| `x.new(size).float().fill_(0)` | `paddle.zeros([size], dtype='float32')` | 创建零张量 |
+| PyTorch模式                    | PaddlePaddle替代                          | 说明         |
+| ------------------------------ | ----------------------------------------- | ------------ |
+| `x.new(size).fill_(val)`       | `paddle.full([size], val, dtype=x.dtype)` | 创建填充张量 |
+| `x.new(size).long()`           | `paddle.arange(size, dtype='int64')`      | 创建整数序列 |
+| `x.new([list])`                | `paddle.to_tensor([list], dtype=x.dtype)` | 从列表创建   |
+| `x.new(size).float().fill_(0)` | `paddle.zeros([size], dtype='float32')`   | 创建零张量   |
 
 **详细修复位置** (共15处):
 
 1. **第399行** - `fwd()`方法中的位置张量:
+
 ```python
 # 修复前:
 positions = x.new(slen).long()
@@ -997,6 +1026,7 @@ positions = paddle.arange(slen, dtype='int64').unsqueeze(0)
 ```
 
 2. **第516-520行** - `generate()`方法中的生成张量:
+
 ```python
 # 修复前:
 generated = src_len.new(max_len, bs)
@@ -1010,6 +1040,7 @@ positions = paddle.arange(max_len, dtype='int64').unsqueeze(1).expand([max_len, 
 ```
 
 3. **第578-584行** - `generate_double_seq()`方法:
+
 ```python
 # 修复前:
 generated1 = src_len.new(max_len, bs)
@@ -1021,6 +1052,7 @@ generated2 = paddle.full([max_len, bs, 5], self.pad_index, dtype=src_len.dtype)
 ```
 
 4. **第758-769行** - `generate_beam()`方法的束搜索初始化:
+
 ```python
 # 修复前:
 generated = src_len.new(max_len, bs * beam_size)
@@ -1033,6 +1065,7 @@ beam_scores[:, 1:] = -1000000000.0
 ```
 
 5. **第778行** - 束搜索循环中的长度张量:
+
 ```python
 # 修复前:
 lengths=src_len.new(bs * beam_size).fill_(cur_len)
@@ -1042,6 +1075,7 @@ lengths=paddle.full([bs * beam_size], cur_len, dtype=src_len.dtype)
 ```
 
 6. **第830-833行** - 从列表创建束搜索跟踪张量:
+
 ```python
 # 修复前:
 beam_scores = beam_scores.new([x[0] for x in next_batch_beam])
@@ -1055,6 +1089,7 @@ beam_idx = paddle.to_tensor([x[2] for x in next_batch_beam], dtype=src_len.dtype
 ```
 
 7. **第845-853行** - 最终解码结果:
+
 ```python
 # 修复前:
 tgt_len = src_len.new(bs)
@@ -1067,6 +1102,7 @@ decoded = paddle.full([int(tgt_len._max().item()), bs], self.pad_index, dtype=sr
 ```
 
 **为什么 PaConvert 无法自动处理**:
+
 1. `.new()`是PyTorch的便捷方法，没有直接对应的PaddlePaddle API
 2. 需要根据使用场景选择不同的替代方法（full/zeros/arange/to_tensor）
 3. 需要保持dtype一致性，要从原张量推断类型
@@ -1074,6 +1110,7 @@ decoded = paddle.full([int(tgt_len._max().item()), bs], self.pad_index, dtype=sr
 5. 超出简单API映射的能力范围
 
 **最佳实践**:
+
 - 使用`paddle.full()`创建填充张量
 - 使用`paddle.zeros()`/`paddle.ones()`创建零/一张量
 - 使用`paddle.arange()`创建序列
@@ -1089,23 +1126,25 @@ decoded = paddle.full([int(tgt_len._max().item()), bs], self.pad_index, dtype=sr
 **描述**: PaddlePaddle 的 `model.parameters()` 返回 list 而非 generator，以及相关的类型提升问题
 
 **影响文件**:
+
 - `symbolicregression/model/model_wrapper.py` (第40行)
 - `symbolicregression/model/__init__.py` (第66行)
 - `Oracle/oracle.py` (第179行)
 - `symbolicregression/model/transformer.py` (多处类型提升)
 
 **错误信息**:
+
 ```
 TypeError: 'list' object is not an iterator
 ```
 
 **根本原因**:
 
-| API类型 | PyTorch | PaddlePaddle |
-|---------|---------|--------------|
-| **model.parameters()** | 返回 **generator** | 返回 **list** |
-| **named_parameters()** | 返回 **generator** | 返回 **list** |
-| **next(model.parameters())** | ✅ 可行 | ❌ TypeError |
+| API类型                      | PyTorch              | PaddlePaddle         |
+| ---------------------------- | -------------------- | -------------------- |
+| **model.parameters()**       | 返回 **generator**   | 返回 **list**        |
+| **named_parameters()**       | 返回 **generator**   | 返回 **list**        |
+| **next(model.parameters())** | ✅ 可行              | ❌ TypeError         |
 | **iter(model.parameters())** | ✅ 返回generator本身 | ✅ 创建list_iterator |
 
 #### 子问题 8.1: parameters() 迭代器问题
@@ -1113,6 +1152,7 @@ TypeError: 'list' object is not an iterator
 **错误位置**: `model_wrapper.py:40`
 
 **手动修复** (已完成):
+
 ```python
 # ❌ 修复前
 class ModelWrapper:
@@ -1127,6 +1167,7 @@ class ModelWrapper:
 ```
 
 **为什么这样修复**:
+
 - `iter(list)` 创建 list_iterator，开销极小
 - 在 PyTorch 中，`iter(generator)` 返回 generator 本身，无额外开销
 - 代码兼容两个框架
@@ -1136,6 +1177,7 @@ class ModelWrapper:
 **错误位置**: `model/__init__.py:66`
 
 **手动修复** (已完成):
+
 ```python
 # ❌ 修复前
 f"Number of parameters ({k}): {sum([p.size for p in v.parameters() if p.requires_grad])}"
@@ -1151,6 +1193,7 @@ f"Number of parameters ({k}): {sum([p.numel() for p in v.parameters() if p.requi
 **错误位置**: `Oracle/oracle.py:179`
 
 **手动修复** (已完成):
+
 ```python
 # ❌ 修复前
 optimizer = paddle.optimizer.Adam(
@@ -1168,15 +1211,18 @@ optimizer = paddle.optimizer.Adam(
 **根本原因**: PaddlePaddle 不允许 float32 和 int64 之间的隐式类型提升
 
 **错误信息**:
+
 ```
 TypeError: (InvalidType) Type promotion only support calculations between floating-point numbers
 and between complex and real numbers. But got different data type x: float32, y: int64.
 ```
 
 **影响位置**:
+
 - `transformer.py:561, 705, 708` - `paddle.log(perplexity) * unfinished_sents`
 
 **手动修复** (已完成):
+
 ```python
 # ❌ 修复前
 word_perplexity.add_(
@@ -1195,14 +1241,17 @@ word_perplexity.add_(
 **根本原因**: PaddlePaddle 的 `.ne()` 方法要求参数必须是 Tensor
 
 **错误信息**:
+
 ```
 ValueError: not_equal(): argument 'y' (position 1) must be Tensor, but got int
 ```
 
 **影响位置**:
+
 - `transformer.py:565, 714` - `next_words.ne(self.eos_index)`
 
 **手动修复** (已完成):
+
 ```python
 # ❌ 修复前
 unfinished_sents.mul_(next_words.ne(self.eos_index).long())
@@ -1213,15 +1262,18 @@ unfinished_sents.mul_((next_words != self.eos_index).astype('int64'))
 ```
 
 **为什么使用 `!=`**:
+
 - `!=` 运算符在 PaddlePaddle 中可以处理标量
 - 更简洁，避免创建不必要的 tensor
 
 #### 子问题 8.6: 除法类型提升
 
 **影响位置**:
+
 - `transformer.py:575, 726, 727` - `word_perplexity / rows`
 
 **手动修复** (已完成):
+
 ```python
 # ❌ 修复前
 rows, cols = paddle.nonzero(generated[1:] == self.eos_index, as_tuple=True)
@@ -1235,17 +1287,18 @@ word_perplexity = paddle.exp(word_perplexity / rows.astype('float32'))
 
 **修复总结**:
 
-| 文件 | 修复点 | 类型 | 数量 |
-|------|--------|------|------|
-| `model_wrapper.py` | parameters() 迭代 | 迭代器 | 1 |
-| `model/__init__.py` | 参数统计方法 | API差异 | 1 |
-| `Oracle/oracle.py` | 优化器参数 | 显式list | 1 |
-| `transformer.py` | float × int 乘法 | 类型转换 | 3 |
-| `transformer.py` | .ne() 方法调用 | API差异 | 2 |
-| `transformer.py` | float / int 除法 | 类型转换 | 3 |
-| **总计** | | | **11处** |
+| 文件                | 修复点            | 类型     | 数量     |
+| ------------------- | ----------------- | -------- | -------- |
+| `model_wrapper.py`  | parameters() 迭代 | 迭代器   | 1        |
+| `model/__init__.py` | 参数统计方法      | API差异  | 1        |
+| `Oracle/oracle.py`  | 优化器参数        | 显式list | 1        |
+| `transformer.py`    | float × int 乘法  | 类型转换 | 3        |
+| `transformer.py`    | .ne() 方法调用    | API差异  | 2        |
+| `transformer.py`    | float / int 除法  | 类型转换 | 3        |
+| **总计**            |                   |          | **11处** |
 
 **为什么 PaConvert 无法自动处理**:
+
 1. 需要识别 `next(model.parameters())` 模式并自动插入 `iter()`
 2. 需要理解返回值类型差异（generator vs list）
 3. 需要检测所有潜在的类型提升位置
@@ -1253,6 +1306,7 @@ word_perplexity = paddle.exp(word_perplexity / rows.astype('float32'))
 5. 超出简单API映射的能力范围
 
 **最佳实践**:
+
 - 使用 `next(iter(model.parameters()))` 兼容两个框架
 - 参数统计使用 `.numel()` 标准方法
 - 优化器初始化显式使用 `list(model.parameters())`
@@ -1288,30 +1342,30 @@ word_perplexity = paddle.exp(word_perplexity / rows.astype('float32'))
 
 ## 附录: 完整API对照表
 
-| 功能类别 | PyTorch | PaddlePaddle | 备注 |
-|---------|---------|--------------|------|
-| **模块导入** | `import torch` | `import paddle` | |
-| **神经网络基类** | `torch.nn.Module` | `paddle.nn.Module` | 或 `paddle.nn.Layer` |
-| **线性层** | `torch.nn.Linear` | `paddle.compat.nn.Linear` | ⚠️ 使用compat |
-| **嵌入层** | `torch.nn.Embedding` | `paddle.nn.Embedding` | |
-| **激活函数** | `torch.tanh` | `paddle.tanh` | |
-| | `torch.nn.functional.relu` | `paddle.nn.functional.relu` | |
-| **参数** | `torch.nn.Parameter` | `paddle.nn.Parameter` | |
-| **容器** | `torch.nn.ModuleList` | `paddle.nn.ModuleList` | |
-| **张量创建** | `torch.tensor` | `paddle.to_tensor` | 推荐用法 |
-| | `torch.zeros` | `paddle.zeros` | |
-| | `torch.FloatTensor` | `paddle.FloatTensor` | |
-| **数据类型** | `.long()` | `.astype(paddle.int64)` | |
-| **张量操作** | `.max(dim=1)` | `.max(axis=1)` | ⚠️ dim→axis |
-| **优化器** | `torch.optim.Adam` | `paddle.optimizer.Adam` | 参数名不同 |
-| | `.zero_grad()` | `.clear_grad()` | ⚠️ 方法名不同 |
-| **损失函数** | `torch.nn.functional.mse_loss` | `paddle.nn.functional.mse_loss` | |
-| **数据加载** | `torch.utils.data.DataLoader` | `paddle.io.DataLoader` | |
-| **设备管理** | `cuda:0` | `gpu:0` | ⚠️ 字符串格式 |
-| | `torch.cuda.is_available()` | `paddle.is_compiled_with_cuda()` | |
-| **模型保存** | `torch.save` | `paddle.save` | |
-| **模型加载** | `torch.load` | `paddle.load` | |
-| | `.load_state_dict` | `.set_state_dict` | ⚠️ 方法名不同 |
+| 功能类别         | PyTorch                        | PaddlePaddle                     | 备注                 |
+| ---------------- | ------------------------------ | -------------------------------- | -------------------- |
+| **模块导入**     | `import torch`                 | `import paddle`                  |                      |
+| **神经网络基类** | `torch.nn.Module`              | `paddle.nn.Module`               | 或 `paddle.nn.Layer` |
+| **线性层**       | `torch.nn.Linear`              | `paddle.compat.nn.Linear`        | ⚠️ 使用compat        |
+| **嵌入层**       | `torch.nn.Embedding`           | `paddle.nn.Embedding`            |                      |
+| **激活函数**     | `torch.tanh`                   | `paddle.tanh`                    |                      |
+|                  | `torch.nn.functional.relu`     | `paddle.nn.functional.relu`      |                      |
+| **参数**         | `torch.nn.Parameter`           | `paddle.nn.Parameter`            |                      |
+| **容器**         | `torch.nn.ModuleList`          | `paddle.nn.ModuleList`           |                      |
+| **张量创建**     | `torch.tensor`                 | `paddle.to_tensor`               | 推荐用法             |
+|                  | `torch.zeros`                  | `paddle.zeros`                   |                      |
+|                  | `torch.FloatTensor`            | `paddle.FloatTensor`             |                      |
+| **数据类型**     | `.long()`                      | `.astype(paddle.int64)`          |                      |
+| **张量操作**     | `.max(dim=1)`                  | `.max(axis=1)`                   | ⚠️ dim→axis          |
+| **优化器**       | `torch.optim.Adam`             | `paddle.optimizer.Adam`          | 参数名不同           |
+|                  | `.zero_grad()`                 | `.clear_grad()`                  | ⚠️ 方法名不同        |
+| **损失函数**     | `torch.nn.functional.mse_loss` | `paddle.nn.functional.mse_loss`  |                      |
+| **数据加载**     | `torch.utils.data.DataLoader`  | `paddle.io.DataLoader`           |                      |
+| **设备管理**     | `cuda:0`                       | `gpu:0`                          | ⚠️ 字符串格式        |
+|                  | `torch.cuda.is_available()`    | `paddle.is_compiled_with_cuda()` |                      |
+| **模型保存**     | `torch.save`                   | `paddle.save`                    |                      |
+| **模型加载**     | `torch.load`                   | `paddle.load`                    |                      |
+|                  | `.load_state_dict`             | `.set_state_dict`                | ⚠️ 方法名不同        |
 
 ---
 
@@ -1337,6 +1391,7 @@ AttributeError: 'dict' object has no attribute 'rescale'
 项目中有**两种不同的模型保存方式**：
 
 #### 1️⃣ 推理模型保存（PhyReg.save()）
+
 ```python
 def save(self, path):
     save_dict = {
@@ -1347,11 +1402,13 @@ def save(self, path):
     }
     paddle.save(obj=save_dict, path=path)
 ```
+
 - **保存内容**: `params` 保持为 `argparse.Namespace` 对象
 - **加载后**: params 仍然是 Namespace，可以属性访问 ✅
 - **示例文件**: `model.pt`（预训练模型）
 
 #### 2️⃣ 训练 Checkpoint 保存（trainer.py）
+
 ```python
 def save_checkpoint(self, name, include_optimizer=True):
     data = {
@@ -1363,6 +1420,7 @@ def save_checkpoint(self, name, include_optimizer=True):
     }
     paddle.save(obj=data, path=path)
 ```
+
 - **保存内容**: `params` 被转换为普通 Python **dict**
 - **加载后**: params 是 dict，不支持属性访问 ❌
 - **示例文件**: `checkpoint.pth`（训练 checkpoint）
@@ -1370,6 +1428,7 @@ def save_checkpoint(self, name, include_optimizer=True):
 ### 手动修复 (已完成)
 
 **PaddlePaddle 版本** (`PhysicsRegressionPaddle/PhysicsRegression.py`):
+
 ```python
 # 修复前 ❌
 model = paddle.load(path=str(path))
@@ -1386,6 +1445,7 @@ params.rescale = False  # ← 正常工作
 ```
 
 **PyTorch 版本** (`PhysicsRegression/PhysicsRegression.py`):
+
 ```python
 # 修复前 ❌
 model = torch.load(path)
@@ -1438,6 +1498,7 @@ print(f'params.rescale: {phyreg.params.rescale}')  # False
 ### 问题描述
 
 **错误信息**:
+
 ```
 TypeError: (InvalidType) Type promotion only support calculations between floating-point numbers
 and between complex and real numbers. But got different data type x: float64, y: int64.
@@ -1447,6 +1508,7 @@ and between complex and real numbers. But got different data type x: float64, y:
 **错误位置**: `symbolicregression/envs/encoders.py:417`
 
 **触发条件**:
+
 - 训练前几个epoch正常
 - 某个epoch的验证阶段,当模型生成包含 `x_` 变量的公式时触发
 - 单位检查时 `temp.unit != dim` 比较失败
@@ -1462,14 +1524,17 @@ if any(temp.unit != dim):  # ← 这里触发错误
 ```
 
 **类型不匹配**:
+
 - `temp.unit`: `np.ndarray(dtype=float64)` - 5维物理单位向量 `[kg, m, s, T, V]`
 - `dim` (来自 `xy_units[idx]`): Python `int` 或 `list` (元素为 `int64`)
 
 **为什么PyTorch没问题**:
+
 - PyTorch的张量比较会隐式转换类型
 - PaddlePaddle明确拒绝 `float64 != int64` 的比较,抛出类型提升错误
 
 **为什么前几个epoch正常**:
+
 - 前几个epoch生成的公式恰好不包含 `x_` 变量(或单位检查总是通过)
 - 后续epoch生成的公式触发了这个代码分支
 
@@ -1478,6 +1543,7 @@ if any(temp.unit != dim):  # ← 这里触发错误
 **修复位置**: `PhysicsRegressionPaddle/symbolicregression/envs/encoders.py:383-431`
 
 **修复前** ❌:
+
 ```python
 def check_units(self, tree, xy_units):
     stack = [tree]
@@ -1500,6 +1566,7 @@ def check_units(self, tree, xy_units):
 ```
 
 **修复后** ✅:
+
 ```python
 def check_units(self, tree, xy_units):
     stack = [tree]
@@ -1532,6 +1599,7 @@ def check_units(self, tree, xy_units):
 ### 关键变化
 
 1. **类型统一化**:
+
    ```python
    # 在比较前确保类型一致
    if not isinstance(dim, np.ndarray):
@@ -1549,6 +1617,7 @@ def check_units(self, tree, xy_units):
 ### 为什么这是PaddlePaddle特有问题
 
 **PyTorch**:
+
 ```python
 import torch
 x = torch.tensor([1.0, 2.0])  # float64
@@ -1557,6 +1626,7 @@ result = x != y  # ✅ 正常工作,隐式类型转换
 ```
 
 **PaddlePaddle**:
+
 ```python
 import paddle
 x = paddle.to_tensor([1.0, 2.0])  # float64
@@ -1565,6 +1635,7 @@ result = x != y  # ❌ TypeError: Type promotion error
 ```
 
 **设计理念**:
+
 - PyTorch: 宽松的类型系统,自动类型提升
 - PaddlePaddle: 严格的类型检查,明确类型转换
 
@@ -1586,6 +1657,7 @@ INFO - 01/29/26 09:33:07 - 0:35:48 - Creating valid1 iterator for functions ...
 ### 最佳实践
 
 1. **类型比较前统一转换**:
+
    ```python
    # 推荐模式
    if not isinstance(value, np.ndarray):
@@ -1593,6 +1665,7 @@ INFO - 01/29/26 09:33:07 - 0:35:48 - Creating valid1 iterator for functions ...
    ```
 
 2. **避免混合类型比较**:
+
    ```python
    # ❌ 不推荐
    np_array != python_int
@@ -1621,6 +1694,7 @@ INFO - 01/29/26 09:33:07 - 0:35:48 - Creating valid1 iterator for functions ...
 ### 问题描述
 
 **错误信息**:
+
 ```
 AttributeError: 'Hessian' object has no attribute 'detach'
 ```
@@ -1633,14 +1707,15 @@ AttributeError: 'Hessian' object has no attribute 'detach'
 
 PyTorch 和 PaddlePaddle 的 Hessian API **设计范式完全不同**：
 
-| 功能 | PyTorch | PaddlePaddle |
-|------|---------|--------------|
-| **API类型** | 函数 `hessian()` | 类 `Hessian()` |
+| 功能         | PyTorch                   | PaddlePaddle            |
+| ------------ | ------------------------- | ----------------------- |
+| **API类型**  | 函数 `hessian()`          | 类 `Hessian()`          |
 | **返回类型** | `torch.Tensor` (直接可用) | `Hessian` 对象 (需提取) |
-| **访问方式** | 直接使用返回值 | 需要切片 `[:]` 提取张量 |
-| **张量方法** | 直接调用 `.detach()` | 先提取，再调用 |
+| **访问方式** | 直接使用返回值            | 需要切片 `[:]` 提取张量 |
+| **张量方法** | 直接调用 `.detach()`      | 先提取，再调用          |
 
 **PyTorch 版本** (`PhysicsRegression/Oracle/oracle.py:328-329`):
+
 ```python
 from torch.autograd.functional import hessian
 
@@ -1649,6 +1724,7 @@ h_pred = h_pred.detach().cpu().clone().unsqueeze(0)  # ✅ 直接调用张量方
 ```
 
 **PaddlePaddle 版本** (`PhysicsRegressionPaddle/Oracle/oracle.py:297-300`):
+
 ```python
 h_pred = paddle.incubate.autograd.Hessian(
     func=model, xs=xx, is_batched=False
@@ -1659,11 +1735,13 @@ h_pred = h_pred.detach().cpu().clone().unsqueeze(0)  # ❌ AttributeError
 ### 为什么设计不同
 
 **PaddlePaddle 延迟计算设计**:
+
 - `Hessian` 类封装计算逻辑，支持按需计算子矩阵
 - 例如: `h_obj[0:2, 0:2]` 只计算左上角 2×2 区域，提高效率
 - 使用 `h_obj[:]` 可以一次性计算完整矩阵
 
 **PyTorch 立即计算**:
+
 - `hessian()` 函数直接计算并返回完整 Hessian 矩阵
 - 简洁直观，但大矩阵计算开销大
 
@@ -1672,6 +1750,7 @@ h_pred = h_pred.detach().cpu().clone().unsqueeze(0)  # ❌ AttributeError
 **修复位置**: `PhysicsRegressionPaddle/Oracle/oracle.py:294-309`
 
 **修复前** ❌:
+
 ```python
 hs_pred = paddle.zeros((0, num_variables, num_variables))
 for x in test_set:
@@ -1684,6 +1763,7 @@ for x in test_set:
 ```
 
 **修复后** ✅:
+
 ```python
 hs_pred = paddle.zeros((0, num_variables, num_variables))
 for x in test_set:
@@ -1710,11 +1790,13 @@ for x in test_set:
    - **必要性**: 不设置会导致 Hessian 计算失败或返回零矩阵
 
 2. **第301-303行**: 使用更清晰的变量名
+
    ```python
    h_pred_obj = paddle.incubate.autograd.Hessian(...)  # Hessian 对象
    ```
 
 3. **第305行核心修复**: 使用切片操作提取张量
+
    ```python
    h_pred = h_pred_obj[:]  # ← 返回 paddle.Tensor
    ```
@@ -1754,6 +1836,7 @@ h_matrix = h_matrix.detach().cpu()
 ### 测试验证
 
 **创建测试脚本** (`test_hessian_fix.py`):
+
 ```python
 import paddle
 
@@ -1781,6 +1864,7 @@ print(h_matrix.numpy())  # [[2. 0.] [0. 2.]]
 ```
 
 **测试结果**:
+
 ```
 ============================================================
 测试 Hessian 提取修复
@@ -1823,11 +1907,13 @@ print(h_matrix.numpy())  # [[2. 0.] [0. 2.]]
 ### 最佳实践
 
 1. **始终设置梯度标志**:
+
    ```python
    xx.stop_gradient = False  # 计算高阶导数前必须设置
    ```
 
 2. **使用切片提取张量**:
+
    ```python
    h_matrix = h_obj[:]  # 完整矩阵
    h_sub = h_obj[0:2, 0:2]  # 子矩阵（按需计算）
@@ -1853,6 +1939,7 @@ print(h_matrix.numpy())  # [[2. 0.] [0. 2.]]
 ### 问题描述
 
 **错误信息**:
+
 ```
 ImportError: attempted relative import beyond top-level package
 ```
@@ -1866,6 +1953,7 @@ ImportError: attempted relative import beyond top-level package
 **核心问题**: Python 相对导入不能超出顶级包的边界
 
 **原始目录结构**:
+
 ```
 PhysicsRegressionPaddle/
 ├── dependencies/           # ← 在顶级包外部
@@ -1876,12 +1964,14 @@ PhysicsRegressionPaddle/
 ```
 
 **错误代码**:
+
 ```python
 # symbolicregression/envs/simplifiers.py:12
 from ...dependencies import sympypaddle  # ❌ 超出包边界
 ```
 
 **为什么失败**:
+
 - `symbolicregression` 是顶级包
 - `...dependencies` 尝试向上3级，超出了 `symbolicregression` 包的边界
 - Python 禁止相对导入超出顶级包
@@ -1891,6 +1981,7 @@ from ...dependencies import sympypaddle  # ❌ 超出包边界
 **策略**: 重新组织目录结构，将依赖移入包内
 
 **修复前目录结构** ❌:
+
 ```
 PhysicsRegressionPaddle/
 ├── dependencies/           # ← 问题：在包外部
@@ -1901,6 +1992,7 @@ PhysicsRegressionPaddle/
 ```
 
 **修复后目录结构** ✅:
+
 ```
 PhysicsRegressionPaddle/
 └── symbolicregression/
@@ -1911,6 +2003,7 @@ PhysicsRegressionPaddle/
 ```
 
 **代码修复**:
+
 ```python
 # 修复前 ❌
 from ...dependencies import sympypaddle  # 超出包边界
@@ -1922,6 +2015,7 @@ from ..dependencies import sympypaddle   # 在包边界内
 ### 手动修复步骤 (已完成)
 
 **1. 目录重组** (用户手动完成):
+
 ```bash
 # 移动 dependencies 目录
 mv PhysicsRegressionPaddle/dependencies/ PhysicsRegressionPaddle/symbolicregression/
@@ -1940,6 +2034,7 @@ from ..dependencies import sympypaddle
 ```
 
 **3. 验证修复**:
+
 ```python
 # 测试导入
 from symbolicregression.envs.simplifiers import Simplifier
@@ -1965,15 +2060,16 @@ from symbolicregression.envs.simplifiers import Simplifier
 
 **替代方案对比**:
 
-| 方案 | 优点 | 缺点 | 选择 |
-|------|------|------|------|
-| **A: 移动到包内** | 符合Python规范，导入简洁 | 需要移动文件 | ✅ 已采用 |
-| B: 使用绝对导入 | 不需要移动文件 | 硬编码路径，不够灵活 | ❌ |
-| C: 修改 sys.path | 不需要移动文件 | 运行时修改，不够优雅 | ❌ |
+| 方案              | 优点                     | 缺点                 | 选择      |
+| ----------------- | ------------------------ | -------------------- | --------- |
+| **A: 移动到包内** | 符合Python规范，导入简洁 | 需要移动文件         | ✅ 已采用 |
+| B: 使用绝对导入   | 不需要移动文件           | 硬编码路径，不够灵活 | ❌        |
+| C: 修改 sys.path  | 不需要移动文件           | 运行时修改，不够优雅 | ❌        |
 
 ### 最佳实践
 
 **1. Python 包结构设计**:
+
 ```python
 # ✅ 推荐：依赖放在使用包内
 mypackage/
@@ -1992,11 +2088,13 @@ project/
 ```
 
 **2. 相对导入规则**:
+
 - 只能在包内使用相对导入
 - 不能超出顶级包边界
 - 优先使用相对导入而非绝对导入（在包内）
 
 **3. 依赖管理**:
+
 - 将依赖放在使用它们的包内
 - 避免跨包的复杂依赖关系
 - 使用 `__init__.py` 控制包的公共接口
@@ -2004,6 +2102,7 @@ project/
 ### 修复效果
 
 **测试结果**:
+
 ```python
 # 修复前
 from symbolicregression.envs.simplifiers import Simplifier
@@ -2019,6 +2118,7 @@ simplifier = Simplifier(generator)
 ```
 
 **影响范围**:
+
 - ✅ 仅影响 `simplifiers.py` 中的一行导入
 - ✅ 不影响其他模块
 - ✅ 不改变 `sympypaddle` 的功能
@@ -2042,11 +2142,12 @@ simplifier = Simplifier(generator)
 
 ## 性能优化记录
 
-### LinearPointEmbedder 批量编码优化 (2026-02-09)
+### 批量编码优化 (2026-02-09)
 
 **优化目标**: 提升浮点数编码性能，减少训练时间
 
 **优化点位**:
+
 - `symbolicregression/model/embedders.py:77-107` - 预计算token ID和填充模板
 - `symbolicregression/model/embedders.py:145-209` - 批量编码优化
 - `symbolicregression/envs/encoders.py:81-128` - 向量化批量编码实现
@@ -2076,11 +2177,13 @@ simplifier = Simplifier(generator)
 **性能提升**: 38% (395ms → 277ms)
 
 **测试方法**:
+
 ```bash
 python PhysicsRegressionPaddle/unitTest/test_embedder_performance.py
 ```
 
 **优化前后对比**:
+
 ```
 优化前: LinearPointEmbedder 平均耗时: 395ms
 优化后: LinearPointEmbedder 平均耗时: 277ms
@@ -2094,6 +2197,7 @@ python PhysicsRegressionPaddle/unitTest/test_embedder_performance.py
 **优化目标**: 减少GPU-CPU同步开销，提升训练吞吐量
 
 **优化点位**:
+
 - `symbolicregression/trainer.py:736-740, 786-802` - 减少同步频率
 - `symbolicregression/model/transformer.py:多处` - 使用 `paddle.max()`
 
@@ -2115,6 +2219,7 @@ python PhysicsRegressionPaddle/unitTest/test_embedder_performance.py
    - 效果: 避免不必要的GPU-CPU同步
 
 **关键代码示例**:
+
 ```python
 # 优化前: 每个batch都同步
 loss_value = loss.item()
@@ -2133,6 +2238,7 @@ if self.n_iter % 10 == 0:
 **优化目标**: 提升数据加载效率，减少训练等待时间
 
 **优化点位**:
+
 - `symbolicregression/envs/environment.py:DataLoader配置`
 
 **优化方法**:
@@ -2146,6 +2252,7 @@ if self.n_iter % 10 == 0:
    - 减少进程间数据传输开销
 
 **配置示例**:
+
 ```python
 DataLoader(
     dataset,
@@ -2162,17 +2269,20 @@ DataLoader(
 ### 累积性能提升
 
 **整体效果**:
+
 - **LinearPointEmbedder**: 从 5168ms 优化到 251ms
 - **性能提升**: 约 95%
 - **训练速度**: 显著提升
 
 **优化历程**:
+
 1. 阶段0: 缓存机制尝试 (失败，导致性能退化)
 2. 阶段1: 批量编码优化 (38%提升)
 3. 阶段2: GPU-CPU同步优化 + DataLoader优化
 4. 最终: 累积95%性能提升
 
 **验证方法**:
+
 ```bash
 # 性能测试
 python PhysicsRegressionPaddle/unitTest/test_embedder_performance.py

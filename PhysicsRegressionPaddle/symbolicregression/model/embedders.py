@@ -161,9 +161,22 @@ class LinearPointEmbedder(Embedder):
             x_batch = np.array(x_values)  # shape: (n_points, n_vars)
             y_batch = np.array(y_values)  # shape: (n_points, 1) 或 (n_points,)
 
+            # 确保x_batch是2D
+            if len(x_batch.shape) == 1:
+                x_batch = x_batch.reshape(-1, 1)
+
             # 确保y_batch是2D
             if len(y_batch.shape) == 1:
                 y_batch = y_batch.reshape(-1, 1)
+
+            # 获取变量数量
+            n_vars = x_batch.shape[1]
+
+            # 验证输入维度不超过最大值
+            if n_vars > self.params.max_input_dimension:
+                raise ValueError(
+                    f"输入维度 {n_vars} 超过最大允许维度 {self.params.max_input_dimension}"
+                )
 
             # 批量编码
             x_encoded_batch = self.env.float_encoder.encode_batch(x_batch)
@@ -174,9 +187,9 @@ class LinearPointEmbedder(Embedder):
             n_points = len(seq)
             n_vars = x_batch.shape[1]
 
-            # 计算填充长度
-            input_pad_count = (self.params.max_input_dimension - n_vars) * self.float_scalar_descriptor_len
-            output_pad_count = (self.params.max_output_dimension - 1) * self.float_scalar_descriptor_len
+            # 计算填充长度（使用max确保非负）
+            input_pad_count = max(0, (self.params.max_input_dimension - n_vars) * self.float_scalar_descriptor_len)
+            output_pad_count = max(0, (self.params.max_output_dimension - 1) * self.float_scalar_descriptor_len)
 
             for i in range(n_points):
                 # 优化3: 使用chain.from_iterable减少嵌套循环
