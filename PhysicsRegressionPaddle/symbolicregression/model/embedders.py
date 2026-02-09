@@ -2,6 +2,7 @@ import sys
 
 sys.path.append("/home/lkyu/baidu/PhyE2E/PhysicsRegressionPaddle")
 from abc import ABC, abstractmethod
+from itertools import chain
 from typing import List, Tuple
 
 import numpy as np
@@ -95,6 +96,17 @@ class LinearPointEmbedder(Embedder):
             "</USED_CONST>": self.env.float_word2id["</USED_CONST>"],
         }
 
+        # 优化1: 预生成填充模板 (避免每次重新生成列表)
+        max_input_pad = self.params.max_input_dimension * self.float_scalar_descriptor_len
+        max_output_pad = self.params.max_output_dimension * self.float_scalar_descriptor_len
+
+        self.input_pad_template = ["<INPUT_PAD>"] * max_input_pad
+        self.output_pad_template = ["<OUTPUT_PAD>"] * max_output_pad
+
+        # 优化2: 预生成填充ID模板 (避免重复查询字典)
+        self.input_pad_ids = [self.env.float_word2id["<INPUT_PAD>"]] * max_input_pad
+        self.output_pad_ids = [self.env.float_word2id["<OUTPUT_PAD>"]] * max_output_pad
+
     def compress(
         self, sequences_embeddings: paddle.Tensor
     ) -> Tuple[paddle.Tensor, paddle.Tensor]:
@@ -131,7 +143,7 @@ class LinearPointEmbedder(Embedder):
         return sequences_embeddings, sequences_len
 
     def num_encode(self, sequences: List[Sequence]) -> List[paddle.Tensor]:
-        """优化的数值编码方法 - 使用批量编码 (向量化)"""
+        """优化的数值编码方法 - 使用批量编码 + 填充模板 + 嵌套循环优化"""
         res = []
         for seq in sequences:
             if len(seq) == 0:
@@ -162,44 +174,35 @@ class LinearPointEmbedder(Embedder):
             n_points = len(seq)
             n_vars = x_batch.shape[1]
 
+            # 计算填充长度
+            input_pad_count = (self.params.max_input_dimension - n_vars) * self.float_scalar_descriptor_len
+            output_pad_count = (self.params.max_output_dimension - 1) * self.float_scalar_descriptor_len
+
             for i in range(n_points):
-                # 获取当前点的编码
-                x_toks = []
-                for j in range(n_vars):
-                    idx = i * n_vars + j
-                    x_toks.extend(x_encoded_batch[idx])
+                # 优化3: 使用chain.from_iterable减少嵌套循环
+                start_idx = i * n_vars
+                end_idx = start_idx + n_vars
+                x_toks = list(chain.from_iterable(x_encoded_batch[start_idx:end_idx]))
 
                 y_toks = y_encoded_batch[i]
 
-                input_dim = n_vars
-                output_dim = 1
+                # 优化1: 使用预生成的填充模板
+                x_toks_padded = x_toks + self.input_pad_template[:input_pad_count]
+                y_toks_padded = y_toks + self.output_pad_template[:output_pad_count]
 
-                # 添加填充
-                x_toks_padded = [
-                    *x_toks,
-                    *[
-                        "<INPUT_PAD>"
-                        for _ in range(
-                            (self.params.max_input_dimension - input_dim)
-                            * self.float_scalar_descriptor_len
-                        )
-                    ],
-                ]
-                y_toks_padded = [
-                    *y_toks,
-                    *[
-                        "<OUTPUT_PAD>"
-                        for _ in range(
-                            (self.params.max_output_dimension - output_dim)
-                            * self.float_scalar_descriptor_len
-                        )
-                    ],
-                ]
-
-                # 使用预计算的ID减少字典查询
+                # 优化2: 使用预计算的ID + 预生成的填充ID
                 toks_ids = [self.common_token_ids["<DATA_POINT>"]]
-                toks_ids.extend([self.env.float_word2id[tok] for tok in x_toks_padded])
-                toks_ids.extend([self.env.float_word2id[tok] for tok in y_toks_padded])
+                
+                # 对于x_toks中的非填充部分,仍需查询
+                toks_ids.extend([self.env.float_word2id[tok] for tok in x_toks])
+                # 添加填充ID
+                toks_ids.extend(self.input_pad_ids[:input_pad_count])
+                
+                # 对于y_toks中的非填充部分,仍需查询
+                toks_ids.extend([self.env.float_word2id[tok] for tok in y_toks])
+                # 添加填充ID
+                toks_ids.extend(self.output_pad_ids[:output_pad_count])
+                
                 toks_ids.append(self.common_token_ids["</DATA_POINT>"])
 
                 seq_toks.append(toks_ids)

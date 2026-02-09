@@ -17,7 +17,6 @@ import paddle
 import pandas as pd
 import seaborn as sns
 from paddle_utils import *
-import paddle.profiler as profiler
 
 
 from .optim import get_optimizer
@@ -174,38 +173,6 @@ class Trainer(object):
                 task: iter(self.env.create_train_iterator(task, self.data_path, params))
                 for task in params.tasks
             }
-
-        # ============ Profiler初始化 ============
-        self.profiler = None
-        self.profiler_enabled = False
-
-        # 仅在主进程上启用profiler
-        if not params.multi_gpu or params.local_rank == 0:
-            self._init_profiler()
-
-    def _init_profiler(self):
-        """初始化PaddlePaddle Profiler（简化版）"""
-        import os
-        import time
-
-        # 输出目录
-        output_dir = os.path.join(self.params.dump_path, "profiler_logs")
-        os.makedirs(output_dir, exist_ok=True)
-
-        # 输出文件名
-        timestamp = time.strftime("%Y%m%d_%H%M%S")
-        output_prefix = os.path.join(output_dir, f"profiler_{timestamp}")
-
-        # 创建Profiler（固定配置：steps 10-20, CPU+GPU）
-        self.profiler = profiler.Profiler(
-            targets=[profiler.ProfilerTarget.CPU, profiler.ProfilerTarget.GPU],
-            scheduler=(10, 20),  # 固定profiling步骤10-20
-            on_trace_ready=profiler.export_chrome_tracing(output_prefix),
-            timer_only=False
-        )
-
-        self.profiler_enabled = True
-        logger.info(f"Profiler initialized: steps [10, 20), output: {output_prefix}.json")
 
     def set_new_train_iterator_params(self, args={}):
         params = self.params
