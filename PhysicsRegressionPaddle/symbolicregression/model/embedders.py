@@ -73,6 +73,28 @@ class LinearPointEmbedder(Embedder):
         self.fc = paddle.compat.nn.Linear(hidden_size, self.output_dim)
         self.max_seq_len = self.params.max_len
 
+        # 预计算常用token ID以减少字典查询
+        self.common_token_ids = {
+            "<DATA_POINT>": self.env.float_word2id["<DATA_POINT>"],
+            "</DATA_POINT>": self.env.float_word2id["</DATA_POINT>"],
+            "<INPUT_PAD>": self.env.float_word2id["<INPUT_PAD>"],
+            "<OUTPUT_PAD>": self.env.float_word2id["<OUTPUT_PAD>"],
+            "<HINT_PAD>": self.env.float_word2id["<HINT_PAD>"],
+            "<PHYSICAL_UNITS>": self.env.float_word2id["<PHYSICAL_UNITS>"],
+            "</PHYSICAL_UNITS>": self.env.float_word2id["</PHYSICAL_UNITS>"],
+            "<COMPLEXITY>": self.env.float_word2id["<COMPLEXITY>"],
+            "</COMPLEXITY>": self.env.float_word2id["</COMPLEXITY>"],
+            "<UNKNOWN_COMPLEXITY>": self.env.float_word2id["<UNKNOWN_COMPLEXITY>"],
+            "<UNARY>": self.env.float_word2id["<UNARY>"],
+            "</UNARY>": self.env.float_word2id["</UNARY>"],
+            "<ADD_STRUCTURE>": self.env.float_word2id["<ADD_STRUCTURE>"],
+            "</ADD_STRUCTURE>": self.env.float_word2id["</ADD_STRUCTURE>"],
+            "<MUL_STRUCTURE>": self.env.float_word2id["<MUL_STRUCTURE>"],
+            "</MUL_STRUCTURE>": self.env.float_word2id["</MUL_STRUCTURE>"],
+            "<USED_CONST>": self.env.float_word2id["<USED_CONST>"],
+            "</USED_CONST>": self.env.float_word2id["</USED_CONST>"],
+        }
+
     def compress(
         self, sequences_embeddings: paddle.Tensor
     ) -> Tuple[paddle.Tensor, paddle.Tensor]:
@@ -109,14 +131,19 @@ class LinearPointEmbedder(Embedder):
         return sequences_embeddings, sequences_len
 
     def num_encode(self, sequences: List[Sequence]) -> List[paddle.Tensor]:
+        """优化的数值编码方法 - 使用预计算的token ID (无缓存)"""
         res = []
         for seq in sequences:
             seq_toks = []
             for x, y in seq:
+                # 直接编码,不使用缓存
                 x_toks = self.env.float_encoder.encode(x)
                 y_toks = self.env.float_encoder.encode(y)
+
                 input_dim = int(len(x_toks) / (2 + self.params.mantissa_len))
                 output_dim = int(len(y_toks) / (2 + self.params.mantissa_len))
+
+                # 添加填充
                 x_toks = [
                     *x_toks,
                     *[
@@ -137,21 +164,36 @@ class LinearPointEmbedder(Embedder):
                         )
                     ],
                 ]
-                toks = ["<DATA_POINT>", *x_toks, *y_toks, "</DATA_POINT>"]
-                seq_toks.append([self.env.float_word2id[tok] for tok in toks])
-            res.append(paddle.LongTensor(seq_toks))
+
+                # 使用预计算的ID减少字典查询
+                toks_ids = [self.common_token_ids["<DATA_POINT>"]]
+                toks_ids.extend([self.env.float_word2id[tok] for tok in x_toks])
+                toks_ids.extend([self.env.float_word2id[tok] for tok in y_toks])
+                toks_ids.append(self.common_token_ids["</DATA_POINT>"])
+
+                seq_toks.append(toks_ids)
+            res.append(paddle.to_tensor(seq_toks, dtype="int64"))
         return res
 
     def batch(self, seqs: List[paddle.Tensor]) -> Tuple[paddle.Tensor, paddle.Tensor]:
+        """优化的批处理方法 - 使用paddle.full预分配"""
         pad_id = self.env.float_word2id["<PAD>"]
         lengths = [len(x) for x in seqs]
         bs, slen = len(lengths), max(lengths)
-        sent = paddle.LongTensor(slen, bs, self.float_vector_descriptor_len + 2).fill_(
-            pad_id
+
+        # 使用paddle.full替代fill_操作
+        sent = paddle.full(
+            shape=[slen, bs, self.float_vector_descriptor_len + 2],
+            fill_value=pad_id,
+            dtype="int64",
         )
+
+        # 批量赋值
         for i, seq in enumerate(seqs):
-            sent[0 : len(seq), i, :] = seq
-        return sent, paddle.LongTensor(lengths)
+            if len(seq) > 0:
+                sent[0 : len(seq), i, :] = seq
+
+        return sent, paddle.to_tensor(lengths, dtype="int64")
 
     def embed(self, batch: paddle.Tensor) -> paddle.Tensor:
         return self.embeddings(batch)
@@ -164,164 +206,131 @@ class LinearPointEmbedder(Embedder):
         return lengths
 
     def hint_encode(self, hints, use_hints):
-        use_hints = use_hints.split(",")
+        """优化的提示编码方法 - 减少字符串操作和字典查询"""
+        use_hints_list = use_hints.split(",")
         res = []
+
+        # 预计算填充长度和ID
+        hint_pad_len = (
+            self.params.max_input_dimension + self.params.max_output_dimension
+        ) * self.float_scalar_descriptor_len
+        hint_pad_id = self.env.float_word2id["<HINT_PAD>"]
+
         for seq_id in range(len(hints[0])):
             seq_toks = []
             current_hints_idx = 0
-            if "units" in use_hints:
+
+            if "units" in use_hints_list:
                 units = hints[current_hints_idx]
                 for i, unit in enumerate(units[seq_id]):
                     un = self.env.equation_encoder.units_encode(unit)
+                    var_name = f"x_{i}" if i != len(units[seq_id]) - 1 else "y"
+
+                    # 直接构建ID列表,减少字符串操作
                     units_toks = [
-                        "<PHYSICAL_UNITS>",
-                        f"x_{i}" if i != len(units[seq_id]) - 1 else f"y",
-                        *un,
-                        "</PHYSICAL_UNITS>",
-                        *[
-                            "<HINT_PAD>"
-                            for _ in range(
-                                (
-                                    self.params.max_input_dimension
-                                    + self.params.max_output_dimension
-                                )
-                                * self.float_scalar_descriptor_len
-                                - len(un)
-                                - 3
-                                + 2
-                            )
-                        ],
+                        self.common_token_ids["<PHYSICAL_UNITS>"],
+                        self.env.float_word2id[var_name],
                     ]
-                    seq_toks.append([self.env.float_word2id[tok] for tok in units_toks])
+                    units_toks.extend([self.env.float_word2id[u] for u in un])
+                    units_toks.append(self.common_token_ids["</PHYSICAL_UNITS>"])
+
+                    # 添加填充
+                    pad_len = hint_pad_len - len(un) - 1
+                    units_toks.extend([hint_pad_id] * pad_len)
+
+                    seq_toks.append(units_toks)
                 current_hints_idx += 1
-            if "complexity" in use_hints:
+
+            if "complexity" in use_hints_list:
                 complexity = hints[current_hints_idx]
                 for c in complexity[seq_id]:
+                    # 复杂度可以是字符串(simple/middle/hard)或数字
+                    if isinstance(c, str):
+                        com_tok = f"COMPLEXITY:{c}"
+                    elif c != 0:
+                        com_tok = f"COMPLEXITY:{c}"
+                    else:
+                        com_tok = "<UNKNOWN_COMPLEXITY>"
+
                     com_toks = [
-                        "<COMPLEXITY>",
-                        f"COMPLEXITY:{c}" if c != 0 else "<UNKNOWN_COMPLEXITY>",
-                        "</COMPLEXITY>",
-                        *[
-                            "<HINT_PAD>"
-                            for _ in range(
-                                (
-                                    self.params.max_input_dimension
-                                    + self.params.max_output_dimension
-                                )
-                                * self.float_scalar_descriptor_len
-                                - 3
-                                + 2
-                            )
-                        ],
+                        self.common_token_ids["<COMPLEXITY>"],
+                        self.env.float_word2id[com_tok],
+                        self.common_token_ids["</COMPLEXITY>"],
                     ]
-                    seq_toks.append([self.env.float_word2id[tok] for tok in com_toks])
+                    # 添加填充
+                    pad_len = hint_pad_len - 1
+                    com_toks.extend([hint_pad_id] * pad_len)
+
+                    seq_toks.append(com_toks)
                 current_hints_idx += 1
-            if "unarys" in use_hints:
+
+            if "unarys" in use_hints_list:
                 unarys = hints[current_hints_idx]
-                unary_toks = [
-                    "<UNARY>",
-                    *unarys[seq_id],
-                    "</UNARY>",
-                    *[
-                        "<HINT_PAD>"
-                        for _ in range(
-                            (
-                                self.params.max_input_dimension
-                                + self.params.max_output_dimension
-                            )
-                            * self.float_scalar_descriptor_len
-                            - len(unarys[seq_id])
-                            - 2
-                            + 2
-                        )
-                    ],
-                ]
-                seq_toks.append([self.env.float_word2id[tok] for tok in unary_toks])
+                unary_toks = [self.common_token_ids["<UNARY>"]]
+                unary_toks.extend([self.env.float_word2id[u] for u in unarys[seq_id]])
+                unary_toks.append(self.common_token_ids["</UNARY>"])
+
+                # 添加填充
+                pad_len = hint_pad_len - len(unarys[seq_id])
+                unary_toks.extend([hint_pad_id] * pad_len)
+
+                seq_toks.append(unary_toks)
                 current_hints_idx += 1
-            if "add_structure" in use_hints:
+
+            if "add_structure" in use_hints_list:
                 add_structure = hints[current_hints_idx]
                 for a in add_structure[seq_id]:
-                    add_tokes = [f"x_{j}" for j in a]
-                    add_struc_toks = [
-                        "<ADD_STRUCTURE>",
-                        *add_tokes,
-                        "</ADD_STRUCTURE>",
-                        *[
-                            "<HINT_PAD>"
-                            for _ in range(
-                                (
-                                    self.params.max_input_dimension
-                                    + self.params.max_output_dimension
-                                )
-                                * self.float_scalar_descriptor_len
-                                - len(add_tokes)
-                                - 2
-                                + 2
-                            )
-                        ],
-                    ]
-                    seq_toks.append(
-                        [self.env.float_word2id[tok] for tok in add_struc_toks]
-                    )
+                    add_toks = [self.common_token_ids["<ADD_STRUCTURE>"]]
+                    add_toks.extend([self.env.float_word2id[f"x_{j}"] for j in a])
+                    add_toks.append(self.common_token_ids["</ADD_STRUCTURE>"])
+
+                    # 添加填充
+                    pad_len = hint_pad_len - len(a)
+                    add_toks.extend([hint_pad_id] * pad_len)
+
+                    seq_toks.append(add_toks)
                 current_hints_idx += 1
-            if "mul_structure" in use_hints:
+
+            if "mul_structure" in use_hints_list:
                 mul_structure = hints[current_hints_idx]
                 for m in mul_structure[seq_id]:
-                    mul_tokes = [f"x_{j}" for j in m]
-                    mul_struc_toks = [
-                        "<MUL_STRUCTURE>",
-                        *mul_tokes,
-                        "</MUL_STRUCTURE>",
-                        *[
-                            "<HINT_PAD>"
-                            for _ in range(
-                                (
-                                    self.params.max_input_dimension
-                                    + self.params.max_output_dimension
-                                )
-                                * self.float_scalar_descriptor_len
-                                - len(mul_tokes)
-                                - 2
-                                + 2
-                            )
-                        ],
-                    ]
-                    seq_toks.append(
-                        [self.env.float_word2id[tok] for tok in mul_struc_toks]
-                    )
+                    mul_toks = [self.common_token_ids["<MUL_STRUCTURE>"]]
+                    mul_toks.extend([self.env.float_word2id[f"x_{j}"] for j in m])
+                    mul_toks.append(self.common_token_ids["</MUL_STRUCTURE>"])
+
+                    # 添加填充
+                    pad_len = hint_pad_len - len(m)
+                    mul_toks.extend([hint_pad_id] * pad_len)
+
+                    seq_toks.append(mul_toks)
                 current_hints_idx += 1
-            if "consts" in use_hints:
+
+            if "consts" in use_hints_list:
                 consts = hints[current_hints_idx]
                 for _value, _units in consts[seq_id]:
-                    const_toks = (
-                        [
+                    if _value != "pi":
+                        const_toks_content = [
                             *self.env.float_encoder.encode(np.array([_value])),
                             *self.env.equation_encoder.units_encode(_units),
                         ]
-                        if _value != "pi"
-                        else ["pi", *self.env.equation_encoder.units_encode(_units)]
+                    else:
+                        const_toks_content = [
+                            "pi",
+                            *self.env.equation_encoder.units_encode(_units),
+                        ]
+
+                    const_toks = [self.common_token_ids["<USED_CONST>"]]
+                    const_toks.extend(
+                        [self.env.float_word2id[tok] for tok in const_toks_content]
                     )
-                    used_const_toks = [
-                        "<USED_CONST>",
-                        *const_toks,
-                        "</USED_CONST>",
-                        *[
-                            "<HINT_PAD>"
-                            for _ in range(
-                                (
-                                    self.params.max_input_dimension
-                                    + self.params.max_output_dimension
-                                )
-                                * self.float_scalar_descriptor_len
-                                - len(const_toks)
-                                - 2
-                                + 2
-                            )
-                        ],
-                    ]
-                    seq_toks.append(
-                        [self.env.float_word2id[tok] for tok in used_const_toks]
-                    )
+                    const_toks.append(self.common_token_ids["</USED_CONST>"])
+
+                    # 添加填充
+                    pad_len = hint_pad_len - len(const_toks_content)
+                    const_toks.extend([hint_pad_id] * pad_len)
+
+                    seq_toks.append(const_toks)
                 current_hints_idx += 1
-            res.append(paddle.LongTensor(seq_toks))
+
+            res.append(paddle.to_tensor(seq_toks, dtype="int64"))
         return res
