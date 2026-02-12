@@ -247,30 +247,53 @@ class LinearPointEmbedder(Embedder):
         return self.embeddings(batch)
 
     def get_length_after_batching(self, seqs: List[Sequence]) -> paddle.Tensor:
-        # 使用默认设备创建张量,保持设备一致性
-        lengths = paddle.zeros(len(seqs), dtype=paddle.long)
+        """
+        线程安全的序列长度计算方法
 
-        for i, seq in enumerate(seqs):
-            lengths[i] = len(seq)
-
-        # 使用官方API并增强错误处理,捕获iluvatar GPU的潜在异常
+        针对多线程 DataLoader 环境优化：
+        - 完全在 Python 层面处理，避免 GPU 多线程问题
+        - 增强错误诊断，捕获并发数据问题
+        - 线程安全：Python 列表操作是原子性的
+        """
+        # 1. 在 Python 层面计算长度（线程安全）
         try:
-            max_length = int(paddle.max(lengths).item())
-        except (RuntimeError, OSError) as e:
-            # 捕获设备同步错误
-            print(f"[WARNING] Failed to compute max length: {e}")
-            print(f"  lengths device: {lengths.place}")
-            print(f"  lengths dtype: {lengths.dtype}")
-            print(f"  lengths values: {lengths}")
-            # 尝试 CPU 同步作为 fallback
-            lengths_cpu = lengths.cpu() if hasattr(lengths, 'cpu') else lengths
-            max_length = int(paddle.max(lengths_cpu).item())
-            print(f"  Fallback to CPU: max_length={max_length}")
+            length_values = [len(seq) for seq in seqs]
+        except Exception as e:
+            print(f"[ERROR] Failed to compute sequence lengths: {e}")
+            print(f"  seqs type: {type(seqs)}")
+            print(f"  seqs length: {len(seqs)}")
+            if len(seqs) > 0:
+                print(f"  first seq type: {type(seqs[0])}")
+            raise
 
-        assert max_length <= self.max_seq_len, (
-            f"序列长度 {max_length} 超过最大限制 {self.max_seq_len}。"
-            f"设备: {lengths.place}, dtype: {lengths.dtype}"
-        )
+        # 2. 计算最大值（Python层面，避免 GPU 操作）
+        if not length_values:
+            max_length = 0
+        else:
+            max_length = max(length_values)
+
+        # 3. 验证（增强诊断）
+        if max_length > self.max_seq_len:
+            print(f"[ERROR] Abnormal sequence length detected!")
+            print(f"  max_length: {max_length}")
+            print(f"  max_seq_len: {self.max_seq_len}")
+            print(f"  length_values: {length_values}")
+            print(f"  seqs count: {len(seqs)}")
+
+            # 检查是否有异常值
+            for i, length in enumerate(length_values):
+                if length > self.max_seq_len:
+                    print(f"  ❌ seq[{i}] has abnormal length: {length}")
+
+            # 仍然抛出异常，但提供更多信息
+            raise AssertionError(
+                f"序列长度 {max_length} 超过最大限制 {self.max_seq_len}。"
+                f"检测到异常数据，详见日志。"
+            )
+
+        # 4. 创建张量（会在当前设备，线程安全）
+        lengths = paddle.to_tensor(length_values, dtype=paddle.long)
+
         return lengths
 
     def hint_encode(self, hints, use_hints):
