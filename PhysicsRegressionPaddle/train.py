@@ -19,6 +19,9 @@ from tqdm import tqdm
 
 np.seterr(all="raise")
 
+os.environ['PADDLE_XCCL_BACKEND']='iluvatar_gpu'
+paddle.device.set_device('iluvatar_gpu')
+
 
 def main(params):
     init_distributed_mode(params)

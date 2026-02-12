@@ -69,6 +69,7 @@ def build_modules(env, params):
     if not params.cpu:
         from paddle_utils import device2str
         device_str = device2str(params.device)
+        print(f"Using device: {device_str}")
 
         for v in modules.values():
             v.to(device_str)

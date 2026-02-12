@@ -989,7 +989,7 @@ class Oracle:
             if metric not in candidate:
                 score = self.evaluate_tree(candidate["predicted_tree"], X, y, metric)
                 if math.isnan(score):
-                    score = np.infty if metric.startswith("_") else -np.infty
+                    score = np.inf if metric.startswith("_") else -np.inf
             else:
                 score = candidate[metric]
             candidate[metric] = score
@@ -1005,7 +1005,7 @@ class Oracle:
         for tree in trees:
             score = self.evaluate_tree(tree, X, y, metric)
             if math.isnan(score):
-                score = np.infty if metric.startswith("_") else -np.infty
+                score = np.inf if metric.startswith("_") else -np.inf
             scores.append(score)
         ordered_idx = np.argsort(scores)
         if not metric.startswith("_"):

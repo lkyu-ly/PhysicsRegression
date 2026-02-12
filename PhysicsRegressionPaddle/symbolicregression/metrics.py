@@ -159,7 +159,7 @@ def compute_metrics(infos, metrics="r2"):
                     try:
                         l1_error = np.mean(np.abs(true[i] - predicted[i]))
                         if np.isnan(l1_error):
-                            results[metric].append(np.infty)
+                            results[metric].append(np.inf)
                         else:
                             results[metric].append(l1_error)
                     except Exception as e:
