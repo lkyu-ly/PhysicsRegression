@@ -139,16 +139,24 @@ class FunctionEnvironment(object):
         """
         assert decode_physical_units in [None, "single-seq", "double-seq"]
         lengths = paddle.LongTensor([(2 + len(eq)) for eq in equations])
-        sent = paddle.LongTensor(lengths._max().item(), lengths.size(0)).fill_(
-            self.float_word2id["<PAD>"]
+        # 使用官方API替代兼容层
+        max_len = int(paddle.max(lengths).item())
+        sent = paddle.full(
+            [max_len, lengths.shape[0]],
+            self.float_word2id["<PAD>"],
+            dtype='int64'
         )
         sent[0] = self.equation_word2id["<EOS>"]
         for i, eq in enumerate(equations):
             sent[1 : lengths[i] - 1, i].copy_(eq)
             sent[lengths[i] - 1, i] = self.equation_word2id["<EOS>"]
         if decode_physical_units == "double-seq":
-            sent2 = paddle.LongTensor(lengths._max().item(), lengths.size(0), 5).fill_(
-                self.float_word2id["<PAD>"]
+            # 使用官方API替代兼容层
+            max_len = int(paddle.max(lengths).item())
+            sent2 = paddle.full(
+                [max_len, lengths.shape[0], 5],
+                self.float_word2id["<PAD>"],
+                dtype='int64'
             )
             sent2[0] = self.equation_word2id["<EOS>"]
             for i, eq in enumerate(units):

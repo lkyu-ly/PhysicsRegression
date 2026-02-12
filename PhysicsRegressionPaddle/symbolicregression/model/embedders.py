@@ -250,7 +250,13 @@ class LinearPointEmbedder(Embedder):
         lengths = paddle.zeros(len(seqs), dtype=paddle.long)
         for i, seq in enumerate(seqs):
             lengths[i] = len(seq)
-        assert lengths._max() <= self.max_seq_len, "issue with lengths after batching"
+
+        # 使用官方API替代兼容层,确保iluvatar GPU兼容性
+        max_length = int(paddle.max(lengths).item())
+        assert max_length <= self.max_seq_len, (
+            f"序列长度 {max_length} 超过最大限制 {self.max_seq_len}。"
+            f"设备: {lengths.place}, dtype: {lengths.dtype}"
+        )
         return lengths
 
     def hint_encode(self, hints, use_hints):
