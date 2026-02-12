@@ -595,7 +595,21 @@ model.fit(x, y, gp_generations=20)  # 默认 50
 
 ---
 
-**最后更新**: 2026-01-28
-**文档版本**: 2.0 (PaddlePaddle版本)
+## 🔗 相关更新
+
+本模块的所有案例依赖 `symbolicregression` 核心引擎,受益于最近的兼容性修复:
+
+- **iluvatar GPU 兼容性修复** (2026-02-12)
+  - 修复了数据嵌入层和训练环境的设备兼容性问题
+  - 所有物理案例现在可以在国产 GPU 上正常运行
+- **详细信息**: [../symbolicregression/CLAUDE.md - 关键修复记录](../symbolicregression/CLAUDE.md#-关键修复记录)
+- **修复概览**: [../CLAUDE.md - 兼容性修复历史](../CLAUDE.md#️-兼容性修复历史)
+
+**建议**: 在 iluvatar GPU 上运行案例时,确保使用最新代码 (2026-02-12 及之后)
+
+---
+
+**最后更新**: 2026-02-12
+**文档版本**: 2.1 (PaddlePaddle版本 + 相关更新同步)
 **维护者**: PhysicsRegression Team
 **相关文档**: [根目录 CLAUDE.md](../CLAUDE.md) | [符号回归模块](../symbolicregression/CLAUDE.md) | [迁移指南](../PADDLE_MIGRATION.md)

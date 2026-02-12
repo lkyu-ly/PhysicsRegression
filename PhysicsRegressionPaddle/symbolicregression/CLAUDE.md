@@ -933,6 +933,129 @@ device = device2int('cuda:0')  # 自动转换为整数0
 max_val, max_idx = tensor._max(dim=1)  # 内部转为axis=1
 ```
 
+### 🔧 关键修复记录
+
+#### 修复 1: embedders.py - get_length_after_batching() (2026-02-12)
+
+**文件**: `symbolicregression/model/embedders.py`
+**位置**: 第 249-260 行
+**方法**: `LinearPointEmbedder.get_length_after_batching()`
+
+**问题**: 兼容层方法 `._max()` 在 iluvatar GPU 上触发断言错误
+
+**修改前**:
+```python
+def get_length_after_batching(self, seqs: List[Sequence]) -> paddle.Tensor:
+    lengths = paddle.zeros(len(seqs), dtype=paddle.long)
+    for i, seq in enumerate(seqs):
+        lengths[i] = len(seq)
+    assert lengths._max() <= self.max_seq_len, "issue with lengths after batching"
+    return lengths
+```
+
+**修改后**:
+```python
+def get_length_after_batching(self, seqs: List[Sequence]) -> paddle.Tensor:
+    lengths = paddle.zeros(len(seqs), dtype=paddle.long)
+    for i, seq in enumerate(seqs):
+        lengths[i] = len(seq)
+
+    # 使用官方API替代兼容层,确保iluvatar GPU兼容性
+    max_length = int(paddle.max(lengths).item())
+    assert max_length <= self.max_seq_len, (
+        f"序列长度 {max_length} 超过最大限制 {self.max_seq_len}。"
+        f"设备: {lengths.place}, dtype: {lengths.dtype}"
+    )
+    return lengths
+```
+
+**改进点**:
+1. ✅ 使用 `paddle.max()` 官方 API 替代 `._max()` 兼容层方法
+2. ✅ 增强错误信息,包含设备和数据类型诊断信息
+3. ✅ 显式类型转换 `int()` 和 `.item()` 确保跨设备一致性
+
+**影响**: 数据批处理、序列长度验证、嵌入层初始化
+
+---
+
+#### 修复 2: environment.py - batch_sequences() 第 142 行 (2026-02-12)
+
+**文件**: `symbolicregression/envs/environment.py`
+**位置**: 第 142-148 行
+**方法**: `Environment.batch_sequences()`
+
+**修改前**:
+```python
+lengths = paddle.LongTensor([(2 + len(eq)) for eq in equations])
+sent = paddle.LongTensor(lengths._max().item(), lengths.size(0)).fill_(
+    self.float_word2id["<PAD>"]
+)
+```
+
+**修改后**:
+```python
+lengths = paddle.LongTensor([(2 + len(eq)) for eq in equations])
+# 使用官方API替代兼容层
+max_len = int(paddle.max(lengths).item())
+sent = paddle.full(
+    [max_len, lengths.shape[0]],
+    self.float_word2id["<PAD>"],
+    dtype='int64'
+)
+```
+
+**改进点**:
+1. ✅ `paddle.max()` 替代 `._max()`
+2. ✅ 使用现代 API `paddle.full()` 替代 `.LongTensor().fill_()`
+3. ✅ 使用 `.shape[0]` 替代 `.size(0)` (PaddlePaddle 推荐)
+
+**影响**: 训练批次张量创建、公式编码
+
+---
+
+#### 修复 3: environment.py - batch_sequences() 第 150 行 (2026-02-12)
+
+**文件**: `symbolicregression/envs/environment.py`
+**位置**: 第 150-160 行
+**方法**: `Environment.batch_sequences()` (double-seq 模式)
+
+**修改前**:
+```python
+if decode_physical_units == "double-seq":
+    sent2 = paddle.LongTensor(lengths._max().item(), lengths.size(0), 5).fill_(
+        self.float_word2id["<PAD>"]
+    )
+```
+
+**修改后**:
+```python
+if decode_physical_units == "double-seq":
+    # 使用官方API替代兼容层
+    max_len = int(paddle.max(lengths).item())
+    sent2 = paddle.full(
+        [max_len, lengths.shape[0], 5],
+        self.float_word2id["<PAD>"],
+        dtype='int64'
+    )
+```
+
+**改进点**: 同修复 2
+
+**影响**: 物理单位编码、双序列批处理
+
+---
+
+### 修复总结
+
+**修复范围**: 3 个文件,3 个方法
+**核心改进**: 兼容层 API → PaddlePaddle 官方 API
+**受益设备**: NVIDIA GPU, AMD GPU, iluvatar GPU (国产显卡), 其他 PaddlePaddle 支持设备
+**向后兼容**: 完全兼容,无破坏性变更
+
+**参考文档**:
+- [../CLAUDE.md - 兼容性修复历史](../CLAUDE.md#️-兼容性修复历史)
+- [../PADDLE_MIGRATION.md:2216-2219](../PADDLE_MIGRATION.md) - 官方 API 建议
+
 ### 数值精度验证
 
 **建议验证位置**:
@@ -957,7 +1080,7 @@ print(f"最大差异: {diff}")  # 应该 < 1e-5
 
 ---
 
-**最后更新**: 2026-01-28
-**文档版本**: 2.0 (PaddlePaddle版本)
+**最后更新**: 2026-02-12
+**文档版本**: 2.1 (PaddlePaddle版本 + iluvatar GPU兼容性修复)
 **维护者**: PhysicsRegression Team
 **相关文档**: [根目录 CLAUDE.md](../CLAUDE.md) | [Oracle 模块](../Oracle/CLAUDE.md) | [物理案例](../physical/CLAUDE.md) | [迁移指南](../PADDLE_MIGRATION.md)

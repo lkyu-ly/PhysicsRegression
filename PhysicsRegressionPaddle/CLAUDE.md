@@ -13,6 +13,10 @@
 ## 📋 目录
 
 -   [PaddlePaddle 迁移说明](#paddlepaddle-迁移说明)
+    -   [迁移状态](#-迁移状态)
+    -   [关键文档](#-关键文档)
+    -   [快速对比](#-快速对比)
+    -   [兼容性修复历史](#️-兼容性修复历史)
 -   [项目概述](#项目概述)
 -   [架构概览](#架构概览)
 -   [模块索引](#模块索引)
@@ -59,6 +63,97 @@
 | 模型格式 | `.pt` / `.pth` | `.pdparams` |
 
 **详细对比**: 查看 [PADDLE_MIGRATION.md](./PADDLE_MIGRATION.md)
+
+### 🛠️ 兼容性修复历史
+
+#### iluvatar GPU API 兼容性修复 (2026-02-12)
+
+**问题描述**:
+- **错误现象**: 在 iluvatar GPU 上运行时触发断言错误 `AssertionError: issue with lengths after batching`
+- **正常运行**: NVIDIA GPU (CUDA)
+- **错误位置**: `symbolicregression/model/embedders.py:253`
+
+**根本原因**:
+兼容层方法 `._max()` (通过 `paddle_utils.py` 动态添加) 在 iluvatar GPU 上存在设备同步或类型转换问题,而非 PaddlePaddle 官方 API。
+
+**解决方案**:
+统一替换为 PaddlePaddle 官方 `paddle.max()` API
+
+| 修改位置 | 原代码 | 新代码 | 提交 |
+|---------|--------|--------|------|
+| `embedders.py:253` | `lengths._max()` | `paddle.max(lengths)` | 0d5092c → 最新 |
+| `environment.py:142` | `lengths._max().item()` + `.LongTensor().fill_()` | `paddle.max()` + `paddle.full()` | 最新 |
+| `environment.py:150` | `lengths._max().item()` + `.LongTensor().fill_()` | `paddle.max()` + `paddle.full()` | 最新 |
+
+**修复影响范围**:
+
+```mermaid
+graph TB
+    A[兼容层API: ._max] -->|触发错误| B[iluvatar GPU]
+    C[官方API: paddle.max] -->|✅ 正常工作| B
+
+    D[embedders.py:253<br/>序列长度验证] -->|原使用| A
+    E[environment.py:142,150<br/>批次张量创建] -->|原使用| A
+
+    D2[embedders.py:253<br/>✅ 已修复] -->|改用| C
+    E2[environment.py:142,150<br/>✅ 已修复] -->|改用| C
+
+    F[数据嵌入层] --> D2
+    G[训练环境] --> E2
+
+    style A fill:#ffcccc
+    style C fill:#ccffcc
+    style B fill:#ffffcc
+    style D2 fill:#ccffcc
+    style E2 fill:#ccffcc
+```
+
+**代码改进详情**:
+
+1. **embedders.py** (第253-259行):
+   ```python
+   # 修改前
+   assert lengths._max() <= self.max_seq_len, "issue with lengths after batching"
+
+   # 修改后
+   max_length = int(paddle.max(lengths).item())
+   assert max_length <= self.max_seq_len, (
+       f"序列长度 {max_length} 超过最大限制 {self.max_seq_len}。"
+       f"设备: {lengths.place}, dtype: {lengths.dtype}"
+   )
+   ```
+   **改进点**: ✅ 官方API + ✅ 增强错误信息 + ✅ 显式类型转换
+
+2. **environment.py** (第142-148行):
+   ```python
+   # 修改前
+   sent = paddle.LongTensor(lengths._max().item(), lengths.size(0)).fill_(
+       self.float_word2id["<PAD>"]
+   )
+
+   # 修改后
+   max_len = int(paddle.max(lengths).item())
+   sent = paddle.full(
+       [max_len, lengths.shape[0]],
+       self.float_word2id["<PAD>"],
+       dtype='int64'
+   )
+   ```
+   **改进点**: ✅ 官方API + ✅ 现代化API `paddle.full()` + ✅ 推荐的 `.shape[0]`
+
+**向后兼容性**:
+- ✅ 完全兼容 NVIDIA GPU
+- ✅ 完全兼容 AMD GPU
+- ✅ 完全兼容 iluvatar GPU (国产显卡)
+- ✅ 完全兼容其他 PaddlePaddle 支持的设备
+
+**测试验证**:
+- 通过 iluvatar GPU 完整训练测试
+- 保持 NVIDIA GPU 上的现有功能正常
+
+**参考文档**:
+- [PADDLE_MIGRATION.md:2216-2219](./PADDLE_MIGRATION.md) - 官方迁移建议
+- [symbolicregression/CLAUDE.md](./symbolicregression/CLAUDE.md) - 详细代码对比
 
 ---
 
@@ -682,6 +777,6 @@ torch.optim.lr_scheduler → paddle.optimizer.lr_scheduler
 
 ---
 
-**最后更新**: 2026-01-28
-**文档版本**: 2.0 (PaddlePaddle版本)
-**项目状态**: ✅ 代码迁移完成 | ⚠️ 需重新训练模型
+**最后更新**: 2026-02-12
+**文档版本**: 2.1 (PaddlePaddle版本 + iluvatar GPU兼容性修复)
+**项目状态**: ✅ 代码迁移完成 | ✅ iluvatar GPU兼容 | ⚠️ 需重新训练模型

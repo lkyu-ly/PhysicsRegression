@@ -247,11 +247,13 @@ class LinearPointEmbedder(Embedder):
         return self.embeddings(batch)
 
     def get_length_after_batching(self, seqs: List[Sequence]) -> paddle.Tensor:
-        lengths = paddle.zeros(len(seqs), dtype=paddle.long)
+        # 明确在CPU上创建张量,避免iluvatar GPU设备同步问题
+        lengths = paddle.zeros(len(seqs), dtype=paddle.long, device=paddle.CPUPlace())
+
         for i, seq in enumerate(seqs):
             lengths[i] = len(seq)
 
-        # 使用官方API替代兼容层,确保iluvatar GPU兼容性
+        # 确保在CPU上计算max并转换
         max_length = int(paddle.max(lengths).item())
         assert max_length <= self.max_seq_len, (
             f"序列长度 {max_length} 超过最大限制 {self.max_seq_len}。"

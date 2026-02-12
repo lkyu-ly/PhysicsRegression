@@ -138,25 +138,32 @@ class FunctionEnvironment(object):
         sentence, and a vector lengths containing the length of each sentence.
         """
         assert decode_physical_units in [None, "single-seq", "double-seq"]
-        lengths = paddle.LongTensor([(2 + len(eq)) for eq in equations])
+        # 明确在CPU创建,与embedders.py保持一致
+        lengths = paddle.to_tensor(
+            [(2 + len(eq)) for eq in equations],
+            dtype='int64',
+            place=paddle.CPUPlace()  # to_tensor 使用 place 参数
+        )
         # 使用官方API替代兼容层
         max_len = int(paddle.max(lengths).item())
         sent = paddle.full(
             [max_len, lengths.shape[0]],
             self.float_word2id["<PAD>"],
-            dtype='int64'
+            dtype='int64',
+            device=paddle.CPUPlace()  # full 使用 device 参数
         )
         sent[0] = self.equation_word2id["<EOS>"]
         for i, eq in enumerate(equations):
             sent[1 : lengths[i] - 1, i].copy_(eq)
             sent[lengths[i] - 1, i] = self.equation_word2id["<EOS>"]
         if decode_physical_units == "double-seq":
-            # 使用官方API替代兼容层
+            # 使用官方API替代兼容层,明确在CPU创建
             max_len = int(paddle.max(lengths).item())
             sent2 = paddle.full(
                 [max_len, lengths.shape[0], 5],
                 self.float_word2id["<PAD>"],
-                dtype='int64'
+                dtype='int64',
+                device=paddle.CPUPlace()  # full 使用 device 参数
             )
             sent2[0] = self.equation_word2id["<EOS>"]
             for i, eq in enumerate(units):

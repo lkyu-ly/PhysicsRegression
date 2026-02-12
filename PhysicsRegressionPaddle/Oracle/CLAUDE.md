@@ -935,9 +935,15 @@ SimpleNet是简单的5层全连接网络,PaddlePaddle和PyTorch的数值差异�
 - **[../PADDLE_MIGRATION.md](../PADDLE_MIGRATION.md)** - 集中迁移指南
 - **[../CLAUDE.md](../CLAUDE.md)** - 根目录文档
 
+### 🔗 相关更新
+
+本模块依赖 `symbolicregression` 模块,受益于最近的兼容性修复:
+- **iluvatar GPU 兼容性修复** (2026-02-12): 修复了数据处理和嵌入层的设备兼容性问题
+- **详细信息**: [../symbolicregression/CLAUDE.md - 关键修复记录](../symbolicregression/CLAUDE.md#-关键修复记录)
+
 ---
 
-**最后更新**: 2026-01-28
-**文档版本**: 2.0 (PaddlePaddle版本)
+**最后更新**: 2026-02-12
+**文档版本**: 2.1 (PaddlePaddle版本 + 相关更新同步)
 **维护者**: PhysicsRegression Team
 **相关文档**: [根目录 CLAUDE.md](../CLAUDE.md) | [符号回归模块](../symbolicregression/CLAUDE.md) | [迁移指南](../PADDLE_MIGRATION.md)
