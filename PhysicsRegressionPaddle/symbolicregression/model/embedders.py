@@ -247,14 +247,26 @@ class LinearPointEmbedder(Embedder):
         return self.embeddings(batch)
 
     def get_length_after_batching(self, seqs: List[Sequence]) -> paddle.Tensor:
-        # 明确在CPU上创建张量,避免iluvatar GPU设备同步问题
-        lengths = paddle.zeros(len(seqs), dtype=paddle.long, device=paddle.CPUPlace())
+        # 使用默认设备创建张量,保持设备一致性
+        lengths = paddle.zeros(len(seqs), dtype=paddle.long)
 
         for i, seq in enumerate(seqs):
             lengths[i] = len(seq)
 
-        # 确保在CPU上计算max并转换
-        max_length = int(paddle.max(lengths).item())
+        # 使用官方API并增强错误处理,捕获iluvatar GPU的潜在异常
+        try:
+            max_length = int(paddle.max(lengths).item())
+        except (RuntimeError, OSError) as e:
+            # 捕获设备同步错误
+            print(f"[WARNING] Failed to compute max length: {e}")
+            print(f"  lengths device: {lengths.place}")
+            print(f"  lengths dtype: {lengths.dtype}")
+            print(f"  lengths values: {lengths}")
+            # 尝试 CPU 同步作为 fallback
+            lengths_cpu = lengths.cpu() if hasattr(lengths, 'cpu') else lengths
+            max_length = int(paddle.max(lengths_cpu).item())
+            print(f"  Fallback to CPU: max_length={max_length}")
+
         assert max_length <= self.max_seq_len, (
             f"序列长度 {max_length} 超过最大限制 {self.max_seq_len}。"
             f"设备: {lengths.place}, dtype: {lengths.dtype}"
