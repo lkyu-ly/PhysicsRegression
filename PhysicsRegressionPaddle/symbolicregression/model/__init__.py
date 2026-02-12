@@ -67,6 +67,9 @@ def build_modules(env, params):
             f"Number of parameters ({k}): {sum([p.numel() for p in v.parameters() if p.requires_grad])}"
         )
     if not params.cpu:
+        from paddle_utils import device2str
+        device_str = device2str(params.device)
+
         for v in modules.values():
-            v.cuda(device=device2int(params.device))
+            v.to(device_str)
     return modules

@@ -102,55 +102,58 @@ def get_dump_path(params):
         subprocess.Popen("mkdir -p %s" % params.dump_path, shell=True).wait()
 
 
-# def to_cuda(*args, use_cpu=False, device=None):
-#     """
-#     Move tensors to CUDA (PaddlePaddle version).
-
-#     Note: PaddlePaddle's Tensor.cuda() does not accept any parameters.
-#     We set global device first, then call parameter-less .cuda()
-
-#     Args:
-#         *args: Variable number of tensors to move
-#         use_cpu: If True, skip CUDA transfer
-#         device: Target device (int or str like 'cuda:0')
-
-#     Returns:
-#         Tuple of tensors on target device (None values preserved)
-#     """
-#     if not CUDA or use_cpu:
-#         return args
-
-#     # 设置全局默认设备 (如果指定了device)
-#     if device is not None:
-#         import paddle
-#         from paddle_utils import device2int
-
-#         if isinstance(device, str):
-#             device = device2int(device)
-
-#         # 设置全局默认GPU设备
-#         paddle.device.set_device(f'gpu:{device}')
-
-#     # 调用无参数的 .cuda() 方法
-#     return [
-#         (None if x is None else x.cuda())
-#         for x in args
-#     ]
-
-
 def to_cuda(*args, use_cpu=False, device=None):
     """
-    Move tensors to CUDA.
+    将张量移动到设备（统一使用 .to() 方法）
+
+    注意：虽然函数名为 to_cuda，但实际支持所有 PaddlePaddle 设备类型，
+    包括 gpu, cpu, iluvatar, npu, xpu 等。
+
+    参数：
+        *args: 可变数量的张量或其他对象
+            - paddle.Tensor: 将被移动到目标设备
+            - None: 保持为 None（不处理）
+            - 其他对象: 原样返回
+        use_cpu: bool, 默认 False
+            如果为 True，跳过设备移动，直接返回原对象
+        device: str/int/None, 默认 None
+            目标设备字符串或ID：
+            - None: 使用默认GPU（gpu:0）
+            - "cuda:0": 自动转换为 "gpu:0"
+            - "gpu:0": 直接使用
+            - "iluvatar:0": Custom device
+            - 0: 转换为 "gpu:0"
+
+    返回：
+        tuple - 移动到目标设备的对象元组（None值保持不变）
+
+    示例：
+        >>> x = paddle.randn([10, 5])
+        >>> x_gpu, = to_cuda(x, device="cuda:0")
+        >>> str(x_gpu.place)
+        'Place(gpu:0)'
+
+        >>> y, none_val, z = to_cuda(paddle.randn([5]), None, paddle.randn([3]))
+        >>> none_val is None
+        True
     """
     if not CUDA or use_cpu:
         return args
+
+    # 标准化设备字符串
+    from paddle_utils import device2str
+
     if device is None:
-        device = 0
-    # return [(None if x is None else x.cuda(device=device)) for x in args]
-    
-    return [
-        (None if x is None else x.cuda(device_id=device2int(device))) for x in args
-    ]
+        device_str = 'gpu:0'  # 默认设备
+    else:
+        device_str = device2str(device)
+
+    # 使用 .to() 方法移动所有张量
+    return tuple(
+        (None if x is None else x.to(device_str))
+        for x in args
+    )
+
 
 
 class MyTimeoutError(BaseException):
