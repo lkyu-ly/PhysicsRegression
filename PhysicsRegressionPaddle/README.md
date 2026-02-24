@@ -8,12 +8,21 @@ If you encounter any problems with this program, please contact Jie Ying yingj24
 
 ## Installation
 
-Using conda and the environment.yml file:
+Using conda and the environment.txt file for creating paddle environment:
 
-```
-conda env create --name PhyReg --file=environment.yml
+```bash
+conda env create --name PhyReg python=3.10
 conda activate PhyReg
+
+# uv is recommended to install dependencies rapidly
+pip install -r requirements.txt
+
+# using installation command for cuda form https://www.paddlepaddle.org.cn/install/quick
+# change the following command if you use custom device to run paddle
+pip install paddlepaddle-gpu==3.3.0 -i https://www.paddlepaddle.org.cn/packages/stable/cu130/
 ```
+
+> Make sure that your CUDA version is compatible with paddlepaddle-gpu.
 
 ## A Quick Start
 
@@ -34,6 +43,8 @@ To train a new Physics Regressor model on your own, use the following command wi
 We also includes a template for the training of our Physics Regressor model, using the following command:
 
 `bash ./bash/train.sh`
+
+> Attention: if you use custom gpu device for training, please modify the `--device` argument. For example, a single iluvatar gpu device is specified as `--device iluvatar_gpu:0`
 
 The training process consists of 100 epochs, with each epoch containing 500 training steps. The training time for each epoch ranges from 10 to 30 minutes when using a single 80GB A100 GPU. Occasionally, you may encounter the "CUDA: Out of Memory" error due to insufficient memory. In such cases, you can reduce the `tokens_per_batch` parameter, which defines the maximum number of tokens per batch, and increase `max_epoch` or `n_steps_per_epoch` parameter to maintain the same amount of training data. However, this may lead to different training outcomes.
 
@@ -85,19 +96,19 @@ This project is covered under the Apache 2.0 License.
 
 ## Citation
 
-```
- @article{Ying_Lin_Yue_Chen_Xiao_Shi_Liang_Yau_Zhou_Ma_2025, 
-  title={A neural symbolic model for space physics}, 
-  volume={7}, 
-  url={http://dx.doi.org/10.1038/s42256-025-01126-3}, 
-  DOI={10.1038/s42256-025-01126-3}, number={10}, 
-  journal={Nature Machine Intelligence}, 
-  publisher={Springer Science and Business Media LLC}, 
-  author={Ying, Jie and Lin, Haowei and Yue, Chao and Chen, Yajie and Xiao, Chao and Shi, Quanqi and Liang, Yitao and Yau, Shing-Tung and Zhou, Yuan and Ma, Jianzhu}, 
-  year={2025}, 
-  month=oct, 
-  pages={1726–1741}, 
-  language={en} 
+```bibtex
+ @article{Ying_Lin_Yue_Chen_Xiao_Shi_Liang_Yau_Zhou_Ma_2025,
+  title={A neural symbolic model for space physics},
+  volume={7},
+  url={http://dx.doi.org/10.1038/s42256-025-01126-3},
+  DOI={10.1038/s42256-025-01126-3}, number={10},
+  journal={Nature Machine Intelligence},
+  publisher={Springer Science and Business Media LLC},
+  author={Ying, Jie and Lin, Haowei and Yue, Chao and Chen, Yajie and Xiao, Chao and Shi, Quanqi and Liang, Yitao and Yau, Shing-Tung and Zhou, Yuan and Ma, Jianzhu},
+  year={2025},
+  month=oct,
+  pages={1726–1741},
+  language={en}
 }
 
 ```

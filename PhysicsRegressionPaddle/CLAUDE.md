@@ -12,17 +12,17 @@
 
 ## 📋 目录
 
--   [PaddlePaddle 迁移说明](#paddlepaddle-迁移说明)
-    -   [迁移状态](#-迁移状态)
-    -   [关键文档](#-关键文档)
-    -   [快速对比](#-快速对比)
-    -   [兼容性修复历史](#️-兼容性修复历史)
--   [项目概述](#项目概述)
--   [架构概览](#架构概览)
--   [模块索引](#模块索引)
--   [技术栈](#技术栈)
--   [开发规范](#开发规范)
--   [快速开始](#快速开始)
+- [PaddlePaddle 迁移说明](#paddlepaddle-迁移说明)
+  - [迁移状态](#-迁移状态)
+  - [关键文档](#-关键文档)
+  - [快速对比](#-快速对比)
+  - [兼容性修复历史](#️-兼容性修复历史)
+- [项目概述](#项目概述)
+- [架构概览](#架构概览)
+- [模块索引](#模块索引)
+- [技术栈](#技术栈)
+- [开发规范](#开发规范)
+- [快速开始](#快速开始)
 
 ---
 
@@ -32,35 +32,35 @@
 
 本项目已从 PyTorch 完整迁移至 PaddlePaddle 框架:
 
-| 组件 | 状态 | 说明 |
-|------|------|------|
-| **符号回归引擎** | ✅ 完成 | Transformer模型已转换 |
-| **Oracle分治模块** | ✅ 完成 | SimpleNet已转换 |
-| **训练/评估脚本** | ✅ 完成 | 训练流程已适配 |
-| **兼容层** | ✅ 自动生成 | paddle_utils.py |
-| **预训练模型** | ⚠️ 需重新训练 | .pt → .pdparams |
+| 组件               | 状态          | 说明                  |
+| ------------------ | ------------- | --------------------- |
+| **符号回归引擎**   | ✅ 完成       | Transformer模型已转换 |
+| **Oracle分治模块** | ✅ 完成       | SimpleNet已转换       |
+| **训练/评估脚本**  | ✅ 完成       | 训练流程已适配        |
+| **兼容层**         | ✅ 自动生成   | paddle_utils.py       |
+| **预训练模型**     | ⚠️ 需重新训练 | .pt → .pdparams       |
 
 ### 📚 关键文档
 
--   **[PADDLE_MIGRATION.md](./PADDLE_MIGRATION.md)** - 完整迁移指南 (推荐阅读)
-    -   核心API变化对照表
-    -   代码示例对比
-    -   paddle_utils.py 说明
-    -   已知问题和解决方案
--   **模块文档** - 已更新为PaddlePaddle版本
-    -   [symbolicregression/CLAUDE.md](./symbolicregression/CLAUDE.md)
-    -   [Oracle/CLAUDE.md](./Oracle/CLAUDE.md)
-    -   [physical/CLAUDE.md](./physical/CLAUDE.md)
+- **[PADDLE_MIGRATION.md](./PADDLE_MIGRATION.md)** - 完整迁移指南 (推荐阅读)
+  - 核心API变化对照表
+  - 代码示例对比
+  - paddle_utils.py 说明
+  - 已知问题和解决方案
+- **模块文档** - 已更新为PaddlePaddle版本
+  - [symbolicregression/CLAUDE.md](./symbolicregression/CLAUDE.md)
+  - [Oracle/CLAUDE.md](./Oracle/CLAUDE.md)
+  - [physical/CLAUDE.md](./physical/CLAUDE.md)
 
 ### ⚡ 快速对比
 
-| 框架特性 | PyTorch | PaddlePaddle |
-|---------|---------|--------------|
-| 模块基类 | `torch.nn.Module` | `paddle.nn.Module` |
-| 线性层 | `torch.nn.Linear` | `paddle.compat.nn.Linear` ⚠️ |
-| 设备字符串 | `'cuda:0'` | `'gpu:0'` |
-| 优化器清零 | `optimizer.zero_grad()` | `optimizer.clear_grad()` |
-| 模型格式 | `.pt` / `.pth` | `.pdparams` |
+| 框架特性   | PyTorch                 | PaddlePaddle                 |
+| ---------- | ----------------------- | ---------------------------- |
+| 模块基类   | `torch.nn.Module`       | `paddle.nn.Module`           |
+| 线性层     | `torch.nn.Linear`       | `paddle.compat.nn.Linear` ⚠️ |
+| 设备字符串 | `'cuda:0'`              | `'gpu:0'`                    |
+| 优化器清零 | `optimizer.zero_grad()` | `optimizer.clear_grad()`     |
+| 模型格式   | `.pt` / `.pth`          | `.pdparams`                  |
 
 **详细对比**: 查看 [PADDLE_MIGRATION.md](./PADDLE_MIGRATION.md)
 
@@ -69,6 +69,7 @@
 #### iluvatar GPU API 兼容性修复 (2026-02-12)
 
 **问题描述**:
+
 - **错误现象**: 在 iluvatar GPU 上运行时触发断言错误 `AssertionError: issue with lengths after batching`
 - **正常运行**: NVIDIA GPU (CUDA)
 - **错误位置**: `symbolicregression/model/embedders.py:253`
@@ -79,11 +80,11 @@
 **解决方案**:
 统一替换为 PaddlePaddle 官方 `paddle.max()` API
 
-| 修改位置 | 原代码 | 新代码 | 提交 |
-|---------|--------|--------|------|
-| `embedders.py:253` | `lengths._max()` | `paddle.max(lengths)` | 0d5092c → 最新 |
-| `environment.py:142` | `lengths._max().item()` + `.LongTensor().fill_()` | `paddle.max()` + `paddle.full()` | 最新 |
-| `environment.py:150` | `lengths._max().item()` + `.LongTensor().fill_()` | `paddle.max()` + `paddle.full()` | 最新 |
+| 修改位置             | 原代码                                            | 新代码                           | 提交           |
+| -------------------- | ------------------------------------------------- | -------------------------------- | -------------- |
+| `embedders.py:253`   | `lengths._max()`                                  | `paddle.max(lengths)`            | 0d5092c → 最新 |
+| `environment.py:142` | `lengths._max().item()` + `.LongTensor().fill_()` | `paddle.max()` + `paddle.full()` | 最新           |
+| `environment.py:150` | `lengths._max().item()` + `.LongTensor().fill_()` | `paddle.max()` + `paddle.full()` | 最新           |
 
 **修复影响范围**:
 
@@ -111,6 +112,7 @@ graph TB
 **代码改进详情**:
 
 1. **embedders.py** (第253-259行):
+
    ```python
    # 修改前
    assert lengths._max() <= self.max_seq_len, "issue with lengths after batching"
@@ -122,9 +124,11 @@ graph TB
        f"设备: {lengths.place}, dtype: {lengths.dtype}"
    )
    ```
+
    **改进点**: ✅ 官方API + ✅ 增强错误信息 + ✅ 显式类型转换
 
 2. **environment.py** (第142-148行):
+
    ```python
    # 修改前
    sent = paddle.LongTensor(lengths._max().item(), lengths.size(0)).fill_(
@@ -139,19 +143,23 @@ graph TB
        dtype='int64'
    )
    ```
+
    **改进点**: ✅ 官方API + ✅ 现代化API `paddle.full()` + ✅ 推荐的 `.shape[0]`
 
 **向后兼容性**:
+
 - ✅ 完全兼容 NVIDIA GPU
 - ✅ 完全兼容 AMD GPU
 - ✅ 完全兼容 iluvatar GPU (国产显卡)
 - ✅ 完全兼容其他 PaddlePaddle 支持的设备
 
 **测试验证**:
+
 - 通过 iluvatar GPU 完整训练测试
 - 保持 NVIDIA GPU 上的现有功能正常
 
 **参考文档**:
+
 - [PADDLE_MIGRATION.md:2216-2219](./PADDLE_MIGRATION.md) - 官方迁移建议
 - [symbolicregression/CLAUDE.md](./symbolicregression/CLAUDE.md) - 详细代码对比
 
@@ -170,10 +178,10 @@ graph TB
 
 ### 项目特点
 
--   **小数据集学习**: 设计用于处理物理实验中的有限数据点
--   **可解释性**: 生成符号数学公式而非黑盒模型
--   **物理一致性**: 内置物理单位系统确保量纲正确
--   **多策略搜索**: 组合神经网络、树搜索和进化算法
+- **小数据集学习**: 设计用于处理物理实验中的有限数据点
+- **可解释性**: 生成符号数学公式而非黑盒模型
+- **物理一致性**: 内置物理单位系统确保量纲正确
+- **多策略搜索**: 组合神经网络、树搜索和进化算法
 
 ### 应用场景
 
@@ -341,35 +349,35 @@ PhysicsRegressionPaddle/
 
 #### 核心框架
 
--   **PaddlePaddle ≥ 2.5.0** - 深度学习框架
-    -   `paddle.nn` - 神经网络模块
-    -   `paddle.optimizer` - 优化器
-    -   `paddle.io` - 数据加载
-    -   `paddle.compat.nn` - PyTorch兼容层 (用于Linear等)
--   **NumPy 1.24.3** - 数值计算
--   **SymPy 1.13.3** - 符号数学
+- **PaddlePaddle ≥ 2.5.0** - 深度学习框架
+  - `paddle.nn` - 神经网络模块
+  - `paddle.optimizer` - 优化器
+  - `paddle.io` - 数据加载
+  - `paddle.compat.nn` - PyTorch兼容层 (用于Linear等)
+- **NumPy 1.24.3** - 数值计算
+- **SymPy 1.13.3** - 符号数学
 
 #### 机器学习
 
--   **scikit-learn 1.3.2** - 评估指标 (R², MSE 等)
--   **scipy 1.10.1** - 优化算法 (BFGS 常数优化)
+- **scikit-learn 1.3.2** - 评估指标 (R², MSE 等)
+- **scipy 1.10.1** - 优化算法 (BFGS 常数优化)
 
 #### 可视化与数据处理
 
--   **matplotlib 3.8.1** - 绘图
--   **pandas 2.1.3** - 数据处理
--   **seaborn 0.13.0** - 统计可视化
--   **openpyxl 3.1.2** - Excel 文件读取
+- **matplotlib 3.8.1** - 绘图
+- **pandas 2.1.3** - 数据处理
+- **seaborn 0.13.0** - 统计可视化
+- **openpyxl 3.1.2** - Excel 文件读取
 
 #### 符号回归工具
 
--   **PySR 0.16.8** - 可选的符号回归初始化 (基于 Julia)
--   **julia 1.10.1** - Julia 运行时 (PySR 依赖)
+- **PySR 0.16.8** - 可选的符号回归初始化 (基于 Julia)
+- **julia 1.10.1** - Julia 运行时 (PySR 依赖)
 
 #### GPU 支持
 
--   **CUDA 11/12** - GPU加速支持
--   PaddlePaddle GPU版本会自动处理CUDA依赖
+- **CUDA 11/12** - GPU加速支持
+- PaddlePaddle GPU版本会自动处理CUDA依赖
 
 ### ✅ 已完成的迁移
 
@@ -391,31 +399,29 @@ PhysicsRegressionPaddle/
 
 ### 代码风格
 
--   **Python 版本**: 3.9.18
--   **代码格式**: 遵循 PEP 8 规范
--   **命名约定**:
-    -   类名: `PascalCase` (如 `PhyReg`, `Oracle`)
-    -   函数/变量: `snake_case` (如 `fit`, `best_gens`)
-    -   常量: `UPPER_CASE` (如 `SPECIAL_WORDS`)
+- **Python 版本**: 3.9.18
+- **代码格式**: 遵循 PEP 8 规范
+- **命名约定**:
+  - 类名: `PascalCase` (如 `PhyReg`, `Oracle`)
+  - 函数/变量: `snake_case` (如 `fit`, `best_gens`)
+  - 常量: `UPPER_CASE` (如 `SPECIAL_WORDS`)
 
 ### 模块设计原则
 
 1. **关注点分离**:
-
-    - 模型定义 (`model/`)
-    - 环境生成 (`envs/`)
-    - 优化算法 (`MCTS/`, `GA/`)
-    - 训练逻辑 (`trainer.py`)
+   - 模型定义 (`model/`)
+   - 环境生成 (`envs/`)
+   - 优化算法 (`MCTS/`, `GA/`)
+   - 训练逻辑 (`trainer.py`)
 
 2. **可扩展性**:
-
-    - 新的数学运算符在 `operators.py` 中注册
-    - 新的优化策略通过 `refinement_strategy` 参数添加
+   - 新的数学运算符在 `operators.py` 中注册
+   - 新的优化策略通过 `refinement_strategy` 参数添加
 
 3. **错误处理**:
-    - 使用 `warnings` 过滤已知警告
-    - 超时保护 (`@timeout` 装饰器)
-    - 数值异常捕获 (`np.seterr(all="raise")`)
+   - 使用 `warnings` 过滤已知警告
+   - 超时保护 (`@timeout` 装饰器)
+   - 数值异常捕获 (`np.seterr(all="raise")`)
 
 ### 核心抽象
 
@@ -482,13 +488,11 @@ conda activate PhyReg
 ### 下载数据与模型
 
 1. **预训练模型** (必需): [Google Drive](https://drive.google.com/drive/folders/14M0Ed0gvSKmtuTOornfEoup8l48IfEUW)
-
-    - 下载 `model.pt` (约 300MB)
-    - 替换项目根目录的空文件
+   - 下载 `model.pt` (约 300MB)
+   - 替换项目根目录的空文件
 
 2. **训练/评估数据** (可选): [Google Drive](https://drive.google.com/drive/folders/17rbDLb2ZBgK9DidJtb1nyBFmGtOokhYs)
-
-    - 放置到 `data/` 目录
+   - 放置到 `data/` 目录
 
 3. **完整数据集** (可选): [FigShare](https://doi.org/10.6084/m9.figshare.29615831.v1)
 
@@ -558,10 +562,10 @@ bash ./bash/eval_feynman.sh
 
 **主要方法**:
 
--   `__init__(path, max_len, refinement_strategy, device)`: 加载模型
--   `fit(x, y, units, complexitys, unarys, consts, ...)`: 主拟合方法
--   `express_best_gens(best_gens)`: 打印预测公式
--   `eval_metric(y_true, y_pred, metric)`: 计算评估指标
+- `__init__(path, max_len, refinement_strategy, device)`: 加载模型
+- `fit(x, y, units, complexitys, unarys, consts, ...)`: 主拟合方法
+- `express_best_gens(best_gens)`: 打印预测公式
+- `eval_metric(y_true, y_pred, metric)`: 计算评估指标
 
 **关键参数** (fit 方法):
 | 参数 | 类型 | 说明 |
@@ -583,15 +587,15 @@ bash ./bash/eval_feynman.sh
 
 **子模块**:
 
--   **`model/`**: Transformer 架构
-    -   `transformer.py`: 编码器-解码器实现
-    -   `embedders.py`: 数据点嵌入 (LinearPoint, TNet, AttentionPoint)
--   **`envs/`**: 数据生成与符号计算
-    -   `environment.py`: 主环境类 (生成训练数据)
-    -   `generators.py`: 公式生成器 (随机采样)
-    -   `encoders.py`: 序列编码
--   **`MCTS/`**: 蒙特卡洛树搜索
--   **`GA/`**: 遗传编程优化
+- **`model/`**: Transformer 架构
+  - `transformer.py`: 编码器-解码器实现
+  - `embedders.py`: 数据点嵌入 (LinearPoint, TNet, AttentionPoint)
+- **`envs/`**: 数据生成与符号计算
+  - `environment.py`: 主环境类 (生成训练数据)
+  - `generators.py`: 公式生成器 (随机采样)
+  - `encoders.py`: 序列编码
+- **`MCTS/`**: 蒙特卡洛树搜索
+- **`GA/`**: 遗传编程优化
 
 **核心流程**:
 
@@ -614,10 +618,10 @@ predicted_formula = decoder(context)
 
 **核心方法** (`oracle.py`):
 
--   `oracle_fit(x, y, ...)`: 训练 Oracle 神经网络
--   `oracle_seperate(x, y, strategy)`: 应用分解策略
-    -   策略: `id`, `inv`, `arcsin`, `arccos`, `sqrt`
--   `reverse(main_exprs, sub_exprs)`: 聚合子公式
+- `oracle_fit(x, y, ...)`: 训练 Oracle 神经网络
+- `oracle_seperate(x, y, strategy)`: 应用分解策略
+  - 策略: `id`, `inv`, `arcsin`, `arccos`, `sqrt`
+- `reverse(main_exprs, sub_exprs)`: 聚合子公式
 
 **工作原理**:
 
@@ -635,38 +639,38 @@ predicted_formula = decoder(context)
 
 **数据相关**:
 
--   `expr_train_data_path`: 训练公式集路径
--   `expr_valid_data_path`: 验证公式集路径
--   `sub_expr_train_path`: 分离后的子公式训练集
--   `max_len`: 最大数据点数 (默认 200)
--   `tokens_per_batch`: 每批次最大 token 数
+- `expr_train_data_path`: 训练公式集路径
+- `expr_valid_data_path`: 验证公式集路径
+- `sub_expr_train_path`: 分离后的子公式训练集
+- `max_len`: 最大数据点数 (默认 200)
+- `tokens_per_batch`: 每批次最大 token 数
 
 **模型相关**:
 
--   `enc_emb_dim`: 编码器嵌入维度 (默认 512)
--   `dec_emb_dim`: 解码器嵌入维度 (默认 512)
--   `n_enc_layers`: 编码器层数 (默认 2)
--   `n_dec_layers`: 解码器层数 (默认 16)
--   `n_enc_heads`: 编码器注意力头数 (默认 16)
+- `enc_emb_dim`: 编码器嵌入维度 (默认 512)
+- `dec_emb_dim`: 解码器嵌入维度 (默认 512)
+- `n_enc_layers`: 编码器层数 (默认 2)
+- `n_dec_layers`: 解码器层数 (默认 16)
+- `n_enc_heads`: 编码器注意力头数 (默认 16)
 
 **提示相关**:
 
--   `use_hints`: 使用的提示类型 (默认 `"units,complexity,unarys,consts"`)
+- `use_hints`: 使用的提示类型 (默认 `"units,complexity,unarys,consts"`)
 
 ### 评估指标
 
--   **R²** (R-squared): 决定系数
--   **MSE** (Mean Squared Error): 均方误差
--   **Accuracy@1e-3**: 相对误差 < 0.1% 的比例
--   **Symbolic Accuracy**: 符号等价匹配率
+- **R²** (R-squared): 决定系数
+- **MSE** (Mean Squared Error): 均方误差
+- **Accuracy@1e-3**: 相对误差 < 0.1% 的比例
+- **Symbolic Accuracy**: 符号等价匹配率
 
 ### 性能基准
 
 在合成数据集上 (论文结果):
 
--   **端到端精度**: ~45% (R² > 0.99)
--   **加入 Oracle**: ~55%
--   **完整流程 (E2E+Oracle+MCTS+GP)**: ~70%
+- **端到端精度**: ~45% (R² > 0.99)
+- **加入 Oracle**: ~55%
+- **完整流程 (E2E+Oracle+MCTS+GP)**: ~70%
 
 ---
 
@@ -692,8 +696,8 @@ model.fit(x, y, use_Divide=False, use_MCTS=False, use_GP=False)
 
 **A**:
 
--   训练时: `Oracle_model/{oracle_name}/`
--   评估时: 自动从指定路径加载
+- 训练时: `Oracle_model/{oracle_name}/`
+- 评估时: 自动从指定路径加载
 
 ---
 
@@ -738,13 +742,13 @@ torch.optim.lr_scheduler → paddle.optimizer.lr_scheduler
 
 ### 迁移检查清单
 
--   [ ] 替换所有 `import torch` 为 `import paddle`
--   [ ] 修改模型定义继承 `paddle.nn.Layer`
--   [ ] 更新数据加载器为 PaddlePaddle API
--   [ ] 测试数值精度差异 (可能需要调整学习率)
--   [ ] 验证 CUDA 内核兼容性
--   [ ] 更新 environment.yml 依赖
--   [ ] 运行完整测试套件
+- [ ] 替换所有 `import torch` 为 `import paddle`
+- [ ] 修改模型定义继承 `paddle.nn.Layer`
+- [ ] 更新数据加载器为 PaddlePaddle API
+- [ ] 测试数值精度差异 (可能需要调整学习率)
+- [ ] 验证 CUDA 内核兼容性
+- [ ] 更新 environment.yml 依赖
+- [ ] 运行完整测试套件
 
 ---
 
@@ -772,8 +776,8 @@ torch.optim.lr_scheduler → paddle.optimizer.lr_scheduler
 
 ## 联系方式
 
--   **论文作者**: Jie Ying (yingj24@mails.tsinghua.edu.cn)
--   **项目许可**: Apache 2.0 License
+- **论文作者**: Jie Ying (yingj24@mails.tsinghua.edu.cn)
+- **项目许可**: Apache 2.0 License
 
 ---
 
