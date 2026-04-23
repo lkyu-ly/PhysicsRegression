@@ -370,7 +370,7 @@ print(f"使用策略: {result['strategy']}")
 print(f"分解质量: {result['score']:.3f}")
 
 # 4. 分别求解子问题
-model = PhyReg("model.pt")
+model = PhyReg("../models/model.pdparams")
 
 # 主问题
 model.fit(result["main_x"], result["main_y"])
@@ -397,7 +397,7 @@ model.express_best_gens(final_formulas)
 # PhysicsRegression.py 中已集成
 from PhysicsRegression import PhyReg
 
-model = PhyReg("model.pt")
+model = PhyReg("../models/model.pdparams")
 model.fit(
     x, y,
     use_Divide=True,  # 启用 Oracle 分治

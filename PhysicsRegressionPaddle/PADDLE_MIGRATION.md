@@ -51,7 +51,7 @@ PhysicsRegression/              PhysicsRegressionPaddle/
 ├── symbolicregression/         ├── symbolicregression/
 ├── Oracle/                     ├── Oracle/
 ├── physical/                   ├── physical/
-├── model.pt (PyTorch模型)     ├── model.pdparams (需转换)
+├── models/model.pt (PyTorch原始权重)  ├── models/model.pdparams (PaddlePaddle原生模型，通过 convert_torch_to_paddle.py 转换生成)
 └── CLAUDE.md                   ├── paddle_utils.py (新增兼容层)
                                 └── CLAUDE.md (需更新)
 ```
@@ -1405,7 +1405,7 @@ def save(self, path):
 
 - **保存内容**: `params` 保持为 `argparse.Namespace` 对象
 - **加载后**: params 仍然是 Namespace，可以属性访问 ✅
-- **示例文件**: `model.pt`（预训练模型）
+- **示例文件**: `models/model.pdparams`（PaddlePaddle 预训练模型，由 PyTorch 权重经 `convert_torch_to_paddle.py` 转换而来）
 
 #### 2️⃣ 训练 Checkpoint 保存（trainer.py）
 

@@ -8,6 +8,11 @@
 
 **Tech Stack:** Python 3.10, PaddlePaddle 3.3, PyTorch 2.x, pytest, NumPy, 仓库根目录 `convert_torch_to_paddle.py` / `compare_torch_paddle_forward.py`
 
+补充约束：
+- `checkpoint.pth` 在 Paddle 侧仍是 `paddle.save()` 产物，`.pth` 仅沿用现有命名
+- `PhyReg.save()` 的 `params` 保持 `Namespace`，与 Torch 侧推理模型一致
+- `Trainer.save_checkpoint()` 的 `params` 保持 `dict`，与 Torch 侧训练 checkpoint 一致
+
 ---
 
 ## File Structure
@@ -131,7 +136,7 @@ def test_state_helpers_restore_layer_optimizer_and_scaler():
     set_layer_state(target, source.state_dict(), "linear")
     for key, value in source.state_dict().items():
         assert key in target.state_dict()
-        assert (target.state_dict()[key] == value).all()
+        assert bool(paddle.equal_all(target.state_dict()[key], value))
 
     optimizer = paddle.optimizer.Adam(
         learning_rate=0.001, parameters=target.parameters()
@@ -139,7 +144,7 @@ def test_state_helpers_restore_layer_optimizer_and_scaler():
     optimizer_state = optimizer.state_dict()
     set_optimizer_state(optimizer, optimizer_state)
 
-    scaler = paddle.amp.GradScaler(enable=False)
+    scaler = paddle.amp.GradScaler()
     scaler_state = scaler.state_dict()
     set_grad_scaler_state(scaler, scaler_state)
 ```
@@ -287,7 +292,14 @@ def make_legacy_pickle(path: Path):
 
 
 def test_phyreg_loads_native_model():
-    model = PhyReg(MODEL_PDPARAMS, device="cpu")
+    import os
+
+    old_cwd = Path.cwd()
+    os.chdir(PADDLE_ROOT)
+    try:
+        model = PhyReg(MODEL_PDPARAMS, device="cpu")
+    finally:
+        os.chdir(old_cwd)
     assert set(model.modules) == {"embedder", "encoder", "decoder"}
 
 
@@ -372,7 +384,7 @@ class PhyReg:
             "embedder": self.mw.embedder.state_dict(),
             "encoder": self.mw.encoder.state_dict(),
             "decoder": self.mw.decoder.state_dict(),
-            "params": vars(self.params).copy(),
+            "params": self.params,
         }
         paddle.save(obj=save_dict, path=path)
 ```
@@ -650,7 +662,7 @@ git add \
   "PhysicsRegressionPaddle/bash/eval_synthetic.sh" \
   "PhysicsRegressionPaddle/bash/eval_feynman.sh" \
   "PhysicsRegressionPaddle/unitTest/test_training_entrypoints_native_only.py"
-git rm "PhysicsRegressionPaddle/tools/convert_model.py" "PhysicsRegressionPaddle/tools/__init__.py"
+git add -A "PhysicsRegressionPaddle/tools"
 git commit -m "refactor: remove legacy paddle conversion compatibility"
 ```
 
@@ -930,9 +942,7 @@ git status --short -- \
   "PhysicsRegressionPaddle/unitTest/test_checkpoint_io.py" \
   "PhysicsRegressionPaddle/unitTest/test_phyreg_native_policy.py" \
   "PhysicsRegressionPaddle/unitTest/test_training_entrypoints_native_only.py" \
-  "PhysicsRegressionPaddle/unitTest/test_root_model_scripts.py" \
-  "convert_torch_to_paddle.py" \
-  "compare_torch_paddle_forward.py"
+  "PhysicsRegressionPaddle/unitTest/test_root_model_scripts.py"
 ```
 
 Expected: only the intended files appear
@@ -979,8 +989,8 @@ git commit -m "refactor: converge paddle model io to native checkpoints"
   - 使用 `PhyE2E/models` 真模型测试：Task 1、2、5 覆盖
   - 单测保证修改无误：Task 1、2、3、5 覆盖
 
-- Placeholder scan:
-  - 无 `TODO` / `TBD` / “implement later” / “similar to”
+- 占位符检查：
+  - 无占位符语句
 
 - Type consistency:
   - 推理模型统一称为 `model.pdparams`

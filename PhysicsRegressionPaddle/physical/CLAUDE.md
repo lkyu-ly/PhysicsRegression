@@ -440,7 +440,7 @@ var1,var2,var3,...,target
    ```python
    # 1. 加载模型
    from PhysicsRegression import PhyReg
-   model = PhyReg("../model.pt")
+   model = PhyReg("../../models/model.pdparams")
 
    # 2. 加载数据
    data = pd.read_csv("data/case6_NewPhenomenon.csv")
@@ -502,7 +502,7 @@ units = [
 ]
 
 # --- 6. 运行符号回归 ---
-model = PhyReg("../model.pt")
+model = PhyReg("../../models/model.pdparams")
 model.fit(
     x_scaled, y_scaled,
     units=units,

@@ -125,6 +125,11 @@ Paddle 侧只保留两类模型文件：
 - Paddle 运行时不得接受旧 `.pkl`
 - `reload_model` 负责加载推理模型
 - `reload_checkpoint` 只负责恢复训练 checkpoint
+- `checkpoint.pth` 虽然沿用 `.pth` 文件名，但内容是 `paddle.save()` 产物，不是 Torch 序列化文件
+- `params` 的保存策略尽量贴近 Torch 现状：
+  - `PhyReg.save()` 产出的推理模型 bundle 保存 `Namespace`
+  - `Trainer.save_checkpoint()` 产出的训练 checkpoint 保存 `dict`
+  - helper 加载时统一规范化为 `Namespace`
 
 ### 2. 新增一个小而专一的 checkpoint helper
 

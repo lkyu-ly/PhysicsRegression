@@ -813,8 +813,8 @@ python train.py --n_steps_per_epoch 1000  # 默认 500
 ```python
 from PhysicsRegression import PhyReg
 
-# 加载预训练
-model = PhyReg("model.pt")
+# 加载预训练 (PaddlePaddle 原生格式)
+model = PhyReg("../models/model.pdparams")
 
 # 继续训练
 model.fit(x, y, continue_training=True)

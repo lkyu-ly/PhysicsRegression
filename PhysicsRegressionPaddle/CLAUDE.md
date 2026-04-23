@@ -488,8 +488,8 @@ conda activate PhyReg
 ### 下载数据与模型
 
 1. **预训练模型** (必需): [Google Drive](https://drive.google.com/drive/folders/14M0Ed0gvSKmtuTOornfEoup8l48IfEUW)
-   - 下载 `model.pt` (约 300MB)
-   - 替换项目根目录的空文件
+   - 下载 PyTorch 权重 `model.pt` (约 300MB)，放置到项目根目录的 `models/` 文件夹中
+   - 在项目根目录运行 `python convert_torch_to_paddle.py` 生成 PaddlePaddle 原生模型 `models/model.pdparams`
 
 2. **训练/评估数据** (可选): [Google Drive](https://drive.google.com/drive/folders/17rbDLb2ZBgK9DidJtb1nyBFmGtOokhYs)
    - 放置到 `data/` 目录
@@ -503,8 +503,8 @@ conda activate PhyReg
 from PhysicsRegression import PhyReg
 import numpy as np
 
-# 加载预训练模型
-model = PhyReg("model.pt")
+# 加载预训练模型 (PaddlePaddle 原生格式)
+model = PhyReg("../models/model.pdparams")
 
 # 准备数据
 x = np.random.rand(100, 2)  # 100个样本, 2个变量

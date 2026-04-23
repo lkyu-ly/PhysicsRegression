@@ -28,7 +28,7 @@ pip install paddlepaddle-gpu==3.3.0 -i https://www.paddlepaddle.org.cn/packages/
 
 A pre-trained model training on 6M synthetic formulas is avaliable from [Google Drive](https://drive.google.com/drive/folders/14M0Ed0gvSKmtuTOornfEoup8l48IfEUW).
 
-After downoading and replace it with the empty `model.pt` file, you can play with `example.ipynb` as a demo example.
+After downloading, place the PyTorch weights (`model.pt`) into the `models/` directory at the project root, then run `python convert_torch_to_paddle.py` to generate the PaddlePaddle native model (`models/model.pdparams`). You can then use `example.ipynb` as a demo example.
 
 Other data which is necessary for training, evaluation and physics applications can be downloaded from [Google Drive](https://drive.google.com/drive/folders/17rbDLb2ZBgK9DidJtb1nyBFmGtOokhYs), and should be placed in the `data` directory.
 
@@ -79,7 +79,7 @@ Similarly, the most useful hyper-parameters for evaluation are presented in `./b
 - **`filename`**: The path to save evaluation results.
 - **`oraclename`**: The path to save oracle neural network model.
 - **`max_len`**: The number of datapoints for each formula.
-- **`reload_checkpoint`**: The path to reload model or checkpoint (default to `model.pt`).
+- **`reload_checkpoint`**: The path to reload model or checkpoint (default to `../models/model.pdparams`).
 - **`expr_test_data_path`**: The path to the evaluation dataset (default to `./data/exprs_test_ranked.json`).
 
 ## Applications

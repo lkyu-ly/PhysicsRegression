@@ -19,8 +19,8 @@ from tqdm import tqdm
 
 np.seterr(all="raise")
 
-os.environ['PADDLE_XCCL_BACKEND']='iluvatar_gpu'
-paddle.device.set_device('iluvatar_gpu')
+# os.environ['PADDLE_XCCL_BACKEND']='iluvatar_gpu'
+# paddle.device.set_device('iluvatar_gpu')
 
 
 def main(params):
@@ -92,7 +92,7 @@ def main(params):
                 datatype="valid",
                 verbose=False,
                 refinement_types=["id"],
-                epoch_id=trainer.epoch
+                epoch_id=trainer.epoch,
             )
             logger.info("__log__:%s" % json.dumps(scores))
         if scores is not None:
