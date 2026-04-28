@@ -223,7 +223,7 @@ class Trainer(object):
         assert (
             params.amp == 0
             and params.fp16 is False
-            or params.amp in [1, 2, 3]
+            or params.amp > 0
             and params.fp16 is True
         )
         self.scaler = paddle.amp.GradScaler(
