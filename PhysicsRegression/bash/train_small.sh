@@ -1,12 +1,12 @@
 python ./train.py \
-        --max_epoch 2 \
+        --max_epoch 1 \
         --dump_path ./ \
         --exp_name test \
         --exp_id 0 \
         --n_steps_per_epoch 500 \
-        --print_freq 10 \
+        --print_freq 50 \
         --optimizer adam_inverse_sqrt,warmup_updates=100 \
-        --collate_queue_size 400 \
+        --collate_queue_size 500 \
         --batch_size 256 \
         --save_periodic -1 \
         --save_periodic_from 40\

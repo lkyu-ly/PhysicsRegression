@@ -669,6 +669,8 @@ class FunctionEnvironment(object):
                 ),  # (x["infos"]["input_sequence_length"], len(x["tree_encoded"])),
                 max_size=self.max_size,
             )
+        # [DEBUG] Use _SimpleIterator for deterministic cross-framework batch alignment.
+        # Original DataLoader (pre-fetches batches, consumes rng):
         return DataLoader(
             dataset,
             timeout=(0 if params.num_workers == 0 else 3600),
@@ -681,6 +683,15 @@ class FunctionEnvironment(object):
             shuffle=False,
             collate_fn=collate_fn,
         )
+        # class _SimpleIterator:
+        #     def __init__(self, ds, bs, cf):
+        #         self.ds, self.bs, self.cf, self.idx = ds, bs, cf, 0
+        #     def __iter__(self): return self
+        #     def __next__(self):
+        #         items = [self.ds[self.idx + i] for i in range(self.bs)]
+        #         self.idx += self.bs
+        #         return self.cf(items)
+        # return _SimpleIterator(dataset, params.batch_size, collate_fn)
 
     def create_test_iterator(
         self,
@@ -1017,6 +1028,9 @@ class EnvDataset(Dataset):
             assert size > 0
             self.size = size
 
+        # [DEBUG] Eager rng init — must happen in __init__ for deterministic cross-framework batch identity.
+        self.init_rng()
+
     def collate_size_fn(self, batch: Dict) -> int:
         if len(batch) == 0:
             return 0
@@ -1263,7 +1277,7 @@ class EnvDataset(Dataset):
         Return a training sample.
         Either generate it, or read it from file.
         """
-        self.init_rng()
+        # init_rng() is now called eagerly in EnvDataset.__init__
         if self.path is None:
             if self.train and self.skip:
                 return SKIP_ITEM
