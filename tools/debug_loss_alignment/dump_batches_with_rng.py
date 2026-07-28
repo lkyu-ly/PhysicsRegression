@@ -1,0 +1,162 @@
+#!/usr/bin/env python3
+"""Enhanced batch dump with rng state tracking at each step."""
+import argparse
+import contextlib
+import hashlib
+import json
+import os
+import random
+import sys
+from pathlib import Path
+
+import numpy as np
+
+TRAIN_SMALL_ARGS = [
+    "--max_epoch", "2", "--dump_path", "./", "--exp_name", "test", "--exp_id", "0",
+    "--n_steps_per_epoch", "500", "--print_freq", "50",
+    "--optimizer", "adam_inverse_sqrt,warmup_updates=100",
+    "--collate_queue_size", "1000", "--batch_size", "512",
+    "--save_periodic", "-1", "--save_periodic_from", "40",
+    "--eval_size", "200", "--batch_size_eval", "64",
+    "--num_workers", "0", "--max_len", "200", "--max_number_bags", "-1",
+    "--max_input_points", "200", "--tokens_per_batch", "5000", "--add_consts", "1",
+    "--device", "cuda:0", "--use_exprs", "200000", "--use_dimension_mask", "0",
+    "--expr_train_data_path", "./data/exprs_train.json",
+    "--expr_valid_data_path", "./data/exprs_valid.json",
+    "--sub_expr_train_path", "./data/exprs_seperated_train.json",
+    "--sub_expr_valid_path", "./data/exprs_seperated_valid.json",
+    "--decode_physical_units", "single-seq",
+    "--use_hints", "units,complexity,unarys,consts",
+    "--random_variables_sequence", "0", "--max_trials", "10",
+    "--generate_datapoints_distribution", "positive,multi", "--rescale", "0",
+    "--cpu", "True",
+]
+
+
+def stable_hash(value) -> str:
+    payload = json.dumps(value, sort_keys=True, ensure_ascii=False, default=str)
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:16]
+
+
+def rng_state_hash(rng):
+    if rng is None:
+        return (-1, "None")
+    state = rng.get_state()
+    pos = state[2]
+    h = hashlib.sha256(str(state).encode()).hexdigest()[:12]
+    return (pos, h)
+
+
+@contextlib.contextmanager
+def backend_context(repo_root: Path, backend: str):
+    project = repo_root / ("PhysicsRegression" if backend == "torch" else "PhysicsRegressionPaddle")
+    old_cwd = Path.cwd()
+    old_sys_path = list(sys.path)
+    os.chdir(project)
+    sys.path.insert(0, str(project))
+    try:
+        yield project
+    finally:
+        os.chdir(old_cwd)
+        sys.path[:] = old_sys_path
+
+
+def seed_backend(backend: str, seed: int):
+    random.seed(seed)
+    np.random.seed(seed)
+    if backend == "torch":
+        import torch
+        torch.manual_seed(seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(seed)
+    else:
+        import paddle
+        paddle.seed(seed)
+
+
+def normalize_params(params):
+    params.cpu = True
+    params.num_workers = 0
+    params.is_slurm_job = False
+    params.debug_slurm = True
+    params.n_nodes = 1
+    params.node_id = 0
+    params.local_rank = 0
+    params.global_rank = 0
+    params.world_size = 1
+    params.n_gpu_per_node = 1
+    params.multi_node = False
+    params.multi_gpu = False
+    params.is_master = True
+    return params
+
+
+def summarize_batch(step, batch, errors):
+    infos = batch.get("infos", {})
+    tree_encoded = batch.get("tree_encoded", [])
+    input_lengths = infos.get("input_sequence_length", [])
+    return {
+        "step": step,
+        "batch_size": len(tree_encoded) if isinstance(tree_encoded, list) else -1,
+        "tree_hash": stable_hash(tree_encoded),
+        "x_hash": stable_hash(batch.get("x_to_fit", [])),
+        "rng_before": None,
+        "rng_after": None,
+    }
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--backend", choices=["torch", "paddle"], required=True)
+    parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--steps", type=int, default=5)
+    parser.add_argument("--out", required=True)
+    args = parser.parse_args()
+
+    repo_root = Path(__file__).resolve().parents[2]
+    out_path = Path(args.out).resolve()
+    seed_backend(args.backend, args.seed)
+
+    results = []
+
+    with backend_context(repo_root, args.backend):
+        from parsers import get_parser
+        from symbolicregression.envs import build_env
+        from symbolicregression.model import build_modules
+
+        params = get_parser().parse_args(TRAIN_SMALL_ARGS)
+        params = normalize_params(params)
+        env = build_env(params)
+        build_modules(env, params)
+
+        pos, h = rng_state_hash(env.rng)
+        results.append({"label": "00_before_create_iterator", "rng_pos": pos, "rng_hash": h})
+
+        iterator = iter(env.create_train_iterator(params.tasks[0], None, params))
+
+        pos, h = rng_state_hash(env.rng)
+        results.append({"label": "01_after_create_iterator", "rng_pos": pos, "rng_hash": h})
+        print(f"[{args.backend}] after_create_iterator: rng_pos={pos}, rng_hash={h}")
+
+        for step in range(args.steps):
+            pos_before, _ = rng_state_hash(env.rng)
+            batch, errors = next(iterator)
+            pos_after, _ = rng_state_hash(env.rng)
+
+            summary = summarize_batch(step, batch, errors)
+            summary["rng_before"] = pos_before
+            summary["rng_after"] = pos_after
+            results.append(summary)
+
+            tree_encoded = batch.get("tree_encoded", [])
+            print(f"[{args.backend}] step={step}: rng {pos_before}->{pos_after}, "
+                  f"batch_size={summary['batch_size']}, tree_hash={summary['tree_hash']}, "
+                  f"first_8_tokens={tree_encoded[0][:8] if tree_encoded else 'N/A'}")
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    with out_path.open("w", encoding="utf-8") as f:
+        json.dump(results, f, indent=2, ensure_ascii=False)
+
+
+if __name__ == "__main__":
+    main()

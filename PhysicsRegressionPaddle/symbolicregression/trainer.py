@@ -100,6 +100,18 @@ class Trainer(object):
             logger.info("Using nn.parallel.DistributedDataParallel ...")
             for k in self.modules.keys():
                 self.modules[k] = paddle.DataParallel(layers=self.modules[k])
+        # CINN: apply to_static only when FLAGS_use_cinn=true so the baseline
+        # script (no flag) stays fully imperative for a clean A/B. embedder is
+        # left dynamic (heavy Python preprocessing, not traceable). SOT (the
+        # default full_graph=False translator) has partial-graph fallback, so
+        # predict()/generate() fall back to dynamic where un-traceable.
+        # NOTE: transformer.py .size() calls were replaced with native .shape —
+        # both SOT and AST translators mis-resolve the compat .size() method.
+        if os.environ.get("FLAGS_use_cinn") == "true":
+            logger.info("FLAGS_use_cinn=true: wrapping encoder/decoder with paddle.jit.to_static ...")
+            for k in ("encoder", "decoder"):
+                if k in self.modules:
+                    self.modules[k] = paddle.jit.to_static(self.modules[k])
         self.set_optimizer()
         self.scaler = None
         if params.amp >= 0:

@@ -1,5 +1,6 @@
 models/
 .codex
 .serena/
-tools/
+.claude/
+/CLAUDE.md
 docs/

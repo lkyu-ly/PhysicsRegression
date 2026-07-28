@@ -40,11 +40,11 @@ def get_masks(slen, lengths, causal):
     """
     if __debug__:  # 只在调试模式下检查，避免频繁GPU-CPU同步
         assert paddle.max(lengths).item() <= slen
-    bs = lengths.size(0)
+    bs = lengths.shape[0]
     alen = paddle.arange(slen, dtype=paddle.long, device=lengths.device)
     mask = alen < lengths[:, None]
     if causal:
-        attn_mask = alen[None, None, :].repeat(bs, slen, 1) <= alen[None, :, None]
+        attn_mask = paddle.tile(alen[None, None, :], (bs, slen, 1)) <= alen[None, :, None]
     else:
         attn_mask = mask
     assert mask.size() == (bs, slen)
@@ -81,11 +81,11 @@ class MultiHeadAttention(paddle.nn.Module):
         Mask is (bs, klen) (non-causal) or (bs, klen, klen)
         """
         assert not (use_cache and self.cache is None)
-        bs, qlen, dim = input.size()
+        bs, qlen, dim = input.shape
         if kv is None:
             klen = qlen if not use_cache else self.cache["slen"] + qlen
         else:
-            klen = kv.size(1)
+            klen = kv.shape[1]
         assert dim == self.dim, "Dimensions do not match: %s input vs %s configured" % (
             dim,
             self.dim,
@@ -95,12 +95,12 @@ class MultiHeadAttention(paddle.nn.Module):
 
         def shape(x):
             """projection"""
-            return x.view(bs, -1, self.n_heads, dim_per_head).transpose(1, 2)
+            return x.reshape(bs, -1, self.n_heads, dim_per_head).transpose(1, 2)
 
         def unshape(x):
             """compute context"""
             return (
-                x.transpose(1, 2).contiguous().view(bs, -1, self.n_heads * dim_per_head)
+                x.transpose(1, 2).contiguous().reshape(bs, -1, self.n_heads * dim_per_head)
             )
 
         q = shape(self.q_lin(input))
@@ -129,7 +129,7 @@ class MultiHeadAttention(paddle.nn.Module):
         scores = paddle.matmul(q, k.transpose(2, 3))
         if mask is not None:
             mask_reshape = (bs, 1, qlen, klen) if mask.dim() == 3 else (bs, 1, 1, klen)
-            mask = (mask == 0).view(mask_reshape).expand_as(scores)
+            mask = (mask == 0).reshape(mask_reshape).expand_as(scores)
             scores.masked_fill_(mask, -float("inf"))
         weights = paddle.compat.nn.functional.softmax(scores.float(), dim=-1).type_as(
             scores
@@ -378,7 +378,7 @@ class TransformerModel(paddle.nn.Module):
             `positions` LongTensor(slen, bs), containing word positions
             `dim` LongTensor(slen, bs, 5), containing dimensions
         """
-        slen, bs = x.size()[:2]
+        slen, bs = x.shape[:2]
         assert lengths.size(0) == bs
         if __debug__:  # 只在调试模式下检查，避免频繁GPU-CPU同步
             assert paddle.max(lengths).item() <= slen
@@ -456,7 +456,7 @@ class TransformerModel(paddle.nn.Module):
             if TransformerModel.STORE_OUTPUTS and not self.training:
                 self.outputs.append(tensor.detach().cpu())
         if use_cache:
-            self.cache["slen"] += tensor.size(1)
+            self.cache["slen"] += tensor.shape[1]
         tensor = tensor.transpose(0, 1)
         return tensor
 
@@ -468,20 +468,20 @@ class TransformerModel(paddle.nn.Module):
             `y` is a LongTensor of shape (pred_mask.sum(),)
             `get_scores` is a boolean specifying whether we need to return scores
         """
-        x = tensor[pred_mask.unsqueeze(-1).expand_as(tensor)].view(-1, self.dim)
+        x = tensor[pred_mask.unsqueeze(-1).expand_as(tensor)].reshape(-1, self.dim)
         if __debug__:  # 只在调试模式下检查
             assert (y == self.pad_index).sum().item() == 0
-        scores = self.proj(x).view(-1, self.n_words)
+        scores = self.proj(x)
         loss = paddle.nn.functional.cross_entropy(
             input=scores.float(), label=y, reduction="mean"
         )
         next_word = paddle.topk(scores, 1)[1].squeeze(1)
         if y_units is not None:
-            x_dim = tensor[pred_mask.unsqueeze(-1).expand_as(tensor)].view(-1, self.dim)
+            x_dim = tensor[pred_mask.unsqueeze(-1).expand_as(tensor)].reshape(-1, self.dim)
             if __debug__:  # 只在调试模式下检查
                 assert (y_units == self.pad_index).sum().item() == 0
-            latent_units = self.units_dec(x_dim).view(-1, self.dim)
-            scores_units = self.proj(latent_units).view(-1, self.n_words)
+            latent_units = self.units_dec(x_dim).reshape(-1, self.dim)
+            scores_units = self.proj(latent_units)
             loss_units = paddle.nn.functional.cross_entropy(
                 input=scores_units.float(), label=y_units, reduction="mean"
             )
