@@ -100,15 +100,16 @@ class Trainer(object):
             logger.info("Using nn.parallel.DistributedDataParallel ...")
             for k in self.modules.keys():
                 self.modules[k] = paddle.DataParallel(layers=self.modules[k])
-        # CINN: apply to_static only when FLAGS_use_cinn=true so the baseline
-        # script (no flag) stays fully imperative for a clean A/B. embedder is
-        # left dynamic (heavy Python preprocessing, not traceable). SOT (the
-        # default full_graph=False translator) has partial-graph fallback, so
-        # predict()/generate() fall back to dynamic where un-traceable.
-        # NOTE: transformer.py .size() calls were replaced with native .shape —
-        # both SOT and AST translators mis-resolve the compat .size() method.
-        if os.environ.get("FLAGS_use_cinn") == "true":
-            logger.info("FLAGS_use_cinn=true: wrapping encoder/decoder with paddle.jit.to_static ...")
+        # CINN / 动转静总开关：由应用级环境变量 PHYE2E_USE_CINN 控制。
+        # 事实（Paddle 3.3 实测）：paddle.jit.to_static 一旦包裹，即使
+        # FLAGS_use_cinn=false 也会编译 CINN——to_static 与 CINN 强耦合，
+        # FLAGS_use_cinn 无法独立关闭它。故「动转静」与「开 CINN」在当前
+        # 框架下是同一件事，统一由本开关控制，避免语义歧义。
+        # 不开启时保持纯动态图，基线脚本不受任何 CINN 相关改动影响。
+        # NOTE: transformer.py 的 .size()/.view()/.repeat() 已改用 paddle 原生
+        # .shape/.reshape/paddle.tile——动态图下同样兼容，无需在此分支。
+        if os.environ.get("PHYE2E_USE_CINN", "").lower() in ("1", "true", "yes"):
+            logger.info("PHYE2E_USE_CINN=true: wrapping encoder/decoder with paddle.jit.to_static (CINN will compile) ...")
             for k in ("encoder", "decoder"):
                 if k in self.modules:
                     self.modules[k] = paddle.jit.to_static(self.modules[k])
@@ -733,6 +734,6 @@ class Trainer(object):
         self.total_loss += loss.item()
         self.optimize(loss)
         self.inner_epoch += 1
-        self.n_equations += len1.size(0)
-        self.stats["processed_e"] += len1.size(0)
+        self.n_equations += len1.shape[0]
+        self.stats["processed_e"] += len1.shape[0]
         self.stats["processed_w"] += (len1 + len2 - 2).sum().item()

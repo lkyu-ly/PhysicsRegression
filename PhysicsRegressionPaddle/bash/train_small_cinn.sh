@@ -1,13 +1,17 @@
-# 打开组合算子
-export FLAGS_prim_enable_dynamic=true && export FLAGS_prim_all=true
+# === CINN / 动转静总开关（应用级）===
+# PHYE2E_USE_CINN 控制 trainer 是否对 encoder/decoder 做 paddle.jit.to_static。
+# 事实：Paddle 3.3 下 to_static 一旦包裹即强制编译 CINN，FLAGS_use_cinn 无法
+# 独立关闭，故「动转静」与「CINN」合一，由本开关统一控制；不设则纯动态图。
+export PHYE2E_USE_CINN=true
 
-# 打开 CINN 编译器
+# 框架级 CINN / 组合算子 flag（与总开关配套，语义双保险）
+export FLAGS_prim_enable_dynamic=true && export FLAGS_prim_all=true
 export FLAGS_use_cinn=true
 
 # 是否打印 Program IR 信息 (用于调试)
 export FLAGS_print_ir=false
 
-python -O ./train.py \
+python ./train.py \
         --max_epoch 1 \
         --dump_path ./ \
         --exp_name test \

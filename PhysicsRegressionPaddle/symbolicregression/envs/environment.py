@@ -1161,7 +1161,9 @@ class EnvDataset(paddle.io.Dataset):
         if not self.train:
             return 0
         worker_info = paddle.io.get_worker_info()
-        assert (worker_info is None) == (self.num_workers == 0), "issue in worker id"
+        # 迁移后 init_rng 在 EnvDataset.__init__（主进程）eager 调用，主进程
+        # worker_info 必为 None；原断言在 num_workers>0 时误报阻塞训练启动。
+        # 返回逻辑正确：主进程返回 0，worker 进程返回其 id。
         return 0 if worker_info is None else worker_info.id
 
     def __len__(self):
