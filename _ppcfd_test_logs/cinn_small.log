@@ -1,0 +1,82 @@
+all prim enabled:  True
+[2026-07-29 10:17:22,965] [    INFO] utils.py:148 - Note: NumExpr detected 12 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+Reloading model from  /home/lkyu/baidu/PhyE2E/models/model.pdparams
+SLURM job: False
+0 - Number of nodes: 1
+0 - Node ID        : 0
+0 - Local rank     : 0
+0 - Global rank    : 0
+0 - World size     : 1
+0 - GPUs per node  : 1
+0 - Master         : True
+0 - Multi-node     : False
+0 - Multi-GPU      : False
+0 - Hostname       : lkyu
+INFO - 07/29/26 10:17:24 - 0:00:00 - ============ Initialized logger ============
+INFO - 07/29/26 10:17:24 - 0:00:00 - The experiment will be stored in ./test/CINN+nvidia
+                                     
+INFO - 07/29/26 10:17:24 - 0:00:00 - Running command: python ./train.py --max_epoch 1 --dump_path './' --exp_name test --exp_id 'CINN+nvidia' --n_steps_per_epoch 500 --print_freq 50 --optimizer 'adam_inverse_sqrt,warmup_updates=100' --collate_queue_size 500 --batch_size 256 --save_periodic '-1' --save_periodic_from 40 --eval_size 32 --batch_size_eval 32 --num_workers 0 --max_len 200 --max_number_bags '-1' --max_input_points 200 --tokens_per_batch 5000 --add_consts 1 --device 'cuda:0' --use_exprs 100000 --use_dimension_mask 0 --expr_train_data_path './data/exprs_train.json' --expr_valid_data_path './data/exprs_valid.json' --sub_expr_train_path './data/exprs_seperated_train.json' --sub_expr_valid_path './data/exprs_seperated_valid.json' --decode_physical_units 'single-seq' --use_hints 'units,complexity,unarys,consts' --random_variables_sequence 0 --max_trials 10 --generate_datapoints_distribution 'positive,multi' --rescale 0 --reload_model '/home/lkyu/baidu/PhyE2E/models/model.pdparams'
+
+INFO - 07/29/26 10:17:49 - 0:00:25 - vocabulary: 10570 float words, 10570 equation words
+INFO - 07/29/26 10:17:49 - 0:00:25 - Training tasks: functions
+W0729 10:17:49.351490 212634 gpu_resources.cc:116] Please NOTE: device: 0, GPU Compute Capability: 8.9, Driver API Version: 13.1, Runtime API Version: 13.3
+W0729 10:17:49.352747 212634 dynamic_loader.cc:412] The third-party dynamic library (libcuda.so) that Paddle depends on is not configured correctly. (error code is libcuda.so: cannot open shared object file: No such file or directory)
+  Suggestions:
+  1. Check if the third-party dynamic library (e.g. CUDA, CUDNN) is installed correctly and its version is matched with paddlepaddle you installed.
+  2. Configure third-party dynamic library environment variables as follows:
+  - Linux: set LD_LIBRARY_PATH by `export LD_LIBRARY_PATH=...`
+  - Windows: set PATH by `set PATH=XXX;%PATH%`
+  - Mac: set  DYLD_LIBRARY_PATH by `export DYLD_LIBRARY_PATH=...` [Note: After Mac OS 10.11, using the DYLD_LIBRARY_PATH is impossible unless System Integrity Protection (SIP) is disabled.]
+INFO - 07/29/26 10:17:49 - 0:00:25 - Reloading modules from /home/lkyu/baidu/PhyE2E/models/model.pdparams ...
+INFO - 07/29/26 10:17:50 - 0:00:26 - Number of parameters (embedder): 6843712
+INFO - 07/29/26 10:17:50 - 0:00:26 - Number of parameters (encoder): 6305792
+INFO - 07/29/26 10:17:50 - 0:00:26 - Number of parameters (decoder): 80196938
+Using device: gpu:0
+INFO - 07/29/26 10:17:50 - 0:00:26 - Found 461 parameters in model.
+INFO - 07/29/26 10:17:50 - 0:00:26 - PHYE2E_USE_CINN=true: wrapping encoder/decoder with paddle.jit.to_static (CINN will compile) ...
+INFO - 07/29/26 10:17:50 - 0:00:26 - Optimizer: <class 'optim.AdamInverseSqrtWithWarmup'>
+WARNING - 07/29/26 10:17:50 - 0:00:26 - Checkpoint path does not exist, ./test/CINN+nvidia/checkpoint.pth
+INFO - 07/29/26 10:17:50 - 0:00:26 - Creating train iterator for functions ...
+INFO - 07/29/26 10:17:50 - 0:00:26 - Initialized random generator for worker 0, with seed [0, 0, 0] (base seed=0).
+INFO - 07/29/26 10:17:50 - 0:00:26 - ============ Starting epoch 1 ... ============
+  0%|          | 0/500 [00:00<?, ?it/s]W0729 10:18:12.470414 212634 eager_utils.cc:3584] Paddle static graph(PIR) not support input out tensor for now!!!!!
+/home/lkyu/miniconda3/envs/paddletorch/lib/python3.10/site-packages/paddle/pir/math_op_patch.py:241: UserWarning: Tensor do not have 'place' interface for pir graph mode, try not to use it. None will be returned.
+  warnings.warn(
+W0729 10:18:50.641458 212634 pattern_rewrite_driver.cc:235] The pattern rewrite did not converge after scanning 10 times
+I0729 10:18:50.642638 212634 add_cinn_pass.cc:334] Compiling subgraph with CINN backend ...
+W0729 10:18:50.645471 212634 pattern_rewrite_driver.cc:235] The pattern rewrite did not converge after scanning 10 times
+W0729 10:18:50.645870 212634 pattern_rewrite_driver.cc:235] The pattern rewrite did not converge after scanning 10 times
+W0729 10:18:53.899727 212634 pattern_rewrite_driver.cc:235] The pattern rewrite did not converge after scanning 10 times
+I0729 10:18:53.909216 212634 pir_interpreter.cc:1606] New Executor is Running ...
+I0729 10:18:53.909788 212634 pir_interpreter.cc:1627] pir interpreter is running by trace mode ...
+/home/lkyu/miniconda3/envs/paddletorch/lib/python3.10/site-packages/paddle/pir/math_op_patch.py:241: UserWarning: Tensor do not have 'place' interface for pir graph mode, try not to use it. None will be returned.
+  warnings.warn(
+  0%|          | 1/500 [01:38<13:36:17, 98.15s/it]/home/lkyu/miniconda3/envs/paddletorch/lib/python3.10/site-packages/paddle/pir/math_op_patch.py:241: UserWarning: Tensor do not have 'place' interface for pir graph mode, try not to use it. None will be returned.
+  warnings.warn(
+  0%|          | 2/500 [02:13<8:26:28, 61.02s/it] W0729 10:20:39.213296 212634 pattern_rewrite_driver.cc:235] The pattern rewrite did not converge after scanning 10 times
+W0729 10:20:39.215309 212634 pattern_rewrite_driver.cc:235] The pattern rewrite did not converge after scanning 10 times
+W0729 10:20:39.215730 212634 pattern_rewrite_driver.cc:235] The pattern rewrite did not converge after scanning 10 times
+W0729 10:20:42.502966 212634 pattern_rewrite_driver.cc:235] The pattern rewrite did not converge after scanning 10 times
+/home/lkyu/miniconda3/envs/paddletorch/lib/python3.10/site-packages/paddle/pir/math_op_patch.py:241: UserWarning: Tensor do not have 'place' interface for pir graph mode, try not to use it. None will be returned.
+  warnings.warn(
+  1%|          | 3/500 [03:07<8:00:41, 58.03s/it]  1%|          | 4/500 [03:12<5:06:00, 37.02s/it]  1%|          | 5/500 [03:16<3:28:35, 25.28s/it]  1%|          | 6/500 [03:21<2:29:51, 18.20s/it]  1%|▏         | 7/500 [03:25<1:52:48, 13.73s/it]  2%|▏         | 8/500 [03:30<1:28:49, 10.83s/it]  2%|▏         | 9/500 [03:35<1:12:44,  8.89s/it]  2%|▏         | 10/500 [03:39<1:01:12,  7.50s/it]  2%|▏         | 11/500 [03:44<53:38,  6.58s/it]    2%|▏         | 12/500 [03:48<48:17,  5.94s/it]  3%|▎         | 13/500 [03:52<44:35,  5.49s/it]  3%|▎         | 14/500 [03:57<42:39,  5.27s/it]  3%|▎         | 15/500 [04:02<40:33,  5.02s/it]  3%|▎         | 16/500 [04:06<39:16,  4.87s/it]  3%|▎         | 17/500 [04:11<38:46,  4.82s/it]  4%|▎         | 18/500 [04:12<29:42,  3.70s/it]  4%|▍         | 19/500 [04:16<31:29,  3.93s/it]  4%|▍         | 20/500 [04:21<32:53,  4.11s/it]  4%|▍         | 21/500 [04:22<25:29,  3.19s/it]  4%|▍         | 22/500 [04:23<20:21,  2.56s/it]  5%|▍         | 23/500 [04:24<16:50,  2.12s/it]  5%|▍         | 24/500 [04:25<14:18,  1.80s/it]  5%|▌         | 25/500 [04:26<12:37,  1.59s/it]  5%|▌         | 26/500 [04:27<11:18,  1.43s/it]  5%|▌         | 27/500 [04:29<10:35,  1.34s/it]  6%|▌         | 28/500 [04:30<09:56,  1.26s/it]  6%|▌         | 29/500 [04:31<09:49,  1.25s/it]  6%|▌         | 30/500 [04:32<09:07,  1.17s/it]  6%|▌         | 31/500 [04:33<08:47,  1.12s/it]  6%|▋         | 32/500 [04:34<08:31,  1.09s/it]  7%|▋         | 33/500 [04:35<08:32,  1.10s/it]  7%|▋         | 34/500 [04:36<08:34,  1.10s/it]  7%|▋         | 35/500 [04:37<08:23,  1.08s/it]  7%|▋         | 36/500 [04:38<08:20,  1.08s/it]  7%|▋         | 37/500 [04:39<08:37,  1.12s/it]  8%|▊         | 38/500 [04:40<08:20,  1.08s/it]  8%|▊         | 39/500 [04:41<08:07,  1.06s/it]  8%|▊         | 40/500 [04:43<08:24,  1.10s/it]  8%|▊         | 41/500 [04:44<08:27,  1.11s/it]  8%|▊         | 42/500 [04:45<08:12,  1.08s/it]  9%|▊         | 43/500 [04:46<08:22,  1.10s/it]  9%|▉         | 44/500 [04:47<08:42,  1.15s/it]  9%|▉         | 45/500 [04:49<09:10,  1.21s/it]  9%|▉         | 46/500 [04:50<09:16,  1.23s/it]  9%|▉         | 47/500 [04:51<09:19,  1.23s/it] 10%|▉         | 48/500 [04:52<09:17,  1.23s/it] 10%|▉         | 49/500 [04:53<09:08,  1.22s/it]INFO - 07/29/26 10:22:45 - 0:05:21 -      50 -    4.92 equations/s -   990.92 words/s -  MEM: 7024.58 MB - FUNCTIONS:  0.2255 - LR: 5.0050e-05 (updates: 50) [WARMUP: 50.0%]- Total Eq: 1.45e+03
+ 10%|█         | 50/500 [04:55<08:59,  1.20s/it] 10%|█         | 51/500 [04:56<08:46,  1.17s/it] 10%|█         | 52/500 [04:57<08:46,  1.17s/it] 11%|█         | 53/500 [04:58<09:11,  1.23s/it] 11%|█         | 54/500 [04:59<08:52,  1.19s/it] 11%|█         | 55/500 [05:01<09:12,  1.24s/it] 11%|█         | 56/500 [05:02<09:39,  1.31s/it] 11%|█▏        | 57/500 [05:04<10:05,  1.37s/it] 12%|█▏        | 58/500 [05:05<09:32,  1.29s/it] 12%|█▏        | 59/500 [05:06<09:12,  1.25s/it] 12%|█▏        | 60/500 [05:07<08:50,  1.21s/it] 12%|█▏        | 61/500 [05:08<08:24,  1.15s/it] 12%|█▏        | 62/500 [05:09<08:05,  1.11s/it] 13%|█▎        | 63/500 [05:10<07:58,  1.10s/it] 13%|█▎        | 64/500 [05:11<07:46,  1.07s/it] 13%|█▎        | 65/500 [05:12<07:43,  1.07s/it] 13%|█▎        | 66/500 [05:13<07:40,  1.06s/it] 13%|█▎        | 67/500 [05:14<07:52,  1.09s/it] 14%|█▎        | 68/500 [05:16<08:53,  1.24s/it] 14%|█▍        | 69/500 [05:17<08:35,  1.20s/it] 14%|█▍        | 70/500 [05:18<08:45,  1.22s/it] 14%|█▍        | 71/500 [05:20<09:32,  1.34s/it] 14%|█▍        | 72/500 [05:21<09:45,  1.37s/it] 15%|█▍        | 73/500 [05:23<09:41,  1.36s/it] 15%|█▍        | 74/500 [05:24<10:20,  1.46s/it] 15%|█▌        | 75/500 [05:26<10:07,  1.43s/it] 15%|█▌        | 76/500 [05:27<09:54,  1.40s/it] 15%|█▌        | 77/500 [05:29<09:49,  1.39s/it] 16%|█▌        | 78/500 [05:30<09:16,  1.32s/it] 16%|█▌        | 79/500 [05:31<08:51,  1.26s/it] 16%|█▌        | 80/500 [05:32<08:25,  1.20s/it] 16%|█▌        | 81/500 [05:33<08:14,  1.18s/it] 16%|█▋        | 82/500 [05:34<08:01,  1.15s/it] 17%|█▋        | 83/500 [05:35<08:06,  1.17s/it] 17%|█▋        | 84/500 [05:36<07:56,  1.15s/it] 17%|█▋        | 85/500 [05:37<07:51,  1.14s/it] 17%|█▋        | 86/500 [05:39<07:37,  1.11s/it] 17%|█▋        | 87/500 [05:40<07:45,  1.13s/it] 18%|█▊        | 88/500 [05:41<07:36,  1.11s/it] 18%|█▊        | 89/500 [05:42<08:02,  1.17s/it] 18%|█▊        | 90/500 [05:43<07:37,  1.12s/it] 18%|█▊        | 91/500 [05:44<07:34,  1.11s/it] 18%|█▊        | 92/500 [05:45<07:32,  1.11s/it] 19%|█▊        | 93/500 [05:46<07:33,  1.12s/it] 19%|█▉        | 94/500 [05:48<07:46,  1.15s/it] 19%|█▉        | 95/500 [05:49<07:43,  1.15s/it] 19%|█▉        | 96/500 [05:50<08:02,  1.19s/it] 19%|█▉        | 97/500 [05:51<07:54,  1.18s/it] 20%|█▉        | 98/500 [05:52<07:50,  1.17s/it]
+
+--------------------------------------
+C++ Traceback (most recent call last):
+--------------------------------------
+0   paddle::pybind::eager_api_scale_(_object*, _object*, _object*)
+1   scale__ad_func(paddle::Tensor&, paddle::experimental::ScalarBase<paddle::Tensor>, paddle::experimental::ScalarBase<paddle::Tensor>, bool)
+2   paddle::experimental::scale_(paddle::Tensor&, paddle::experimental::ScalarBase<paddle::Tensor> const&, paddle::experimental::ScalarBase<paddle::Tensor> const&, bool)
+3   void phi::ScaleStrideKernel<float, phi::GPUContext>(phi::GPUContext const&, phi::DenseTensor const&, paddle::experimental::ScalarBase<phi::DenseTensor> const&, paddle::experimental::ScalarBase<phi::DenseTensor> const&, bool, phi::DenseTensor*)
+4   void phi::ScaleKernel<float, phi::GPUContext>(phi::GPUContext const&, phi::DenseTensor const&, paddle::experimental::ScalarBase<phi::DenseTensor> const&, paddle::experimental::ScalarBase<phi::DenseTensor> const&, bool, phi::DenseTensor*)
+5   void phi::funcs::LaunchElementwiseKernel<float, phi::ScaleFunctor<float, float>, 1, 1, 4>(phi::GPUContext const&, std::vector<phi::DenseTensor const*, std::allocator<phi::DenseTensor const*> > const&, std::vector<phi::DenseTensor*, std::allocator<phi::DenseTensor*> >*, phi::ScaleFunctor<float, float>)
+6   D3DKMTSubmitCommandToHwQueue
+
+----------------------
+Error Message Summary:
+----------------------
+FatalError: `Termination signal` is detected by the operating system.
+  [TimeInfo: *** Aborted at 1785320626 (unix time) try "date -d @1785320626" if you are using GNU date ***]
+  [SignalInfo: *** SIGTERM (@0x3e800000e3d) received by PID 212634 (TID 0x7de2785fb780) from PID 3645 ***]
+

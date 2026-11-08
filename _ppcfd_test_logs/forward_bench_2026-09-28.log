@@ -1,0 +1,48 @@
+# PhyE2E 前向推理 CINN 基准数据存档（2026-09-28）
+
+# 说明：当日运行时 stdout 未重定向到文件，本文件为会话原始输出的转录，数值未改动。
+# 逐次耗时序列来自 --worker paddle-bench 直接运行（BENCH_RESULT 行原样复制）；
+# 正式 --bench 汇总跑的逐次序列当时被父进程消费未透传，只有均值，已注明。
+# 环境：Paddle 3.3.0（paddlepaddle-gpu cbf3469）/ CUDA 13.0 / WSL2 RTX 4060 Ti 16G / conda paddletorch
+# 工具：PhyE2E/compare_torch_paddle_forward.py（预热剔除后计时取平均，单一随机输入 seed 0，
+#       计时范围仅 embedder→encoder(fwd)→decoder(fwd)，predict 分支不计）
+
+## 诊断一：预热是否足够（ON，warmup=8，runs=10）
+
+# B=1 —— 序列开头反而最低，是振荡不是编译尾巴
+BENCH_RESULT cinn=on 50.890 runs=[36.16, 38.36, 54.86, 62.77, 59.66, 50.36, 42.55, 48.48, 56.39, 59.30]
+
+# B=256 —— 平坦无衰减
+BENCH_RESULT cinn=on 168.373 runs=[171.32, 157.60, 158.93, 163.92, 171.86, 180.63, 154.09, 172.11, 179.80, 173.49]
+
+## 诊断二：编译尾巴长度（ON B=1，warmup=0，runs=12，编译落在计时内）
+
+# 第 1 次 5800ms = 编译（~5.8s/形状，推理图小）；第 2 次微偏高 58.8ms；第 3 次起平稳。
+# 结论：尾巴只有 2 次，预热 3 次足够（与 MPP 需 5 次的情况不同，MPP 编译 ~105s/形状）。
+BENCH_RESULT cinn=on 522.825 runs=[5800.11, 58.83, 41.52, 40.89, 42.62, 39.94, 35.70, 41.95, 44.24, 50.07, 37.90, 40.13]
+
+## 诊断三：OFF 侧噪声基线（warmup=3，runs=10）
+
+# 动态图同样抖 30.8–48.1ms（±20%），证明 B=1 振荡是机器噪声而非 CINN 现象。
+BENCH_RESULT cinn=off 39.933 runs=[41.59, 39.57, 47.93, 35.67, 37.51, 38.85, 30.82, 37.88, 48.08, 41.46]
+
+## 正式数据（--bench，off/on 独立子进程，预热 3 剔除，10 次平均；逐次序列未透传，仅均值）
+
+=== B=1 ===
+CINN off: 43.17 ms
+CINN on : 36.39 ms
+speedup (t_off / t_on): 1.19x
+
+=== B=256 ===
+CINN off: 163.14 ms
+CINN on : 158.03 ms
+speedup (t_off / t_on): 1.03x
+
+# 结合诊断二/三：B=1 的 on/off 真实差异小于 ±20% 机器噪声（另一轮 10 次对照为 0.96×），
+# 正确读法是"持平"。首版 3 次平均报的 0.82×（B=1 慢 18%）是噪声假信号，已订正。
+
+## 训练侧有效 log（同目录，2026-07-29）
+
+# baseline_small.log / cinn_small.log：500 步基准，两边命令逐参数一致，见
+# /home/lkyu/baidu/工作总结/CINN训推测试记录.md 的 PhyE2E 节。
+# 另两个凌晨 log（train_nocinn.log / train_cinn_small.log）配置互不匹配且中途报废，已删除。
